@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>z0z0r4 Blog</title>
+  <icon>https://blog.z0z0r4.top/icon.png</icon>
+  <subtitle>A Long Long Way</subtitle>
+  <link href="https://blog.z0z0r4.top/atom.xml" rel="self"/>
+  
+  <link href="https://blog.z0z0r4.top/"/>
+  <updated>2025-12-12T10:07:39.625Z</updated>
+  <id>https://blog.z0z0r4.top/</id>
+  
+  <author>
+    <name>z0z0r4</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linear Algebra</title>
+    <link href="https://blog.z0z0r4.top/2025/12/08/linear-algebra/linear-algebra/"/>
+    <id>https://blog.z0z0r4.top/2025/12/08/linear-algebra/linear-algebra/</id>
+    <published>2025-12-08T15:42:30.000Z</published>
+    <updated>2025-12-12T10:07:39.625Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;此处用于记录我学习 &lt;a href=&quot;https://www.youtube.com/watch?v=nHlE7EgJFds&quot;&gt;MIT 18.06 Linear Algebra&lt;/a&gt; 的笔记。&lt;/p&gt;
+&lt;p&gt;顺便学习 Latex</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
