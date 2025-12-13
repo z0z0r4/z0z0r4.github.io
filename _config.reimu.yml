@@ -546,7 +546,7 @@ sponsor:
 
 # ICP 备案
 icp:
-  icpnumber: "皖ICP备2022001701号-2"
+  icpnumber: ""
   beian: # 网安备案号
   recordcode: # 网安备案链接中的recordcode参数
 

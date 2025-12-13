@@ -5,7 +5,7 @@
 # Site
 title: z0z0r4 Blog
 subtitle: 'A Long Long Way'
-description: 'Journey through the endless wasteland'
+description:
 keywords:
 author: z0z0r4
 language: zh-CN
@@ -13,7 +13,7 @@ timezone: 'Asia/shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://z0z0r4.github.com
+url: https://blog.z0z0r4.top
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -40,7 +40,7 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
 syntax_highlighter: highlight.js
@@ -102,7 +102,8 @@ theme: reimu
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  
+  repository: https://github.com/z0z0r4/z0z0r4.github.io.git
+  branch: gh-pages
 
 feed:
   enable: true
