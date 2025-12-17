@@ -610,7 +610,7 @@ button {
   display: flex;
   padding-top: 8px;
   align-items: stretch;
-  max-width: 1350px;
+  max-width: 1500px;
   margin: 0 auto;
   overflow: visible;
 }
@@ -2924,7 +2924,7 @@ pre .emphasis {
 .sidebar-toc-wrapper .toc-level-1 >a {
   width: 100%;
   display: inline-block;
-  text-align: center;
+  text-align: left;
 }
 .sidebar-toc-wrapper .toc-child {
   transform: scaleY(0);
