@@ -165,6 +165,30 @@ $$ \det(A + B) = (\lambda_1 + \mu_1)(\lambda_2 + \mu_2) \ldots (\lambda_n + \mu_
 
 有了对角化形式后，可以方便地计算矩阵的幂次 $ A^k = X \Lambda^k X^{-1} $，其中 $ \Lambda^k $ 只需对角线元素取幂。
 
+## 矩阵的多项式、对角化与特征值
+
+对于求矩阵多项式 $ p(A) = a_0 I + a_1 A + a_2 A^2 + \ldots + a_k A^k $，如果知道矩阵 $ A $ 可以对角化，可以简化计算。
+
+设 $ A = X \Lambda X^{-1} $， 则有
+
+$$ p(A) = a_0 I + a_1 (X \Lambda X^{-1}) + a_2 (X \Lambda X^{-1})^2 + \ldots + a_k (X \Lambda X^{-1})^k $$
+
+$$ = a_0 I + a_1 X \Lambda X^{-1} + a_2 X \Lambda^2 X^{-1} + \ldots + a_k X \Lambda^k X^{-1} $$
+
+$$ = X (a_0 I + a_1 \Lambda + a_2 \Lambda^2 + \ldots + a_k \Lambda^k) X^{-1} $$
+
+$$ = X p(\Lambda) X^{-1} $$
+
+其中 $ p(\Lambda) $ 只需对角线元素取多项式值即可。
+
+这将对 $ A $ 的多项式计算简化为对对角矩阵 $ \Lambda $ 的多项式，或者是对角元素的多项式计算。
+
+---
+
+此外，对于 $ \det(p(A)) $ 如果已知矩阵 $ A $ 的特征值 $ \lambda_1, \lambda_2, \ldots, \lambda_n $
+
+$$ \det(p(A)) = p(\lambda_1) \cdot p(\lambda_2) \cdot \ldots \cdot p(\lambda_n) $$
+
 # 对称矩阵 Symmetric Matrix
 
 当矩阵 $ S $ 满足 $  S = S^T $ 时，称其为对称矩阵。
