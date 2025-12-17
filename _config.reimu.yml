@@ -169,7 +169,7 @@ triangle_badge:
   link: https://github.com/D-Sketon/hexo-theme-reimu
 
 layout:
-  max_width: 1350px # the max width of the main content area
+  max_width: 1500px # the max width of the main content area
 
 ########################################
 # CSS
