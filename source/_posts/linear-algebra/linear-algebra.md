@@ -107,6 +107,54 @@ sponsor:
 
 对于每个特征值 $ \lambda $，将其代入方程 $ (A - \lambda I)x = 0 $，通过求解该齐次线性方程组，可以找到对应的特征向量 $ x $。特征向量不一定唯一，当特征值是重根时，可能有多个线性无关的特征向量。
 
+---
+
+$ A^{-1} x = \lambda^{-1} x $，因此，$ A $ 的特征值的倒数是 $ A^{-1} $ 的特征值，特征向量相同。
+    
+证明如下：
+
+$$ A x = \lambda x $$
+
+$$ (A^{-1} A) x = A^{-1} \lambda x $$
+
+$$ Ix = \lambda (A^{-1} x) $$
+
+$$ A^{-1} x = \lambda^{-1} x $$
+
+---
+
+矩阵的幂次的特征值是对应特征值的幂次：
+
+$$ (A^k) x = \lambda^k x $$
+
+---
+
+此外，矩阵的行列式等于其特征值的乘积：
+
+$$ det(A) = \lambda_1 \cdot \lambda_2 \cdot \ldots \cdot \lambda_n $$
+
+---
+
+矩阵的迹等于其特征值的和：
+$$ tr(A) = \lambda_1 + \lambda_2 + \ldots + \lambda_n $$
+
+---
+
+
+两个矩阵相加的特征值等于各自特征值的和：
+$$ A x = \lambda x $$
+$$ B x = \mu x $$
+
+$$ (A + B)x = Ax + Bx = \lambda x + \mu x = (\lambda + \mu)x $$
+
+所以 $$ (A + B)x = (\lambda + \mu)x $$
+
+所以两个矩阵之和的行列式，等于两个矩阵之和的特征值的乘积。
+
+$$ \det(A + B) = (\lambda_1 + \mu_1)(\lambda_2 + \mu_2) \ldots (\lambda_n + \mu_n) $$
+
+当有矩阵多项式的时候，计算矩阵的多项式的行列式，等于矩阵多项式的特征值的乘积。
+
 # 对角化 Diagonalization
 
 如果一个矩阵 $ A $ 有 $ n $ 个线性无关的特征向量 $ x_1, x_2, \ldots, x_n $，则可以将这些特征向量组成一个矩阵 $ X = [x_1, x_2, \ldots, x_n] $。对应的特征值组成对角矩阵 $ \Lambda = diag(\lambda_1, \lambda_2, \ldots, \lambda_n) $。
