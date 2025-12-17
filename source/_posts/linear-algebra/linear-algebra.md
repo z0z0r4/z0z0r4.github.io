@@ -27,6 +27,52 @@ sponsor:
 
 此外，因为有 $ Q^T Q = I $，所以 $ Q^{-1} = Q^T $。
 
+## Schmidt Orthogonalization 施密特正交化
+
+给定一组线性无关的向量 $ a_1, a_2, \ldots, a_n $，可以通过施密特正交化将其转换为一组正交向量 $ q_1, q_2, \ldots, q_n $。
+
+具体步骤如下：
+
+1. 设 $ q_1 = a_1 $。
+
+2. 对于 $ k = 2, 3, \ldots, n $，计算 $ a_k $ 在 $ q_1, q_2, \ldots, q_{k-1} $ 上的投影，并将其从 $ a_k $ 中减去：
+
+   $$ proj_{q_i}(a_k) = \frac{a_k^T q_i}{q_i^T q_i} q_i $$
+
+   $$ u_k = a_k - \sum_{i=1}^{k-1} proj_{q_i}(a_k) $$
+
+3. 将 $ u_k $ 归一化，得到 $ q_k $：
+
+   $$ q_k = \frac{u_k}{||u_k||} $$
+
+通过上述步骤，可以得到一组正交向量 $ q_1, q_2, \ldots, q_n $。
+
+举例来说，给定向量 $ a_1 = \begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix} $ , $ a_2 = \begin{bmatrix} 1 \\ 0 \\ 1 \end{bmatrix} $ 和 $ a_3 = \begin{bmatrix} 0 \\ 1 \\ 1 \end{bmatrix} $。
+
+1. 设 $ q_1 = a_1 = \begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix} $。
+
+2. 计算 $ a_2 $ 在 $ q_1 $ 上的投影：
+
+   $$ proj_{q_1}(a_2) = \frac{a_2^T q_1}{q_1^T q_1} q_1 = \frac{\begin{bmatrix} 1 & 0 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix}}{\begin{bmatrix} 1 & 1 & 0 \end{bmatrix} \begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix}} \begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix} = \frac{1}{2} \begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix} = \begin{bmatrix} 0.5 \\ 0.5 \\ 0 \end{bmatrix} $$
+
+   然后计算 $ u_2 $：
+
+   $$ u_2 = a_2 - proj_{q_1}(a_2) = \begin{bmatrix} 1 \\ 0 \\ 1 \end{bmatrix} - \begin{bmatrix} 0.5 \\ 0.5 \\ 0 \end{bmatrix} = \begin{bmatrix} 0.5 \\ -0.5 \\ 1 \end{bmatrix} $$
+
+3. 然后计算 $ u_3 $:
+
+    计算 $ a_3 $ 在 $ q_1 $ 和 $ q_2 $ 上的投影：
+    
+    $$ proj_{q_1}(a_3) = \frac{a_3^T q_1}{q_1^T q_1} q_1 = \frac{\begin{bmatrix} 0 & 1 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix}}{\begin{bmatrix} 1 & 1 & 0 \end{bmatrix} \begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix}} \begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix} = \frac{1}{2} \begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix} = \begin{bmatrix} 0.5 \\ 0.5 \\ 0 \end{bmatrix} $$
+    
+    $$ proj_{q_2}(a_3) = \frac{a_3^T q_2}{q_2^T q_2} q_2 = \frac{\begin{bmatrix} 0 & 1 & 1 \end{bmatrix} \begin{bmatrix} 0.5 \\ -0.5 \\ 1 \end{bmatrix}}{\begin{bmatrix} 0.5 & -0.5 & 1 \end{bmatrix} \begin{bmatrix} 0.5 \\ -0.5 \\ 1 \end{bmatrix}} \begin{bmatrix} 0.5 \\ -0.5 \\ 1 \end{bmatrix} = \frac{0.5}{1.5} \begin{bmatrix} 0.5 \\ -0.5 \\ 1 \end{bmatrix} = \begin{bmatrix} \frac{1}{6} \\ -\frac{1}{6} \\ \frac{1}{3} \end{bmatrix} $$
+    
+    然后计算 $ u_3 $：
+    
+    $$ u_3 = a_3 - proj_{q_1}(a_3) - proj_{q_2}(a_3) = \begin{bmatrix} 0 \\ 1 \\ 1 \end{bmatrix} - \begin{bmatrix} 0.5 \\ 0.5 \\ 0 \end{bmatrix} - \begin{bmatrix} \frac{1}{6} \\ -\frac{1}{6} \\ \frac{1}{3} \end{bmatrix} = \begin{bmatrix} -\frac{2}{3} \\ \frac{2}{3} \\ \frac{2}{3} \end{bmatrix} $$
+
+4. 最后归一化得到 $$ q_1 = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix}, q_2 = \frac{1}{\sqrt{6}} \begin{bmatrix} 1 \\ -1 \\ 2 \end{bmatrix}, q_3 = \frac{1}{\sqrt{3}} \begin{bmatrix} -1 \\ 1 \\ 1 \end{bmatrix} $$
+
 # 行列式 Determinant
 
 行列式是一个标量值，表示矩阵的某些性质。对于 $ n \times n $ 矩阵 $ A $，其行列式记为 $ det(A) $ 或 $ |A| $。
