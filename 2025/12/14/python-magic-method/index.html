@@ -1,0 +1,541 @@
+  <!DOCTYPE html>
+  <html lang="zh-CN"  
+      data-theme-mode="auto"
+  >
+  <head>
+  <meta charset="utf-8">
+  
+  
+  
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'https://blog.z0z0r4.top';</script>
+  <title>
+    python magic method | z0z0r4 Blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=JetBrains+Mono%3A400%2C400italic%2C700%2C700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=JetBrains+Mono%3A400%2C400italic%2C700%2C700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <meta name="description" content="选择了哈利波特里的这张图，但可惜没找到带蛇的 haha。 没怎么用过 Python 的魔法方法，只用过几个 __init__ 和上下文管理器的几个，今天记录一下。  magic method An informal synonym for special method. 一个非正式的同义词，指的是特殊方法。  官方的名称是 special method.  special method A met">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python magic method">
+<meta property="og:url" content="https://blog.z0z0r4.top/2025/12/14/python-magic-method/index.html">
+<meta property="og:site_name" content="z0z0r4 Blog">
+<meta property="og:description" content="选择了哈利波特里的这张图，但可惜没找到带蛇的 haha。 没怎么用过 Python 的魔法方法，只用过几个 __init__ 和上下文管理器的几个，今天记录一下。  magic method An informal synonym for special method. 一个非正式的同义词，指的是特殊方法。  官方的名称是 special method.  special method A met">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-12-13T17:02:08.000Z">
+<meta property="article:modified_time" content="2025-12-18T06:48:05.413Z">
+<meta property="article:author" content="z0z0r4">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+    <link rel="alternate" href="/atom.xml" title="z0z0r4 Blog" type="application/atom+xml">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+        
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.24/dist/katex.min.css" integrity="sha384-tTgKLjMYmJr94v8qu2PE5MUGSMbyN2xiH266JUB3gpm8vnnJywd1dWSOEfrFz+YI" crossorigin="anonymous">
+
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+  <body>
+    <div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+        <a class="main-nav-link-wrap" href="/">
+          <div class="main-nav-icon icon ">
+                &#xe632;
+          </div>
+          <span class="main-nav-link">首页</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/archives">
+          <div class="main-nav-icon icon ">
+                &#xe605;
+          </div>
+          <span class="main-nav-link">归档</span>
+        </span>
+        <a class="main-nav-link-wrap" href="/about">
+          <div class="main-nav-icon icon ">
+                &#xe647;
+          </div>
+          <span class="main-nav-link">关于</span>
+        </span>
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" aria-label="RSS 订阅" target="_blank"></a>
+  </nav>
+</div>
+<header id="header" aria-label="Site header">
+    <picture></picture>
+    <img  fetchpriority="high" src="/covers/python-magic-method.jpeg" alt="python magic method">
+  <div id="header-outer">
+    <div id="header-title">
+          <span id="logo">
+            <h1 data-aos="slide-up">python magic method</h1>
+          </span>
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+        </h2>
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content" class="sidebar-left"  >
+          <aside id="sidebar" aria-label="Sidebar">
+  <div class="sidebar-wrapper-container sticky">
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="z0z0r4" class="lazyload">
+  <div class="sidebar-author-name">z0z0r4</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">4</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">4</div>
+  </div>
+</div>
+<div class="sidebar-social">
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+              &#xe632;
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+              &#xe605;
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+              &#xe647;
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+</div>
+</div>
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+    </div>
+  </div>
+  <div class="sidebar-widget">
+  </div>
+  </div>
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-python-magic-method" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2025-12-13T17:02:08.000Z" itemprop="datePublished">2025-12-14</time>
+    <time style="display: none;" id="post-update-time">2025-12-18</time>
+  </span>
+</div>
+
+        <div class="article-category">
+    <a class="article-category-link" href="/categories/Python/" title="Python">Python</a>
+  </div>
+
+    </div>
+    
+    <div class="hr-line"></div>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+        <p><em>选择了哈利波特里的这张图，但可惜没找到带蛇的 haha。</em></p>
+<p>没怎么用过 Python 的魔法方法，只用过几个 <code>__init__</code> 和上下文管理器的几个，今天记录一下。</p>
+<blockquote>
+<p><strong>magic method</strong><br />
+An informal synonym for special method.<br />
+一个非正式的同义词，指的是特殊方法。</p>
+</blockquote>
+<p>官方的名称是 <code>special method</code>.</p>
+<blockquote>
+<p><strong>special method</strong><br />
+A method that is called implicitly by Python to execute a certain operation on a type, such as addition. Such methods have names starting and ending with double underscores. Special methods are documented in Special method names.<br />
+特殊方法是 Python 隐式调用的，用于执行某种操作（如加法）的类型方法。这些方法的名称以双下划线开头和结尾。特殊方法在特殊方法名称中有文档说明。</p>
+</blockquote>
+<p>比如 <code>__add__</code> 用于实现加法操作，<code>__len__</code> 用于实现 <code>len()</code> 函数。</p>
+<p>假如自定义一个 <code>CustomList</code> 类，想让它支持 <code>len()</code> 函数，但是要返回负数，就可以实现 <code>__len__</code> 方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CustomList</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, items</span>):</span><br><span class="line">        <span class="variable language_">self</span>.items = items</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__len__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> -<span class="built_in">len</span>(<span class="variable language_">self</span>.items)</span><br><span class="line"></span><br><span class="line">my_list = CustomList([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(my_list))  <span class="comment"># 输出: -4</span></span><br></pre></td></tr></table></figure>
+<p>在这个例子中，<code>CustomList</code> 类实现了 <code>__len__</code> 方法，当调用 <code>len(my_list)</code> 时，实际上是调用了 <code>my_list.__len__()</code> 方法，返回了负数的长度。</p>
+<p>魔法方法有时候被函数调用，有时候被运算符调用，还有时候被内置语句调用。</p>
+<p>魔法方法还有很多，在这里列出一些常见的：</p>
+<ol>
+<li>
+<p><code>__init__(self, ...)</code>：对象初始化方法，在初始化对象时调用。</p>
+</li>
+<li>
+<p><code>__new__(cls, ...)</code>：对象创建方法，返回一个实例。注意：它不需要 <code>self</code> 参数，因为它是一个静态方法。</p>
+</li>
+<li>
+<p><code>__str__(self)</code>：定义对象的字符串表示形式，当使用 <code>str()</code> 或 <code>print()</code> 时调用。</p>
+</li>
+<li>
+<p><code>__repr__(self)</code>：定义对象的官方字符串表示形式，通常用于调试。</p>
+</li>
+<li>
+<p><code>__add__(self, other)</code>：定义加法操作符 <code>+</code> 的行为。当然也有 <code>__sub__</code>、<code>__mul__</code>、<code>__truediv__</code>、等，这类运算符相关的内容，详见 <a target="_blank" rel="noopener" href="https://docs.python.org/3/reference/datamodel.html#emulating-numeric-types">Emulating numeric types</a></p>
+</li>
+<li>
+<p><code>__eq__(self, other)</code>：定义相等操作符 <code>==</code> 的行为。还有 <code>__ne__</code>、<code>__lt__</code>、<code>__gt__</code> 等比较相关的方法，详见 <a target="_blank" rel="noopener" href="https://docs.python.org/3/reference/datamodel.html#object.__eq__">Emulating container types</a></p>
+</li>
+<li>
+<p><code>__hash__(self)</code>：定义对象的哈希值，用于提供一个对象的唯一标识，通常用于字典的键或集合的元素的去重。</p>
+</li>
+<li>
+<p><code>__del__(self)</code>：对象销毁方法，或称析构函数，在对象被垃圾回收时调用。</p>
+</li>
+</ol>
+<p>其中重点说说上下文管理器要用的几个：</p>
+<ol>
+<li>
+<p><code>__enter__</code>：进入上下文管理器时调用的函数，将它的返回值绑定到 target 上面，后续则可以在代码块中使用这个 target。</p>
+</li>
+<li>
+<p><code>__exit__</code>：退出上下文管理器时调用的函数。在上下文有异常的情况下，会传入 <code>exc_type</code>, <code>exc_value</code>, <code>traceback</code> 三个包含异常信息的参数</p>
+</li>
+</ol>
+<p>在异步调用的情况下，则是 <code>__aenter__</code> 和 <code>__aexit__</code>，和同步的没什么区别，只是返回的是可等待对象（awaitable）。</p>
+<p>在这里补充一下 <code>with</code>、上下文管理器的用法：</p>
+<blockquote>
+<p>A context manager is an object that defines the runtime context to be established when executing a with statement. The context manager handles the entry into, and the exit from, the desired runtime context for the execution of the block of code. Context managers are normally invoked using the with statement (described in section The with statement), but can also be used by directly invoking their methods.</p>
+</blockquote>
+<blockquote>
+<p>上下文管理器是一个定义在执行 with 语句时需要建立的运行时上下文的对象。上下文管理器处理代码块执行时进入和退出所需运行时上下文的过程。上下文管理器通常使用 with 语句（在 The with statement 部分中描述）来调用，但也可以通过直接调用其方法来使用。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> EXPRESSION <span class="keyword">as</span> TARGET:</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>上下文管理器设计出来，是为了简化程序的。如果没有它，就必须显式的在执行要执行的语句前，手动调用 <code>__enter__</code> 的语句，在调用完之后手动调用 <code>__exit__</code> 里面的语句，这会很繁琐且容易遗漏。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cm = ContextManager()</span><br><span class="line">value = cm.__enter__()</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    ...  <span class="comment"># 这里是要执行的代码块</span></span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    cm.__exit__(<span class="built_in">type</span>(e), e, e.__traceback__)</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    cm.__exit__(<span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+<p>很多情况下，构造上下文管理器是为了资源的获取和释放，比如文件操作、数据库连接等。这种情况下，<code>__enter__</code> 方法通常用于获取资源，而 <code>__exit__</code> 方法则用于释放资源。手动处理的话，很容易忘记释放资源，导致资源泄漏。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;file.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    data = file.read()</span><br><span class="line"><span class="comment"># 这里文件已经自动关闭了</span></span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;file.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    data = f.read()</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;An error occurred while reading the file: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 假如忘记调用 f.close()，就会导致文件资源泄漏</span></span><br></pre></td></tr></table></figure>
+<p>除此之外，还有一些魔法方法是和容器类型相关的，比如：</p>
+<ol>
+<li>
+<p><code>__getitem__(self, key)</code>：定义获取容器中元素的行为，比如 <code>obj[key]</code>。</p>
+</li>
+<li>
+<p><code>__setitem__(self, key, value)</code>：定义设置容器中元素的行为，比如 <code>obj[key] = value</code>。</p>
+</li>
+<li>
+<p><code>__delitem__(self, key)</code>：定义删除容器中元素的行为，比如 <code>del obj[key]</code>。</p>
+</li>
+<li>
+<p><code>__iter__(self)</code>：定义返回一个迭代器对象，用于迭代容器中的元素。</p>
+</li>
+<li>
+<p><code>__contains__(self, item)</code>：定义检查容器中是否包含某个元素的行为，比如 <code>item in obj</code>。</p>
+</li>
+</ol>
+<p>还有的是关于类的，比如：</p>
+<ol>
+<li>
+<p><code>__getattr__(self, name)</code>：定义当访问不存在的属性时的行为。首先会尝试 <code>__getattribute__</code> 正常获取属性，如果找不到才会调用 <code>__getattr__</code>。</p>
+</li>
+<li>
+<p><code>__setattr__(self, name, value)</code>：定义设置属性的行为。</p>
+</li>
+<li>
+<p><code>__delattr__(self, name)</code>：定义删除属性的行为。</p>
+</li>
+<li>
+<p><code>__call__(self, ...)</code>：定义对象被调用时的行为，使实例可以像函数一样被调用。</p>
+</li>
+</ol>
+<p>魔法方法还有很多，具体可以参考官方文档的 <a target="_blank" rel="noopener" href="https://docs.python.org/3/reference/datamodel.html#special-method-names">Special method names</a> 一节。</p>
+
+    </div>
+    <footer class="article-footer">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/Python/" rel="tag" title="Python">Python</a></li></ul>
+
+    </footer>
+  </div>
+    <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+    <div class="article-nav-link-wrap right">
+        <img data-src="/covers/linear_algebra_the_big_picture.png" data-sizes="auto" alt="Linear Algebra" class="lazyload">
+      <a href="/2025/12/08/linear-algebra/linear-algebra/" aria-label="后一篇: Linear Algebra"  title="后一篇: Linear Algebra"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+          Linear Algebra
+      </h3>
+    </div>
+  </nav>
+
+</article>
+
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+      <div style="flex-direction:column;align-items: center;"><a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a></div>
+    <div>
+      <span class="icon-copyright"></span>
+        2025
+      <span class="footer-info-sep "></span>
+      z0z0r4
+    </div>
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+      <div>
+        <span class="icon-brush"></span>
+        10k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        00:50
+      </div>
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+  </div>
+</footer>
+
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="z0z0r4" class="lazyload">
+  <div class="sidebar-author-name">z0z0r4</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">4</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">4</div>
+  </div>
+</div>
+<div class="sidebar-social">
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+              &#xe632;
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+              &#xe605;
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+              &#xe647;
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+</div>
+</div>
+  </div>
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+</nav>
+
+    </div>
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "z0z0r4",
+          title: "python magic method",
+          url: "https://blog.z0z0r4.top/2025/12/14/python-magic-method/",
+          excerpt: "",
+          description: "",
+          stripContent: "选择了哈利波特里的这张图，但可惜没找到带蛇的 haha。 没怎么用过 Python 的魔法方法，只用过几个 __init__ 和上下文管理器的几个，今天记录一下。  magic method An informal synonym for special method. 一个非正式的同义词，指的是特殊方法。  官方的名称是 special method.  special method A method that is called implicitly by Python to execute",
+          date: "Sun Dec 14 2025 01:02:08 GMT+0800",
+          updated: "Thu Dec 18 2025 14:48:05 GMT+0800",
+          cover: "/covers/python-magic-method.jpeg",
+        };
+      </script>
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+<script src="/js/tabs.js" data-pjax></script>
+
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+        
+
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.11.1' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+  
+<script src="https://npm.webcache.cn/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha384-HeUHqi0nVsPUm&#x2F;E0ss7OfnIV&#x2F;yD96JWB8ehZvUuoVax9DpNHL17jj9pdfXHzqDxm" crossorigin="anonymous" defer></script>
+
+  <script data-pjax>
+    if (document.readyState === "loading") {
+      document.addEventListener('DOMContentLoaded', () => {
+        pangu?.spacingPage();
+      });
+    } else {
+      pangu?.spacingPage();
+    }
+  </script>
+
+  </body>
+  </html>

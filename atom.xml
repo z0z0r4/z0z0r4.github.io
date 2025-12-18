@@ -6,7 +6,7 @@
   <link href="https://blog.z0z0r4.top/atom.xml" rel="self"/>
   
   <link href="https://blog.z0z0r4.top/"/>
-  <updated>2025-12-17T16:58:12.638Z</updated>
+  <updated>2025-12-18T06:48:05.413Z</updated>
   <id>https://blog.z0z0r4.top/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>python magic method</title>
+    <link href="https://blog.z0z0r4.top/2025/12/14/python-magic-method/"/>
+    <id>https://blog.z0z0r4.top/2025/12/14/python-magic-method/</id>
+    <published>2025-12-13T17:02:08.000Z</published>
+    <updated>2025-12-18T06:48:05.413Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;em&gt;选择了哈利波特里的这张图，但可惜没找到带蛇的 haha。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;没怎么用过 Python 的魔法方法，只用过几个 &lt;code&gt;__init__&lt;/code&gt;</summary>
+        
+      
+    
+    
+    
+    <category term="Python" scheme="https://blog.z0z0r4.top/categories/Python/"/>
+    
+    
+    <category term="Python" scheme="https://blog.z0z0r4.top/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Linear Algebra</title>
     <link href="https://blog.z0z0r4.top/2025/12/08/linear-algebra/linear-algebra/"/>
     <id>https://blog.z0z0r4.top/2025/12/08/linear-algebra/linear-algebra/</id>
     <published>2025-12-08T15:42:30.000Z</published>
-    <updated>2025-12-17T16:58:12.638Z</updated>
+    <updated>2025-12-18T06:51:36.189Z</updated>
     
     
       
@@ -35,6 +61,18 @@
     
     
     
+    <category term="math" scheme="https://blog.z0z0r4.top/categories/math/"/>
+    
+    <category term="linear-algebra" scheme="https://blog.z0z0r4.top/categories/math/linear-algebra/"/>
+    
+    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/math/linear-algebra/learning-notes/"/>
+    
+    
+    <category term="math" scheme="https://blog.z0z0r4.top/tags/math/"/>
+    
+    <category term="linear-algebra" scheme="https://blog.z0z0r4.top/tags/linear-algebra/"/>
+    
+    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
     
   </entry>
   
