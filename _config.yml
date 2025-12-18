@@ -102,7 +102,7 @@ theme: reimu
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repository: https://github.com/z0z0r4/z0z0r4.github.io.git
+  repository: git@github.com:z0z0r4/z0z0r4.github.io.git
   branch: gh-pages
 
 feed:
