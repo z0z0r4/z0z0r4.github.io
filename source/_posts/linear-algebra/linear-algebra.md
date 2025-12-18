@@ -3,8 +3,14 @@ title: Linear Algebra
 sticky: false
 mermaid: false
 date: 2025-12-08 23:42:30
-tags:
-categories:
+tags: 
+- math
+- linear-algebra
+- learning-notes
+categories: 
+- math 
+- linear-algebra
+- learning-notes
 cover: covers/linear_algebra_the_big_picture.png
 comments:
 copyright:
