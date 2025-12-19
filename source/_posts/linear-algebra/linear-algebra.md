@@ -560,3 +560,68 @@ $$ v = \begin{bmatrix} x - x_0 \\ y - y_0 \end{bmatrix}, \quad f(v) = v^T H v $$
 1. $ det(H) > 0 $ 且 $ f_{xx} > 0 $。
 
 2. 特征值均为正数。
+
+
+# 秩-零化度定理
+
+## 像空间和核空间
+
+对于变换，都是将向量从一个空间映射到另一个空间。
+
+所有输出向量构成的集合为像空间，所有被映射到零向量的输入向量构成的集合叫核空间或零空间。
+
+---
+
+秩-零化度定理：
+
+$$ \dim(\ker(A)) + R(A) = \dim(V) $$
+
+几何证明：
+
+1. 取核空间中的一组基为 $ \{u_1, u_2, \ldots, u_k\} $，则 $ \dim(\ker(A)) = k $。
+
+2. 将基扩展为整个空间 $ V $ 的一组基 $ \{u_1, u_2, \ldots, u_k, v_{k+1}, v_{k+2}, \ldots, v_n\} $，则 $ \dim(V) = k + m = n $。
+
+3. 证明 $ \{A v_{k+1}, A v_{k+2}, \ldots, A v_n\} $ 是 $ \operatorname{Im}(A) $ 的一组基。
+
+   - 线性无关性：假设存在系数 $ c_{k+1}, c_{k+2}, \ldots, c_n $ 使得
+
+     $$ c_{k+1} A v_{k+1} + c_{k+2} A v_{k+2} + \ldots + c_n A v_n = 0 $$
+
+     则有
+
+     $$ A (c_{k+1} v_{k+1} + c_{k+2} v_{k+2} + \ldots + c_n v_n) = 0 $$
+
+     这意味着 $ w = c_{k+1} v_{k+1} + c_{k+2} v_{k+2} + \ldots + c_n v_n \in \ker(A) $。
+
+     所以 $ w $ 可以表示为核空间基的线性组合：
+
+     $$ w = d_1 u_1 + d_2 u_2 + \ldots + d_k u_k $$
+
+     因此，$ c_{k+1} v_{k+1} + c_{k+2} v_{k+2} + \ldots + c_n v_n - d_1 u_1 - d_2 u_2 - \ldots - d_k u_k = 0 $
+
+     因为 $ u_1, u_2, \ldots, u_k, v_{k+1}, v_{k+2}, \ldots, v_n $ 线性无关，所以所有系数均为零：
+
+     $$ c_{k+1} = c_{k+2} = \ldots = c_n = 0 $$
+
+     所以 $ A v_{k+1}, A v_{k+2}, \ldots, A v_n $ 线性无关。
+
+     因此，回到假设可知，$ \{A v_{k+1}, A v_{k+2}, \ldots, A v_n\} $ 线性无关。
+
+   - 张成性：对于任意 $ y \in \operatorname{Im}(A) $，存在 $ x \in V $ 使得 $ A x = y $。将 $ x $ 用基展开：
+
+     $$ x = a_1 u_1 + a_2 u_2 + \ldots + a_k u_k + b_{k+1} v_{k+1} + b_{k+2} v_{k+2} + \ldots + b_n v_n $$
+
+     因为 $ A u_i = 0 $ 对所有 $ i = 1, 2, \ldots, k $ 成立，
+
+     则有
+
+     $$ A x = A (b_{k+1} v_{k+1} + b_{k+2} v_{k+2} + \ldots + b_n v_n) = b_{k+1} A v_{k+1} + b_{k+2} A v_{k+2} + \ldots + b_{n} A v_n $$
+
+     所以 $ y $ 可以表示为 $ \{A v_{k+1}, A v_{k+2}, \ldots, A v_n\} $ 的线性组合。
+
+因此，$ \{A v_{k+1}, A v_{k+2}, \ldots, A v_n\} $ 张成 $ \operatorname{Im}(A) $。
+
+因此，$ \dim(\operatorname{Im}(A)) = n - k $。
+
+综上所述，有 $$ \dim(\ker(A)) + R(A) = k + (n - k) = n = \dim(V) $$
