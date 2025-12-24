@@ -546,7 +546,7 @@ sponsor:
 
 # ICP 备案
 icp:
-  icpnumber: ""
+  icpnumber: "粤ICP备2025511811号"
   beian: # 网安备案号
   recordcode: # 网安备案链接中的recordcode参数
 
