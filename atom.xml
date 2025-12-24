@@ -6,7 +6,7 @@
   <link href="https://blog.z0z0r4.top/atom.xml" rel="self"/>
   
   <link href="https://blog.z0z0r4.top/"/>
-  <updated>2025-12-18T06:48:05.413Z</updated>
+  <updated>2025-12-24T17:20:34.901Z</updated>
   <id>https://blog.z0z0r4.top/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>gobang</title>
+    <link href="https://blog.z0z0r4.top/2025/12/25/gobang/"/>
+    <id>https://blog.z0z0r4.top/2025/12/25/gobang/</id>
+    <published>2025-12-24T16:26:46.000Z</published>
+    <updated>2025-12-24T17:20:34.901Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;封面取自 &lt;a href=&quot;https://oi-wiki.org/search/alpha-beta/&quot;&gt;OI Wiki Alpha–Beta 剪枝&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;大概花了一下午，C++ 期末作业做了个简单的 AI 五子棋，使用 minimax 算法和</summary>
+        
+      
+    
+    
+    
+    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
+    
+    
+    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
+    
+  </entry>
   
   <entry>
     <title>python magic method</title>
@@ -44,10 +70,10 @@
   
   <entry>
     <title>Linear Algebra</title>
-    <link href="https://blog.z0z0r4.top/2025/12/08/linear-algebra/linear-algebra/"/>
-    <id>https://blog.z0z0r4.top/2025/12/08/linear-algebra/linear-algebra/</id>
+    <link href="https://blog.z0z0r4.top/2025/12/08/linear-algebra/"/>
+    <id>https://blog.z0z0r4.top/2025/12/08/linear-algebra/</id>
     <published>2025-12-08T15:42:30.000Z</published>
-    <updated>2025-12-18T06:51:36.189Z</updated>
+    <updated>2025-12-24T16:25:48.249Z</updated>
     
     
       
