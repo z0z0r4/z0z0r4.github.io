@@ -401,6 +401,50 @@ $ \Lambda $ 是对角矩阵，因此 $ \Lambda^T = \Lambda $。
 
 $$ S = Q \Lambda Q^T = \frac{1}{\sqrt{5}} \begin{bmatrix} 2 & 1 \\ -1 & 2 \end{bmatrix} \begin{bmatrix} 0 & 0 \\ 0 & 5 \end{bmatrix} \frac{1}{\sqrt{5}} \begin{bmatrix} 2 & -1 \\ 1 & 2 \end{bmatrix} = \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix} $$
 
+# 相似矩阵
+
+若存在 $ M $ 和 $ M^{-1} $，使得 $ B = M^{-1} A M $，则称矩阵 $ A $ 和 $ B $ 是相似矩阵。
+
+相似矩阵有相同的特征值。
+
+假设有 $ A x = \lambda x $ 和 $ B = M^{-1} A M $。
+
+则有 $$ M^{-1} A ( MM^{-1} ) x = \lambda M^{-1} x  \to (M^{-1} A M) ( M^{-1} x ) = \lambda ( M^{-1} x ) $$
+
+得  $$ B ( M^{-1} x ) = \lambda ( M^{-1} x ) $$
+
+因此 $ B $ 有相同的特征值 $ \lambda $，对应的特征向量为 $ M^{-1} x $。
+
+显然因为 $\det(B)$ 为特征值的乘积，所以相似矩阵有相同的行列式，以及特征值的和相同推出相同的迹 $ tr(B) = tr(A) $。
+
+---
+
+两个矩阵相似，他们的特征值相同，但是相反，两个矩阵特征值相同，并不一定相似。
+
+比如 $$ A = \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix}, B = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} $$
+
+后者是一个对角矩阵、单位矩阵，但是它没法取 $ M $ 使得 $ B = M^{-1} A M $，虽然他们有相同的特征值 $ \lambda = 1 $。
+
+对于 $ cI $，其中 $ c $ 是标量，$ I $ 是单位矩阵，它的相似矩阵只有它自己。取可逆矩阵 $ M $，则有 $ M^{-1} (cI) M = c (M^{-1} I M) = cI $。
+
+---
+
+对于 $ A $，可以取无穷个可逆矩阵 $ M $，使得 $ B = M^{-1} A M $，这些 $ A $ 的相似矩阵 $ B $ 组成一个相似类，他们有相同的特征值、行列式、迹等性质，互相之间可以通过相似变换转换，同时他们表达了同一个线性变换，只是基不同。（基由 $ M $ 决定）
+
+在这些相似类中，有的矩阵可以对角化，有的不能对角化。可对角化的可以都由其对角矩阵相似变换得到，其他的则例如上面的 $ A = \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix} $ 这种形式，他们都可以由对应的 Jordan 标准型相似变换而来。对角矩阵这种相似类里面，更特殊的就是 $ cI $ 这种形式。
+
+## Jordan 标准型 Jordan Normal Form
+
+对于任意矩阵 $ A $，都存在一个可逆矩阵 $ M $，使得 $ J = M^{-1} A M $，其中 $ J $ 是 Jordan 标准型矩阵。
+
+$ J $ 是由 Jordan 块组成的块对角矩阵。Jordan 块是一个上三角矩阵，对角线上的元素都是同一个标量 $ \lambda $，紧接着主对角线上方的元素（上次对角线）全是 1，其余元素全是 0。
+
+例如，矩阵 $$ J = \begin{bmatrix} \lambda & 1 & 0 \\ 0 & \lambda & 0 \\ 0 & 0 & \mu \end{bmatrix} $$ 有两个 Jordan 块：一个是 $ 2 \times 2 $ 的块 $$ \begin{bmatrix} \lambda & 1 \\ 0 & \lambda \end{bmatrix} $$，对应特征值 $ \lambda $，另一个是 $ 1 \times 1 $ 的块 $$ \begin{bmatrix} \mu \end{bmatrix} $$，对应特征值 $ \mu $。
+
+特殊的，对角矩阵就是 Jordan 标准型的特例，每个 Jordan 块为 $ \begin{bmatrix} \lambda_i \end{bmatrix} $。
+
+每个 Jordan 块对应一个特征值 $ \lambda $，Jordan 块的大小等于该特征值的代数重数，而几何重数始终为 1。
+
 # 正定矩阵 Positive Definite Matrix
 
 > **The number of positive eigenvalues of S equals the number of positive pivots.**
