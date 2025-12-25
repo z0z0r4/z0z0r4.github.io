@@ -23,6 +23,29 @@ sponsor:
 
 ~~每次看完都会忘记，比较难受，尝试记住~~
 
+# 线性无关
+
+当一组向量 $ v_1, v_2, \ldots, v_n $ 满足以下条件时，称其为线性无关：
+
+$ c_1 v_1 + c_2 v_2 + \ldots + c_n v_n = 0 \Rightarrow c_1 = c_2 = \ldots = c_n = 0 $
+
+否则称其为线性相关。
+
+向量组 $ A $ 线性无关的充要条件是 $ R(A) = n $，其中 $ n $ 是向量的个数。
+
+可以通过行简化阶梯形矩阵来判断向量组是否线性无关，如果矩阵 $ A $ 的行简化阶梯形矩阵有 $ n $ 个主元，则向量组线性无关，否则线性相关。
+
+向量组 $ A $ 和 $ B $ 等价的充要条件是 $ R(A) = R(B) = R([A, B]) $。
+
+$ \beta $ 能被向量组 $ A $ 线性表示的充要条件是 $ R(A) = R([A, \beta]) $。
+
+Tip: 非主元列 $ \alpha $ 为 $ \begin{pmatrix} c_1, c_2, \ldots, c_n \end{pmatrix}$，则 $ \alpha $ 的线性表示为 $ \alpha = - \sum_{i} \frac{c_i}{c_j} e_i $，其中 $ e_i $ 是主元列。(即取主元，然后组合 $ \alpha $ 的每一个元素)
+
+- 若 $ R(A) \le R(B) $，不能推出 $ A $ 可以被 $ B $ 线性表示。
+
+- 若 $ \alpha_1, \alpha_2, \ldots, \alpha_n $ 线性相关，不能推出 $ \alpha_i $ 可以被其他向量线性表示。
+
+
 # 正交矩阵 Orthogonal Matrix
 
 正交矩阵有 $ Q $ 满足 $ Q^T Q = I $。
