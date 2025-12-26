@@ -401,6 +401,10 @@ $ \Lambda $ 是对角矩阵，因此 $ \Lambda^T = \Lambda $。
 
 $$ S = Q \Lambda Q^T = \frac{1}{\sqrt{5}} \begin{bmatrix} 2 & 1 \\ -1 & 2 \end{bmatrix} \begin{bmatrix} 0 & 0 \\ 0 & 5 \end{bmatrix} \frac{1}{\sqrt{5}} \begin{bmatrix} 2 & -1 \\ 1 & 2 \end{bmatrix} = \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix} $$
 
+对于任意 $ A $，$ A^T A $ 和 $ A A^T $ 都是对称矩阵。
+
+$ A = Q \Lambda Q^T $，则 $ A^T A = (Q \Lambda Q^T)^T (Q \Lambda Q^T) = Q \Lambda^T Q^T Q \Lambda Q^T = Q \Lambda^2 Q^T $ 以及 $ A A^T = (Q \Lambda Q^T)(Q \Lambda Q^T)^T = Q \Lambda Q^T Q \Lambda^T Q^T = Q \Lambda^2 Q^T $。（在 SVD 分解有用）
+
 # 相似矩阵
 
 若存在 $ M $ 和 $ M^{-1} $，使得 $ B = M^{-1} A M $，则称矩阵 $ A $ 和 $ B $ 是相似矩阵。
