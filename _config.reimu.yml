@@ -547,8 +547,8 @@ sponsor:
 # ICP 备案
 icp:
   icpnumber: "粤ICP备2025511811号"
-  beian: # 网安备案号
-  recordcode: # 网安备案链接中的recordcode参数
+  beian: "粤公网安备44130302100361号" # 网安备案号
+  recordcode: 44130302100361 # 网安备案链接中的recordcode参数
 
 # 萌国 ICP 备案
 moe_icp:
