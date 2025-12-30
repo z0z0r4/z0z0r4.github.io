@@ -43,7 +43,7 @@ avatar: "avatar.jpg" # which means source/_data/avatar/avatar.webp
 # Control the display of the post cover
 # If not set, the banner image will be displayed by default
 # Its priority is lower than the cover in the Front-matter
-cover: # https://example.com / false / rgb(255,117,117)
+cover: rgb(87, 150, 243) # https://example.com / false / rgb(255,117,117)
 
 # Control the display of the post toc
 # Its priority is lower than the toc in the Front-matter
