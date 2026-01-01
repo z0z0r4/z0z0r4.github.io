@@ -93,7 +93,7 @@ int pattern_score(int pattern[5], int player)
 }
 ```
 
-代码见 [gobang.cpp](https://gist.github.com/z0z0r4/2eb5620a2c44d728effa6d551e29e366)
+代码见 [z0z0r4/gobang](https://github.com/z0z0r4/gobang)
 
 参考：[OI Wiki Alpha–Beta 剪枝](https://oi-wiki.org/search/alpha-beta/)
 
