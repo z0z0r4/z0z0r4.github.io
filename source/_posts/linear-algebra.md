@@ -215,6 +215,18 @@ Tip: 非主元列 $ \alpha $ 为 $ \begin{pmatrix} c_1, c_2, \ldots, c_n \end{pm
 
 特例有 $ det(I) = 1 $，表示单位立方体的体积没有变化，空间没有变化。
 
+## 范德蒙德行列式
+
+设有 $ n $ 个不同的数 $ x_1, x_2, \ldots, x_n $，则范德蒙德行列式定义为：
+
+$$ V = \begin{vmatrix} 1 & x_1 & x_1^2 & \ldots & x_1^{n-1} \\ 1 & x_2 & x_2^2 & \ldots & x_2^{n-1} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x_n & x_n^2 & \ldots & x_n^{n-1} \end{vmatrix} $$
+
+范德蒙德行列式的值为：
+
+$$ V = \prod_{1 \leq i < j \leq n} (x_j - x_i) $$
+
+
+
 # 迹 Trace
 
 迹是矩阵对角线元素的和，记为 $ tr(A) $。
