@@ -289,6 +289,20 @@ $$ tr(A) = \lambda_1 + \lambda_2 + \ldots + \lambda_n $$
 
 从几何上看，实特征值对应的是矩阵对特征向量（输入向量）方向进行伸缩变换，而复特征值对应的是矩阵对输入向量进行旋转变换。
 
+不同特征值的特征向量线性无关：
+
+假设有 $ A x_1 = \lambda_1 x_1 $ 和 $ A x_2 = \lambda_2 x_2 $，其中 $ \lambda_1 \neq \lambda_2 $。
+
+假设 $ k x_1 = x_2 $，代入方程：
+
+$$ A (k x_1) = \lambda_2 (k x_1) $$
+
+$$ k (A x_1) = k (\lambda_2 x_1) $$
+
+$$ A x_1 = \lambda_2 x_1 $$
+
+与 $ \lambda_1 \neq \lambda_2 $ 矛盾，因此 $ x_1 $ 和 $ x_2 $ 线性无关。
+
 # 对角化 Diagonalization
 
 如果一个矩阵 $ A $ 有 $ n $ 个线性无关的特征向量 $ x_1, x_2, \ldots, x_n $，则可以将这些特征向量组成一个矩阵 $ X = [x_1, x_2, \ldots, x_n] $。对应的特征值组成对角矩阵 $ \Lambda = diag(\lambda_1, \lambda_2, \ldots, \lambda_n) $。
