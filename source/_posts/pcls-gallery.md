@@ -5,8 +5,13 @@ mermaid: false
 date: 2026-01-15 22:28:21
 tags:
 - daily-record
+- games
 - minecraft
+- PCLS
 categories:
+- daily-record
+- games
+- minecraft
 cover: /images/pcls-gallery/2022-07-30_21.22.25.png
 comments:
 copyright:

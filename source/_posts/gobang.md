@@ -1,5 +1,5 @@
 ---
-title: gobang
+title: Gobang
 sticky: false
 mermaid: false
 date: 2025-12-25 00:26:46
@@ -7,6 +7,7 @@ tags:
 - learning-notes
 categories:
 - learning-notes
+- CS
 cover: covers/gobang.png
 comments:
 copyright:

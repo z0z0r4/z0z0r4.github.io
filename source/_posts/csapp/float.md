@@ -1,10 +1,14 @@
 ---
-title: CSAPP - float
+title: CSAPP Float
 sticky: false
 mermaid: false
 date: 2026-01-11 16:26:43
 tags:
+  - CSAPP
+  - learning-notes
 categories: 
+  - learning-notes
+  - CS
   - CSAPP
 cover: /images/csapp/csapp3e-cover.jpg
 comments:

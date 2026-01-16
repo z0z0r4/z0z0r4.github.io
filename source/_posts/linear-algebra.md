@@ -8,9 +8,9 @@ tags:
 - linear-algebra
 - learning-notes
 categories: 
-- math 
-- linear-algebra
 - learning-notes
+- math
+- linear-algebra
 cover: covers/linear_algebra_the_big_picture.png
 comments:
 copyright:

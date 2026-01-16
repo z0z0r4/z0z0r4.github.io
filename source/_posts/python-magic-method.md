@@ -1,10 +1,15 @@
 ---
-title: python magic method
+title: Python Magic Method
 sticky: false
 mermaid: false
 date: 2025-12-14 01:02:08
-tags: Python
-categories: Python
+tags: 
+- python
+- learning-notes
+categories: 
+- learning-notes
+- coding
+- python
 cover: covers/python-magic-method.jpeg
 comments:
 copyright:
