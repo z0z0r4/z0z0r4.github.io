@@ -9,22 +9,23 @@
   
   <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'https://blog.z0z0r4.top';</script>
   <title>
-    python magic method | z0z0r4 Blog
+    Python Magic Method | z0z0r4 Blog
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=JetBrains+Mono%3A400%2C400italic%2C700%2C700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=JetBrains+Mono%3A400%2C400italic%2C700%2C700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
     <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <meta name="description" content="选择了哈利波特里的这张图，但可惜没找到带蛇的 haha。 没怎么用过 Python 的魔法方法，只用过几个 __init__ 和上下文管理器的几个，今天记录一下。  magic method An informal synonym for special method. 一个非正式的同义词，指的是特殊方法。  官方的名称是 special method.  special method A met">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python magic method">
+<meta property="og:title" content="Python Magic Method">
 <meta property="og:url" content="https://blog.z0z0r4.top/2025/12/14/python-magic-method/index.html">
 <meta property="og:site_name" content="z0z0r4 Blog">
 <meta property="og:description" content="选择了哈利波特里的这张图，但可惜没找到带蛇的 haha。 没怎么用过 Python 的魔法方法，只用过几个 __init__ 和上下文管理器的几个，今天记录一下。  magic method An informal synonym for special method. 一个非正式的同义词，指的是特殊方法。  官方的名称是 special method.  special method A met">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-12-13T17:02:08.000Z">
-<meta property="article:modified_time" content="2025-12-18T06:48:05.413Z">
+<meta property="article:modified_time" content="2026-01-16T03:37:16.577Z">
 <meta property="article:author" content="z0z0r4">
-<meta property="article:tag" content="Python">
+<meta property="article:tag" content="learning-notes">
+<meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
     <link rel="alternate" href="/atom.xml" title="z0z0r4 Blog" type="application/atom+xml">
     <link rel="shortcut icon" href="/images/favicon.ico">
@@ -78,11 +79,11 @@
 </div>
 <header id="header" aria-label="Site header">
     <picture></picture>
-    <img  fetchpriority="high" src="/covers/python-magic-method.jpeg" alt="python magic method">
+    <img  fetchpriority="high" src="/covers/python-magic-method.jpeg" alt="Python Magic Method">
   <div id="header-outer">
     <div id="header-title">
           <span id="logo">
-            <h1 data-aos="slide-up">python magic method</h1>
+            <h1 data-aos="slide-up">Python Magic Method</h1>
           </span>
         <h2 id="subtitle-wrap" data-aos="slide-down">
         </h2>
@@ -112,11 +113,11 @@
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
-    <div class="sidebar-state-number">6</div>
+    <div class="sidebar-state-number">10</div>
   </div>
   <div class="sidebar-state-tag">
     <div>标签</div>
-    <div class="sidebar-state-number">6</div>
+    <div class="sidebar-state-number">9</div>
   </div>
 </div>
 <div class="sidebar-social">
@@ -162,12 +163,12 @@
       <div class="article-date">
   <span class="article-date-link icon-calendar" data-aos="zoom-in">
     <time datetime="2025-12-13T17:02:08.000Z" itemprop="datePublished">2025-12-14</time>
-    <time style="display: none;" id="post-update-time">2025-12-18</time>
+    <time style="display: none;" id="post-update-time">2026-01-16</time>
   </span>
 </div>
 
         <div class="article-category">
-    <a class="article-category-link" href="/categories/Python/" title="Python">Python</a>
+    <a class="article-category-link" href="/categories/learning-notes/" title="learning-notes">learning-notes</a><a class="article-category-link" href="/categories/learning-notes/coding/" title="coding">coding</a><a class="article-category-link" href="/categories/learning-notes/coding/python/" title="python">python</a>
   </div>
 
     </div>
@@ -279,17 +280,17 @@ A method that is called implicitly by Python to execute a certain operation on a
 
     </div>
     <footer class="article-footer">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/Python/" rel="tag" title="Python">Python</a></li></ul>
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/learning-notes/" rel="tag" title="learning-notes">learning-notes</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/python/" rel="tag" title="python">python</a></li></ul>
 
     </footer>
   </div>
     <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
       <div class="article-nav-link-wrap left">
-          <img data-src="/covers/gobang.png" data-sizes="auto" alt="gobang" class="lazyload">
-        <a href="/2025/12/25/gobang/" aria-label="前一篇: gobang" title="前一篇: gobang"></a>
+          <img data-src="/covers/gobang.png" data-sizes="auto" alt="Gobang" class="lazyload">
+        <a href="/2025/12/25/gobang/" aria-label="前一篇: Gobang" title="前一篇: Gobang"></a>
         <div class="article-nav-caption">前一篇</div>
         <h3 class="article-nav-title">
-            gobang
+            Gobang
         </h3>
       </div>
     <div class="article-nav-link-wrap right">
@@ -373,11 +374,11 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
-    <div class="sidebar-state-number">6</div>
+    <div class="sidebar-state-number">10</div>
   </div>
   <div class="sidebar-state-tag">
     <div>标签</div>
-    <div class="sidebar-state-number">6</div>
+    <div class="sidebar-state-number">9</div>
   </div>
 </div>
 <div class="sidebar-social">
@@ -463,13 +464,13 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
       <script data-pjax>
         window.REIMU_POST = {
           author: "z0z0r4",
-          title: "python magic method",
+          title: "Python Magic Method",
           url: "https://blog.z0z0r4.top/2025/12/14/python-magic-method/",
           excerpt: "",
           description: "",
           stripContent: "选择了哈利波特里的这张图，但可惜没找到带蛇的 haha。 没怎么用过 Python 的魔法方法，只用过几个 __init__ 和上下文管理器的几个，今天记录一下。  magic method An informal synonym for special method. 一个非正式的同义词，指的是特殊方法。  官方的名称是 special method.  special method A method that is called implicitly by Python to execute",
           date: "Sun Dec 14 2025 01:02:08 GMT+0800",
-          updated: "Thu Dec 18 2025 14:48:05 GMT+0800",
+          updated: "Fri Jan 16 2026 11:37:16 GMT+0800",
           cover: "/covers/python-magic-method.jpeg",
         };
       </script>

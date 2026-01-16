@@ -6,7 +6,7 @@
   <link href="https://blog.z0z0r4.top/atom.xml" rel="self"/>
   
   <link href="https://blog.z0z0r4.top/"/>
-  <updated>2026-01-15T15:55:25.186Z</updated>
+  <updated>2026-01-16T03:39:10.077Z</updated>
   <id>https://blog.z0z0r4.top/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://blog.z0z0r4.top/2026/01/15/pcls-gallery/"/>
     <id>https://blog.z0z0r4.top/2026/01/15/pcls-gallery/</id>
     <published>2026-01-15T14:28:21.000Z</published>
-    <updated>2026-01-15T15:55:25.186Z</updated>
+    <updated>2026-01-16T03:39:10.077Z</updated>
     
     
       
@@ -35,19 +35,29 @@
     
     
     
+    <category term="daily-record" scheme="https://blog.z0z0r4.top/categories/daily-record/"/>
+    
+    <category term="games" scheme="https://blog.z0z0r4.top/categories/daily-record/games/"/>
+    
+    <category term="minecraft" scheme="https://blog.z0z0r4.top/categories/daily-record/games/minecraft/"/>
+    
     
     <category term="daily-record" scheme="https://blog.z0z0r4.top/tags/daily-record/"/>
     
     <category term="minecraft" scheme="https://blog.z0z0r4.top/tags/minecraft/"/>
     
+    <category term="games" scheme="https://blog.z0z0r4.top/tags/games/"/>
+    
+    <category term="PCLS" scheme="https://blog.z0z0r4.top/tags/PCLS/"/>
+    
   </entry>
   
   <entry>
-    <title>CSAPP - float</title>
+    <title>CSAPP Float</title>
     <link href="https://blog.z0z0r4.top/2026/01/11/csapp/float/"/>
     <id>https://blog.z0z0r4.top/2026/01/11/csapp/float/</id>
     <published>2026-01-11T08:26:43.000Z</published>
-    <updated>2026-01-11T10:17:30.675Z</updated>
+    <updated>2026-01-16T03:38:16.069Z</updated>
     
     
       
@@ -62,17 +72,25 @@
     
     
     
-    <category term="CSAPP" scheme="https://blog.z0z0r4.top/categories/CSAPP/"/>
+    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
     
+    <category term="CS" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/"/>
+    
+    <category term="CSAPP" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/CSAPP/"/>
+    
+    
+    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
+    
+    <category term="CSAPP" scheme="https://blog.z0z0r4.top/tags/CSAPP/"/>
     
   </entry>
   
   <entry>
-    <title>gobang</title>
+    <title>Gobang</title>
     <link href="https://blog.z0z0r4.top/2025/12/25/gobang/"/>
     <id>https://blog.z0z0r4.top/2025/12/25/gobang/</id>
     <published>2025-12-24T16:26:46.000Z</published>
-    <updated>2026-01-01T08:48:12.936Z</updated>
+    <updated>2026-01-16T03:38:06.697Z</updated>
     
     
       
@@ -88,17 +106,19 @@
     
     <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
     
+    <category term="CS" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/"/>
+    
     
     <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
     
   </entry>
   
   <entry>
-    <title>python magic method</title>
+    <title>Python Magic Method</title>
     <link href="https://blog.z0z0r4.top/2025/12/14/python-magic-method/"/>
     <id>https://blog.z0z0r4.top/2025/12/14/python-magic-method/</id>
     <published>2025-12-13T17:02:08.000Z</published>
-    <updated>2025-12-18T06:48:05.413Z</updated>
+    <updated>2026-01-16T03:37:16.577Z</updated>
     
     
       
@@ -112,10 +132,16 @@
     
     
     
-    <category term="Python" scheme="https://blog.z0z0r4.top/categories/Python/"/>
+    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
+    
+    <category term="coding" scheme="https://blog.z0z0r4.top/categories/learning-notes/coding/"/>
+    
+    <category term="python" scheme="https://blog.z0z0r4.top/categories/learning-notes/coding/python/"/>
     
     
-    <category term="Python" scheme="https://blog.z0z0r4.top/tags/Python/"/>
+    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
+    
+    <category term="python" scheme="https://blog.z0z0r4.top/tags/python/"/>
     
   </entry>
   
@@ -124,7 +150,7 @@
     <link href="https://blog.z0z0r4.top/2025/12/08/linear-algebra/"/>
     <id>https://blog.z0z0r4.top/2025/12/08/linear-algebra/</id>
     <published>2025-12-08T15:42:30.000Z</published>
-    <updated>2026-01-09T08:32:36.464Z</updated>
+    <updated>2026-01-16T03:36:53.269Z</updated>
     
     
       
@@ -138,11 +164,11 @@
     
     
     
-    <category term="math" scheme="https://blog.z0z0r4.top/categories/math/"/>
+    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
     
-    <category term="linear-algebra" scheme="https://blog.z0z0r4.top/categories/math/linear-algebra/"/>
+    <category term="math" scheme="https://blog.z0z0r4.top/categories/learning-notes/math/"/>
     
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/math/linear-algebra/learning-notes/"/>
+    <category term="linear-algebra" scheme="https://blog.z0z0r4.top/categories/learning-notes/math/linear-algebra/"/>
     
     
     <category term="math" scheme="https://blog.z0z0r4.top/tags/math/"/>

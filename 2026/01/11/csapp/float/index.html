@@ -9,14 +9,14 @@
   
   <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'https://blog.z0z0r4.top';</script>
   <title>
-    CSAPP - float | z0z0r4 Blog
+    CSAPP Float | z0z0r4 Blog
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=JetBrains+Mono%3A400%2C400italic%2C700%2C700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=JetBrains+Mono%3A400%2C400italic%2C700%2C700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
     <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <meta name="description" content="关于 CSAPP - Lecture 04 Floating Point 的浮点数（float）的笔记。  定义 IEEE 754 浮点数标准定义了浮点数的表示方法。 有分为单精度（32 位）和双精度（64 位）。  浮点数分规范化数（normalized numbers）、非规范化数（denormalized numbers）和特殊值三种情况。 对于规范化数，浮点数的表示为： (−1)s×(1+">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSAPP - float">
+<meta property="og:title" content="CSAPP Float">
 <meta property="og:url" content="https://blog.z0z0r4.top/2026/01/11/csapp/float/index.html">
 <meta property="og:site_name" content="z0z0r4 Blog">
 <meta property="og:description" content="关于 CSAPP - Lecture 04 Floating Point 的浮点数（float）的笔记。  定义 IEEE 754 浮点数标准定义了浮点数的表示方法。 有分为单精度（32 位）和双精度（64 位）。  浮点数分规范化数（normalized numbers）、非规范化数（denormalized numbers）和特殊值三种情况。 对于规范化数，浮点数的表示为： (−1)s×(1+">
@@ -25,8 +25,10 @@
 <meta property="og:image" content="https://blog.z0z0r4.top/images/csapp/float/exp-design.png">
 <meta property="og:image" content="https://blog.z0z0r4.top/images/csapp/float/exp-design-zoomed.png">
 <meta property="article:published_time" content="2026-01-11T08:26:43.000Z">
-<meta property="article:modified_time" content="2026-01-11T10:17:30.675Z">
+<meta property="article:modified_time" content="2026-01-16T03:38:16.069Z">
 <meta property="article:author" content="z0z0r4">
+<meta property="article:tag" content="CSAPP">
+<meta property="article:tag" content="learning-notes">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://blog.z0z0r4.top/images/csapp/float/s-exp-frac.png">
     <link rel="alternate" href="/atom.xml" title="z0z0r4 Blog" type="application/atom+xml">
@@ -81,11 +83,11 @@
 </div>
 <header id="header" aria-label="Site header">
     <picture></picture>
-    <img  fetchpriority="high" src="/images/csapp/csapp3e-cover.jpg" alt="CSAPP - float">
+    <img  fetchpriority="high" src="/images/csapp/csapp3e-cover.jpg" alt="CSAPP Float">
   <div id="header-outer">
     <div id="header-title">
           <span id="logo">
-            <h1 data-aos="slide-up">CSAPP - float</h1>
+            <h1 data-aos="slide-up">CSAPP Float</h1>
           </span>
         <h2 id="subtitle-wrap" data-aos="slide-down">
         </h2>
@@ -115,11 +117,11 @@
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
-    <div class="sidebar-state-number">6</div>
+    <div class="sidebar-state-number">10</div>
   </div>
   <div class="sidebar-state-tag">
     <div>标签</div>
-    <div class="sidebar-state-number">6</div>
+    <div class="sidebar-state-number">9</div>
   </div>
 </div>
 <div class="sidebar-social">
@@ -165,12 +167,12 @@
       <div class="article-date">
   <span class="article-date-link icon-calendar" data-aos="zoom-in">
     <time datetime="2026-01-11T08:26:43.000Z" itemprop="datePublished">2026-01-11</time>
-    <time style="display: none;" id="post-update-time">2026-01-11</time>
+    <time style="display: none;" id="post-update-time">2026-01-16</time>
   </span>
 </div>
 
         <div class="article-category">
-    <a class="article-category-link" href="/categories/CSAPP/" title="CSAPP">CSAPP</a>
+    <a class="article-category-link" href="/categories/learning-notes/" title="learning-notes">learning-notes</a><a class="article-category-link" href="/categories/learning-notes/CS/" title="CS">CS</a><a class="article-category-link" href="/categories/learning-notes/CS/CSAPP/" title="CSAPP">CSAPP</a>
   </div>
 
     </div>
@@ -360,7 +362,8 @@
 
     </div>
     <footer class="article-footer">
-      
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/CSAPP/" rel="tag" title="CSAPP">CSAPP</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/learning-notes/" rel="tag" title="learning-notes">learning-notes</a></li></ul>
+
     </footer>
   </div>
     <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
@@ -373,11 +376,11 @@
         </h3>
       </div>
     <div class="article-nav-link-wrap right">
-        <img data-src="/covers/gobang.png" data-sizes="auto" alt="gobang" class="lazyload">
-      <a href="/2025/12/25/gobang/" aria-label="后一篇: gobang"  title="后一篇: gobang"></a>
+        <img data-src="/covers/gobang.png" data-sizes="auto" alt="Gobang" class="lazyload">
+      <a href="/2025/12/25/gobang/" aria-label="后一篇: Gobang"  title="后一篇: Gobang"></a>
       <div class="article-nav-caption">后一篇</div>
       <h3 class="article-nav-title">
-          gobang
+          Gobang
       </h3>
     </div>
   </nav>
@@ -453,11 +456,11 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
-    <div class="sidebar-state-number">6</div>
+    <div class="sidebar-state-number">10</div>
   </div>
   <div class="sidebar-state-tag">
     <div>标签</div>
-    <div class="sidebar-state-number">6</div>
+    <div class="sidebar-state-number">9</div>
   </div>
 </div>
 <div class="sidebar-social">
@@ -543,13 +546,13 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
       <script data-pjax>
         window.REIMU_POST = {
           author: "z0z0r4",
-          title: "CSAPP - float",
+          title: "CSAPP Float",
           url: "https://blog.z0z0r4.top/2026/01/11/csapp/float/",
           excerpt: "",
           description: "",
           stripContent: "关于 CSAPP - Lecture 04 Floating Point 的浮点数（float）的笔记。  定义 IEEE 754 浮点数标准定义了浮点数的表示方法。 有分为单精度（32 位）和双精度（64 位）。  浮点数分规范化数（normalized numbers）、非规范化数（denormalized numbers）和特殊值三种情况。 对于规范化数，浮点数的表示为： (−1)s×(1+frac)×2exp−bias(-1)^s \times (1 + frac) \times 2^{",
           date: "Sun Jan 11 2026 16:26:43 GMT+0800",
-          updated: "Sun Jan 11 2026 18:17:30 GMT+0800",
+          updated: "Fri Jan 16 2026 11:38:16 GMT+0800",
           cover: "/images/csapp/csapp3e-cover.jpg",
         };
       </script>
