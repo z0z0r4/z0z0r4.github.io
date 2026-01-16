@@ -6,7 +6,7 @@
   <link href="https://blog.z0z0r4.top/atom.xml" rel="self"/>
   
   <link href="https://blog.z0z0r4.top/"/>
-  <updated>2026-01-16T03:39:10.077Z</updated>
+  <updated>2026-01-16T13:46:17.231Z</updated>
   <id>https://blog.z0z0r4.top/</id>
   
   <author>
@@ -15,6 +15,41 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CSAPP Data Alignment</title>
+    <link href="https://blog.z0z0r4.top/2026/01/16/csapp/data-alignment/"/>
+    <id>https://blog.z0z0r4.top/2026/01/16/csapp/data-alignment/</id>
+    <published>2026-01-16T05:26:17.000Z</published>
+    <updated>2026-01-16T13:46:17.231Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;关于对齐的记录。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;一开始我起的是 Memory Alignment，但是后面一想其实还有很多地方会用到对齐这个概念，于是改标题为 Data Alignment&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;定义&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
+    
+    <category term="CS" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/"/>
+    
+    <category term="CSAPP" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/CSAPP/"/>
+    
+    
+    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
+    
+    <category term="CSAPP" scheme="https://blog.z0z0r4.top/tags/CSAPP/"/>
+    
+  </entry>
   
   <entry>
     <title>PCLS Gallery</title>
