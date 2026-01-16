@@ -1,5 +1,5 @@
 ---
-title: CSAPP Memory Align
+title: CSAPP Data Alignment
 sticky: false
 mermaid: false
 date: 2026-01-16 13:26:17
@@ -10,13 +10,15 @@ categories:
   - learning-notes
   - CS
   - CSAPP
-cover:
+cover: /images/csapp/data-alignment.png
 comments:
 copyright:
 sponsor:
 ---
 
-关于内存对齐的记录。
+关于对齐的记录。
+
+> 一开始我起的是 Memory Alignment，但是后面一想其实还有很多地方会用到对齐这个概念，于是改标题为 Data Alignment
 
 # 定义
 
@@ -101,7 +103,7 @@ struct MixedDataReordered
 
 > 我这这块比较一头雾水，搜索信息然后试着理解的，如果有谬误请指教
 
-对于早期 RISC 架构下的旧 ARM, MIPS 等的 CPU 非常严格，完全不允许读取不对其的内存。
+对于早期 RISC 架构下的旧 ARM, MIPS 等的 CPU 非常严格，完全不允许读取不对齐的内存。
 
 实际上 CPU 忽略后三位地址，只能读取字对齐的整段内存地址。
 
@@ -109,13 +111,17 @@ x86 架构的 CPU 则比较宽松，允许读取不对齐的内存，但是会�
 
 此外，CPU Cache 也是这样的，它按字读取，如果数据跨行，那就得读取两次。
 
+![data alignment](/images/csapp/data-alignment.png)
+
 # 如何对齐
 
 那么为了尽量减少读取次数，就需要将数据对齐。
 
 首先考虑数据的首地址必须对齐，否则后续的元素/成员都无法对齐。
 
-为了达到这点，C 语言标准规定 `malloc` 返回的内存地址至少是 `max_align_t` 类型对齐的。
+为了达到这点，C 语言标准规定 `malloc`、`alloca`、`calloc` 和 `realloc` 返回的内存地址至少是 `max_align_t` 类型对齐的。
+
+以及大多数函数的栈帧必须按 16 字节边界对齐。
 
 考虑由基本类型的数组，它的首地址对齐，数组的每个元素紧挨着，没有 Padding，由于基本类型的长度都是 2 的幂，那么数组的每个元素也都是对齐的。
 
