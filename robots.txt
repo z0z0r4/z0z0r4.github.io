@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: /sitemap.xml
+Sitemap: https://blog.z0z0r4.top/sitemap.xml
