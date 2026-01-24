@@ -1,5 +1,4 @@
 https://blog.z0z0r4.top/2026/01/16/csapp/data-alignment/
-https://blog.z0z0r4.top/2026/01/18/cs61b/1/
 https://blog.z0z0r4.top/2026/01/15/pcls-gallery/
 https://blog.z0z0r4.top/2026/01/11/csapp/float/
 https://blog.z0z0r4.top/2025/12/25/gobang/
@@ -17,7 +16,6 @@ https://blog.z0z0r4.top/tags/python/
 https://blog.z0z0r4.top/tags/CSAPP/
 https://blog.z0z0r4.top/tags/games/
 https://blog.z0z0r4.top/tags/PCLS/
-https://blog.z0z0r4.top/tags/CS61B/
 https://blog.z0z0r4.top/categories/learning-notes/
 https://blog.z0z0r4.top/categories/learning-notes/CS/
 https://blog.z0z0r4.top/categories/learning-notes/coding/
@@ -28,4 +26,3 @@ https://blog.z0z0r4.top/categories/daily-record/
 https://blog.z0z0r4.top/categories/learning-notes/math/linear-algebra/
 https://blog.z0z0r4.top/categories/daily-record/games/
 https://blog.z0z0r4.top/categories/daily-record/games/minecraft/
-https://blog.z0z0r4.top/categories/learning-notes/CS/CS61B/

@@ -11,15 +11,6 @@
   </url>
   
   <url>
-    <loc>https://blog.z0z0r4.top/2026/01/18/cs61b/1/</loc>
-    
-    <lastmod>2026-01-18</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.z0z0r4.top/2026/01/15/pcls-gallery/</loc>
     
     <lastmod>2026-01-16</lastmod>
@@ -154,13 +145,6 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>https://blog.z0z0r4.top/tags/CS61B/</loc>
-    <lastmod>2026-01-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
   
   <url>
@@ -228,13 +212,6 @@
   
   <url>
     <loc>https://blog.z0z0r4.top/categories/daily-record/games/minecraft/</loc>
-    <lastmod>2026-01-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.z0z0r4.top/categories/learning-notes/CS/CS61B/</loc>
     <lastmod>2026-01-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

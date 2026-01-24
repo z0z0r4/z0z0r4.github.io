@@ -6,7 +6,7 @@
   <link href="https://blog.z0z0r4.top/atom.xml" rel="self"/>
   
   <link href="https://blog.z0z0r4.top/"/>
-  <updated>2026-01-18T05:05:53.226Z</updated>
+  <updated>2026-01-18T06:52:35.090Z</updated>
   <id>https://blog.z0z0r4.top/</id>
   
   <author>
@@ -15,39 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>CS961B Note Collection</title>
-    <link href="https://blog.z0z0r4.top/2026/01/18/cs61b/1/"/>
-    <id>https://blog.z0z0r4.top/2026/01/18/cs61b/1/</id>
-    <published>2026-01-18T04:46:04.000Z</published>
-    <updated>2026-01-18T05:05:53.226Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;sentinel-node&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#sentinel-node&quot;&gt;&lt;/a&gt; Sentinel Node&lt;/h2&gt;
-&lt;p&gt;我觉得这个设计非常巧妙，学到了。&lt;/p&gt;
-&lt;p&gt;在链表的首位添加不记录</summary>
-        
-      
-    
-    
-    
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
-    
-    <category term="CS" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/"/>
-    
-    <category term="CS61B" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/CS61B/"/>
-    
-    
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
-    
-    <category term="CS61B" scheme="https://blog.z0z0r4.top/tags/CS61B/"/>
-    
-  </entry>
   
   <entry>
     <title>CSAPP Data Alignment</title>
