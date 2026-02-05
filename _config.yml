@@ -128,3 +128,17 @@ markdown_it_plus:
   typographer:
   quotes: “”‘’
   rawLaTeX: false # newly added
+
+sitemap:
+  path: 
+    - sitemap.xml
+    - sitemap.txt
+  rel: false
+  tags: true
+  categories: true
+
+robotstxt:
+  useragent: "*"
+  allow:
+    - /
+  sitemap: https://blog.z0z0r4.top/sitemap.xml
