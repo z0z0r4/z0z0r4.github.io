@@ -9,27 +9,36 @@
   
   <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'https://blog.z0z0r4.top';</script>
   <title>
-    目录: CS | z0z0r4 Blog
+    CS61B Note Collection | z0z0r4 Blog
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=JetBrains+Mono%3A400%2C400italic%2C700%2C700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=JetBrains+Mono%3A400%2C400italic%2C700%2C700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
     <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <meta property="og:type" content="website">
-<meta property="og:title" content="z0z0r4 Blog">
-<meta property="og:url" content="https://blog.z0z0r4.top/categories/learning-notes/CS/index.html">
+    <meta name="description" content="Sentinel Node 我觉得这个设计非常巧妙，学到了。 在链表的首位添加不记录 value 也不计入 size，对应 next 或者 prev 为自身的哨兵节点，只占位，为 Head 节点和 Tail 节点提供了一个的前驱和后继节点，同时应该 next 或者 prev 为自身，可以一直 -&gt;next 或者 -&gt;prev，避免边界条件的问题。 然后还能直接设计成回环，又省一个节点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS61B Note Collection">
+<meta property="og:url" content="https://blog.z0z0r4.top/2026/01/18/CS61B-Note-Collection/index.html">
 <meta property="og:site_name" content="z0z0r4 Blog">
+<meta property="og:description" content="Sentinel Node 我觉得这个设计非常巧妙，学到了。 在链表的首位添加不记录 value 也不计入 size，对应 next 或者 prev 为自身的哨兵节点，只占位，为 Head 节点和 Tail 节点提供了一个的前驱和后继节点，同时应该 next 或者 prev 为自身，可以一直 -&gt;next 或者 -&gt;prev，避免边界条件的问题。 然后还能直接设计成回环，又省一个节点">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog.z0z0r4.top/images/banner.webp">
+<meta property="og:image" content="https://joshhug.gitbooks.io/hug61b/content/chap2/fig23/dllist_double_sentinel_size_0.png">
+<meta property="og:image" content="https://blog.z0z0r4.top/images/cs61b/dllist_circular_sentinel_size_2.png">
+<meta property="article:published_time" content="2026-01-18T04:46:04.000Z">
+<meta property="article:modified_time" content="2026-02-05T23:42:54.399Z">
 <meta property="article:author" content="z0z0r4">
+<meta property="article:tag" content="CS61B">
+<meta property="article:tag" content="learning-notes">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://blog.z0z0r4.top/images/banner.webp">
+<meta name="twitter:image" content="https://joshhug.gitbooks.io/hug61b/content/chap2/fig23/dllist_double_sentinel_size_0.png">
     <link rel="alternate" href="/atom.xml" title="z0z0r4 Blog" type="application/atom+xml">
     <link rel="shortcut icon" href="/images/favicon.ico">
   
 <link rel="stylesheet" href="/css/style.css">
 
   <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
-        <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/katex@0.16.24/dist/katex.min.css" integrity="sha384-tTgKLjMYmJr94v8qu2PE5MUGSMbyN2xiH266JUB3gpm8vnnJywd1dWSOEfrFz+YI" crossorigin="anonymous">
+        
+<link rel="stylesheet" href="https://npm.webcache.cn/katex@0.16.24/dist/katex.min.css" integrity="sha384-tTgKLjMYmJr94v8qu2PE5MUGSMbyN2xiH266JUB3gpm8vnnJywd1dWSOEfrFz+YI" crossorigin="anonymous">
+
     
 <script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
 
@@ -72,16 +81,14 @@
   </nav>
 </div>
 <header id="header" aria-label="Site header">
-      <picture>
-      </picture>
-        <img  fetchpriority="high" src="/images/banner.webp" alt="">
+    <picture></picture>
+    <img  fetchpriority="high" src="/covers/gobang.png" alt="CS61B Note Collection">
   <div id="header-outer">
     <div id="header-title">
           <span id="logo">
-            <h1 data-aos="slide-up">分类</h1>
+            <h1 data-aos="slide-up">CS61B Note Collection</h1>
           </span>
         <h2 id="subtitle-wrap" data-aos="slide-down">
-            <span id="subtitle">CS</span>
         </h2>
     </div>
   </div>
@@ -89,10 +96,15 @@
 
         <div id="content" aria-label="Page content" class="sidebar-left"  >
           <aside id="sidebar" aria-label="Sidebar">
-  <div class="sidebar-wrapper-container ">
+  <div class="sidebar-wrapper-container sticky">
   <div class="sidebar-wrapper">
     <div class="sidebar-wrap" data-aos="fade-up">
-        <div class="sidebar-author">
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#sentinel-node"><span class="toc-number">1.</span> <span class="toc-text"> Sentinel Node</span></a></li></ol>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
   <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="z0z0r4" class="lazyload">
   <div class="sidebar-author-name">z0z0r4</div>
   <div class="sidebar-description"></div>
@@ -136,7 +148,11 @@
         <div class="sidebar-menu-link">关于</div>
       </div>
 </div>
-
+</div>
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
     </div>
   </div>
   <div class="sidebar-widget">
@@ -144,139 +160,61 @@
   </div>
 </aside>
 
-          <section id="main" aria-label="Main content"><div class="archives-outer-wrap" data-aos="fade-up">
-    <div class="tag-wrap">
-    <div class="archives-tag-list-item" data-aos="zoom-in">
-      <a class="archives-tag-list-link" href="/tags/math/">math</a>
-    </div>
-    <div class="archives-tag-list-item" data-aos="zoom-in">
-      <a class="archives-tag-list-link" href="/tags/linear-algebra/">linear-algebra</a>
-    </div>
-    <div class="archives-tag-list-item" data-aos="zoom-in">
-      <a class="archives-tag-list-link" href="/tags/learning-notes/">learning-notes</a>
-    </div>
-    <div class="archives-tag-list-item" data-aos="zoom-in">
-      <a class="archives-tag-list-link" href="/tags/daily-record/">daily-record</a>
-    </div>
-    <div class="archives-tag-list-item" data-aos="zoom-in">
-      <a class="archives-tag-list-link" href="/tags/minecraft/">minecraft</a>
-    </div>
-    <div class="archives-tag-list-item" data-aos="zoom-in">
-      <a class="archives-tag-list-link" href="/tags/python/">python</a>
-    </div>
-    <div class="archives-tag-list-item" data-aos="zoom-in">
-      <a class="archives-tag-list-link" href="/tags/CSAPP/">CSAPP</a>
-    </div>
-    <div class="archives-tag-list-item" data-aos="zoom-in">
-      <a class="archives-tag-list-link" href="/tags/games/">games</a>
-    </div>
-    <div class="archives-tag-list-item" data-aos="zoom-in">
-      <a class="archives-tag-list-link" href="/tags/PCLS/">PCLS</a>
-    </div>
-    <div class="archives-tag-list-item" data-aos="zoom-in">
-      <a class="archives-tag-list-link" href="/tags/CS61B/">CS61B</a>
-    </div>
-    <div class="archives-tag-list-item" data-aos="zoom-in">
-      <a class="archives-tag-list-link" href="/tags/CS61A/">CS61A</a>
-    </div>
+          <section id="main" aria-label="Main content"><article id="post-CS61B-Note-Collection" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2026-01-18T04:46:04.000Z" itemprop="datePublished">2026-01-18</time>
+    <time style="display: none;" id="post-update-time">2026-02-06</time>
+  </span>
 </div>
-<div class="category-wrap">
-    <div class="archives-category-list-item" data-aos="zoom-in">
-      <a class="archives-category-list-link" href="/categories/learning-notes/">learning-notes</a>
-    </div>
-    <div class="archives-category-list-item" data-aos="zoom-in">
-      <a class="archives-category-list-link" href="/categories/learning-notes/CS/">CS</a>
-    </div>
-    <div class="archives-category-list-item" data-aos="zoom-in">
-      <a class="archives-category-list-link" href="/categories/learning-notes/coding/">coding</a>
-    </div>
-    <div class="archives-category-list-item" data-aos="zoom-in">
-      <a class="archives-category-list-link" href="/categories/learning-notes/coding/python/">python</a>
-    </div>
-    <div class="archives-category-list-item" data-aos="zoom-in">
-      <a class="archives-category-list-link" href="/categories/learning-notes/math/">math</a>
-    </div>
-    <div class="archives-category-list-item" data-aos="zoom-in">
-      <a class="archives-category-list-link" href="/categories/learning-notes/CS/CSAPP/">CSAPP</a>
-    </div>
-    <div class="archives-category-list-item" data-aos="zoom-in">
-      <a class="archives-category-list-link" href="/categories/daily-record/">daily-record</a>
-    </div>
-    <div class="archives-category-list-item" data-aos="zoom-in">
-      <a class="archives-category-list-link" href="/categories/learning-notes/math/linear-algebra/">linear-algebra</a>
-    </div>
-    <div class="archives-category-list-item" data-aos="zoom-in">
-      <a class="archives-category-list-link" href="/categories/daily-record/games/">games</a>
-    </div>
-    <div class="archives-category-list-item" data-aos="zoom-in">
-      <a class="archives-category-list-link" href="/categories/daily-record/games/minecraft/">minecraft</a>
-    </div>
-    <div class="archives-category-list-item" data-aos="zoom-in">
-      <a class="archives-category-list-link" href="/categories/learning-notes/CS/CS61B/">CS61B</a>
-    </div>
-    <div class="archives-category-list-item" data-aos="zoom-in">
-      <a class="archives-category-list-link" href="/categories/learning-notes/CS/CS61A/">CS61A</a>
-    </div>
-</div>
-        <section class="archives-wrap" data-aos="fade-up">
-          <div class="archive-year-wrap">
-            <a href="/archives/2026" class="archive-year">2026</a>
-          </div>
-          <ul>
-            <li class="archive-article">
-  <div class="archive-article-date">
-    <span>
-      <time class="dt-published" datetime="2026-02-05T17:13:48.000Z" itemprop="datePublished">02-06</time>
-    </span>
-  </div>
-    <a class="archive-article-title" href="/2026/02/06/CS61A-Scheme/">CS61A Scheme</a>
-</li>
 
-            <li class="archive-article">
-  <div class="archive-article-date">
-    <span>
-      <time class="dt-published" datetime="2026-01-18T04:46:04.000Z" itemprop="datePublished">01-18</time>
-    </span>
+        <div class="article-category">
+    <a class="article-category-link" href="/categories/learning-notes/" title="learning-notes">learning-notes</a><a class="article-category-link" href="/categories/learning-notes/CS/" title="CS">CS</a><a class="article-category-link" href="/categories/learning-notes/CS/CS61B/" title="CS61B">CS61B</a>
   </div>
-    <a class="archive-article-title" href="/2026/01/18/CS61B-Note-Collection/">CS61B Note Collection</a>
-</li>
 
-            <li class="archive-article">
-  <div class="archive-article-date">
-    <span>
-      <time class="dt-published" datetime="2026-01-16T05:26:17.000Z" itemprop="datePublished">01-16</time>
-    </span>
-  </div>
-    <a class="archive-article-title" href="/2026/01/16/csapp/data-alignment/">CSAPP Data Alignment</a>
-</li>
+    </div>
+    
+    <div class="hr-line"></div>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+        <h2 id="sentinel-node"><a class="markdownIt-Anchor" href="#sentinel-node"></a> Sentinel Node</h2>
+<p>我觉得这个设计非常巧妙，学到了。</p>
+<p>在链表的首位添加不记录 <code>value</code> 也不计入 <code>size</code>，对应 <code>next</code> 或者 <code>prev</code> 为自身的哨兵节点，只占位，为 Head 节点和 Tail 节点提供了一个的前驱和后继节点，同时应该 <code>next</code> 或者 <code>prev</code> 为自身，可以一直 <code>-&gt;next</code> 或者 <code>-&gt;prev</code>，避免边界条件的问题。</p>
+<p>然后还能直接设计成回环，又省一个节点，tql</p>
+<p><a target="_blank" rel="noopener" href="https://cs61b-2.gitbook.io/cs61b-textbook-fall-2025/5.-dllists#improvement-8-sentinel-upgrade">sentinel-upgrade</a></p>
+<p><img src="https://joshhug.gitbooks.io/hug61b/content/chap2/fig23/dllist_double_sentinel_size_0.png" alt="图片取自 https://joshhug.gitbooks.io/hug61b/content/chap2/fig23/dllist_double_sentinel_size_0.png" /></p>
+<p><img src="/images/cs61b/dllist_circular_sentinel_size_2.png" alt="图片取自 https://joshhug.gitbooks.io/hug61b/content/chap2/fig23/dllist_circular_sentinel_size_2.png" /></p>
+<p>后续再补充，还学到了一些 trick，有待整理 TODO</p>
 
-            <li class="archive-article">
-  <div class="archive-article-date">
-    <span>
-      <time class="dt-published" datetime="2026-01-11T08:26:43.000Z" itemprop="datePublished">01-11</time>
-    </span>
-  </div>
-    <a class="archive-article-title" href="/2026/01/11/csapp/float/">CSAPP Float</a>
-</li>
+    </div>
+    <footer class="article-footer">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/CS61B/" rel="tag" title="CS61B">CS61B</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/learning-notes/" rel="tag" title="learning-notes">learning-notes</a></li></ul>
 
-          </section>
-        <section class="archives-wrap" data-aos="fade-up">
-          <div class="archive-year-wrap">
-            <a href="/archives/2025" class="archive-year">2025</a>
-          </div>
-          <ul>
-            <li class="archive-article">
-  <div class="archive-article-date">
-    <span>
-      <time class="dt-published" datetime="2025-12-24T16:26:46.000Z" itemprop="datePublished">12-25</time>
-    </span>
+    </footer>
   </div>
-    <a class="archive-article-title" href="/2025/12/25/gobang/">Gobang</a>
-</li>
+    <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+      <div class="article-nav-link-wrap left">
+          <img data-src="/images/CS61A_cover.png" data-sizes="auto" alt="CS61A Scheme" class="lazyload">
+        <a href="/2026/02/06/CS61A-Scheme/" aria-label="前一篇: CS61A Scheme" title="前一篇: CS61A Scheme"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">
+            CS61A Scheme
+        </h3>
+      </div>
+    <div class="article-nav-link-wrap right">
+        <img data-src="/images/csapp/data-alignment.png" data-sizes="auto" alt="CSAPP Data Alignment" class="lazyload">
+      <a href="/2026/01/16/csapp/data-alignment/" aria-label="后一篇: CSAPP Data Alignment"  title="后一篇: CSAPP Data Alignment"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+          CSAPP Data Alignment
+      </h3>
+    </div>
+  </nav>
 
-          </ul>
-        </section>
-  </div>
+</article>
+
 
 </section>
         </div>
@@ -329,7 +267,12 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
       </div>
       <nav id="mobile-nav" aria-label="Mobile navigation">
   <div class="sidebar-wrap">
-      <div class="sidebar-author">
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#sentinel-node"><span class="toc-number">1.</span> <span class="toc-text"> Sentinel Node</span></a></li></ol>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
   <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="z0z0r4" class="lazyload">
   <div class="sidebar-author-name">z0z0r4</div>
   <div class="sidebar-description"></div>
@@ -373,8 +316,12 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
         <div class="sidebar-menu-link">关于</div>
       </div>
 </div>
-
+</div>
   </div>
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
 </nav>
 
     </div>
@@ -422,6 +369,52 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
 
 <div id="lazy-script">
   <div>
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "z0z0r4",
+          title: "CS61B Note Collection",
+          url: "https://blog.z0z0r4.top/2026/01/18/CS61B-Note-Collection/",
+          excerpt: "",
+          description: "",
+          stripContent: " Sentinel Node 我觉得这个设计非常巧妙，学到了。 在链表的首位添加不记录 value 也不计入 size，对应 next 或者 prev 为自身的哨兵节点，只占位，为 Head 节点和 Tail 节点提供了一个的前驱和后继节点，同时应该 next 或者 prev 为自身，可以一直 -&amp;gt;next 或者 -&amp;gt;prev，避免边界条件的问题。 然后还能直接设计成回环，又省一个节点，tql sentinel-upgrade   后续再补充，还学到了一些 trick，有待整理 TO",
+          date: "Sun Jan 18 2026 12:46:04 GMT+0800",
+          updated: "Fri Feb 06 2026 07:42:54 GMT+0800",
+          cover: "/covers/gobang.png",
+        };
+      </script>
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+<script src="/js/tabs.js" data-pjax></script>
+
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+        
+
   </div>
 </div>
 
