@@ -174,20 +174,22 @@
     <div class="post-info">
       <div class="post-meta">
         <span><span class="icon-calendar"></span>2026-01-18</span>
-        <span><span class="icon-pencil"></span>138 字</span>
-        <span><span class="icon-clock"></span>1 分钟</span>
+        <span><span class="icon-pencil"></span>10.1k 字</span>
+        <span><span class="icon-clock"></span>46 分钟</span>
       </div>
       <h2 class="post-title">CS61B Note Collection</h2>
       <article class="post-article">
-           Sentinel Node
-我觉得这个设计非常巧妙，学到了。
-在链表的首位添加不记录 value 也不计入 size，对应 next 或者 prev 为自身的哨兵节点，只占位，为 Head 节点和 Tail 节点提供了一个的前驱和后继节点，同时应该 next 或者 prev 为自身，可以一直 -&amp;gt;next 或者 -&amp;gt;prev，避免边界条件的问题。
-然后还能直接设计成回环，又省一个节点，tql
-sentinel-upgrade
+          
+为什么我写起来感觉像 C++ 呢，可能是没具体写项目吧… 印象中 Java 很恶心啊
 
+ Project 0 2048
+在给出的框架上实现上下左右倾斜的函数，挺简单的，应该是实现了一份 O(n)O(n)O(n) 的版本。
+官方的逻辑 好像是分步骤的，先把所有非零元素挤到一边，然后再合并相邻的相同元素，最后再把非零元素挤到一边，逻辑更清晰吧，但我看的是 Hard Mode Project，就没跟着它思路走了。
 
-后续再补充，还学到了一些 trick，有待整理 TODO
-
+ Linked List
+ SLList
+单链表，只有 next 没有 prev，所以只能从头结点开始往后遍历，不能反向遍历。
+1234class Node &amp;#123;    int
       </article>
     </div>
   </div>
@@ -242,7 +244,7 @@ long lon
     <div class="post-info">
       <div class="post-meta">
         <span><span class="icon-calendar"></span>2026-01-15</span>
-        <span><span class="icon-pencil"></span>719 字</span>
+        <span><span class="icon-pencil"></span>762 字</span>
         <span><span class="icon-clock"></span>3 分钟</span>
       </div>
       <h2 class="post-title">PCLS Gallery</h2>
@@ -253,8 +255,8 @@ long lon
 发现备份的存档里面少了 world_nether，我也不知道为什么会当时没备份进来。
 出生点这块的几个 region mca 文件都丢失了 主世界仅留下 region 文件夹和 level.dat，同时随机丢失了大概一半的 region，7zip 报错文件末端错误，看来很可能是没压缩完就被中止了。
 更坏的消息是，这个备份是关服前被炸成稀巴烂的…可能原来有更之前的备份被我删了，也可能当时压根就没有没炸的备份…
-
-最近期末考完，清理无用的 QQ 收藏的时候，发现还有收藏了之前 PCLS 的图片，接着发现 PCLS 的存档归档里面还有一些当时
+2026-02-09 更新：
+Mr.yang 存了一份  6 月份的存档，虽然没有七月份的进度的。随之一起的还有一份一周目的存档 
       </article>
     </div>
   </div>
@@ -396,10 +398,10 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
       </div>
       <div>
         <span class="icon-brush"></span>
-        24.1k
+        34.1k
         &nbsp;|&nbsp;
         <span class="icon-coffee"></span>
-        01:58
+        02:43
       </div>
       <div class="footer-beian">
         <a target="_blank" rel="noopener nofollow noreferrer" href="https://beian.miit.gov.cn">粤ICP备2025511811号</a>
