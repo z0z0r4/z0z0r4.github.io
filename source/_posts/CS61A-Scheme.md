@@ -10,7 +10,7 @@ categories:
 - learning-notes
 - CS
 - CS61A
-cover:
+cover: images/CS61A_cover.png
 comments:
 copyright:
 sponsor:
@@ -26,6 +26,7 @@ sponsor:
 
 <details>
 <summary>Gemini 记录</summary>
+
 这个报错 **`argument 0 of car has wrong type (NoneType)`** 是最关键的线索。
 
 这更加证实了我刚才的判断：**你的 Scheme 代码逻辑是完全正确的，问题出在你用 Python 编写的解释器底层实现上（Specifically `do_cond_form`）**。
