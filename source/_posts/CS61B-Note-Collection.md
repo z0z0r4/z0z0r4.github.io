@@ -1345,8 +1345,295 @@ TODO: Double-Array Trie：[An Implementation of Double-Array Trie](https://linux
 
 ## Sorting
 
-TODO
+### Selection Sort
 
-## Compression
+选择排序通过遍历数组，取最大值/最小值放到数组的开头/结尾，重复这个过程直到排序完成。
 
-TODO
+这个过程的时间复杂度是 $O(n^2)$，因为每次选择最小值需要遍历整个数组。
+
+### Insert Sort
+
+插入排序不找出最大值/最小值，而是将每个元素插入到它之前已经排序好的部分中，直到整个数组排序完成。
+
+如果数组已经基本有序，那么插入排序的时间复杂度接近 $O(n)$，但在最坏情况下（例如逆序），时间复杂度仍然是 $O(n^2)$。
+
+查找插入位置可以使用二分查找来优化，但由于插入操作需要移动元素，整体时间复杂度仍然是 $O(n^2)$。
+
+### Heap Sort
+
+由于堆可以从根获取到堆的最大值或者最小值，因此可以按从堆中取出的顺序来排序。
+
+但这样直接处理会占用额外的空间，因此参考 [In-place HeapSort](https://docs.google.com/presentation/d/1SzcQC48OB9agStD0dFRgccU-tyjD6m3esrSC-GLxmNc/edit?usp=sharing) 可以直接在数组原地操作，自下而上、从后向前地从每个叶子节点开始构建一个堆，然后在上层将左右堆合并，最后堆化整个数组。然后将堆顶元素与数组末尾元素交换，重新调整堆，直到堆的大小为 1。
+
+时间复杂度为 $O(n \log n)$。
+
+### Merge Sort
+
+合并两个未排序的数组很难，但合并两个数组是容易的，时间复杂度为 $O(n)$，因此通过不断合并数组的两个部分得到整个有序数组。
+
+具体来说，将数组递归的细分为一个个单独的元素，单独的元素是有序的，然后假设有两个有序数组，合并的过程如下：
+
+1. 先准备双指针，分别指向两个数组的开头，比较指针指向的元素，较小的元素放入结果数组中，并将对应的指针向后移动一位。
+
+2. 重复这个过程，直到其中一个数组的指针到达末尾，此时将另一个数组剩余的元素全部放入结果数组中。
+
+对于长度为 $2^n$ 的数组，首先需要从长度为 $2^{n-1}$ 的两个数组合并，比较 $2^{n-1}$ 次；然后从长度为 $2^{n-2}$ 的四个数组合并，比较 $4 \cdot 2^{n-2} = 2^{n-1}$ 次；以此类推，直到从长度为 1 的 $2^n$ 个数组合并，比较 $2^n$ 次。
+
+<detial><summary>Python 示例</summary>
+```python
+
+def mergesort(src: list, low, high):
+    if high - low <= 0:
+        return
+
+    mid = (low + high) // 2
+    i, j = low, mid + 1
+    tmp = []
+
+    mergesort(src, low, mid)
+    mergesort(src, mid + 1, high)
+
+    while i <= mid and j <= high:
+        if src[i] <= src[j]:
+            tmp.append(src[i])
+            i += 1
+        else:
+            tmp.append(src[j])
+            j += 1
+
+    tmp.extend(src[j : high + 1])
+    tmp.extend(src[i : mid + 1])
+
+    src[low : high + 1] = tmp
+```
+</detial>
+
+## Quick Sort
+
+与 Merge Sort 类似，Quick Sort 也是分治法的一种，但它不是将数组分成两半，而是选择一个基准值（pivot），将数组分成两部分，一部分小于等于基准值，另一部分大于基准值，然后递归地对这两部分进行排序。
+
+在具体实现中，如何分区，有两种常见的方法：
+
+- Lomuto 分区：
+    用一个指针 `i` 指向小于等于 `pivot` 的最后一个元素的位置，另一个指针 `j` 遍历数组，当 `arr[j]` 小于等于 `pivot` 时，将 `i` 向后移动一位，然后交换 `arr[i]` 和 `arr[j]` 的位置，最后将基准值放到 `i + 1` 的位置。
+
+    <detial><summary>Python 示例</summary>
+    ```python
+    def quicksort(src: list, low: int, high: int):
+    if low >= high:
+        return
+    pivot = arr[low]
+
+    i = low
+
+    for j in range(low + 1, high + 1):
+        if arr[j] <= pivot:
+            arr[i+1], arr[j] = arr[j], arr[i+1]
+            i+=1
+
+    arr[i], arr[low] = arr[low], arr[i]
+    quicksort(arr, low, i - 1)
+    quicksort(arr, i + 1, high)
+    ```
+    </detial>
+
+- Hoare 分区：
+    用两个指针 `i` 和 `j` 分别从数组的两端向中间移动，`i` 向右移动直到找到一个大于等于 `pivot` 的元素，`j` 向左移动直到找到一个小于等于 `pivot` 的元素，然后交换 `arr[i]` 和 `arr[j]` 的位置，直到 `i` 和 `j` 相遇。
+
+    <detial><summary>Python 示例</summary>
+    ```python
+    def quicksort(arr: list, low: int, high: int):
+    if low >= high:
+        return
+    pivot = arr[low]
+
+    i, j = low, high
+
+    while True:
+        while i <= j and arr[i] <= pivot:
+            i += 1
+        while i <= j and arr[j] >= pivot:
+            j -= 1
+
+        if i < j:
+            arr[i], arr[j] = arr[j], arr[j]
+        else:
+            break
+
+    arr[j], arr[low] = arr[low], arr[j]
+    
+    quicksort(arr, low, j - 1)
+    quicksort(arr, j + 1, high)
+    ```
+    </detial>
+
+以上我们总是由于没有空位，只能在两侧找到可以互换的元素后，才调换位置。假如 `pivot` 所在可以空出来，由于它在左侧，可以把右侧的元素 `large1` 放上去，这样会有右侧会有多余的 `large1`，同样可以视为空位，继续把左侧的元素 `small1` 放到右侧，这样左侧又有了空位，继续把右侧的元素 `large2` 放上去，如此循环，直到左右指针相遇，此时将 `pivot` 放到相遇的位置上即可。
+
+```python
+def quicksort(src: list, low: int, high: int):
+    if low >= high:
+        return
+    pivot = src[low]
+
+    i, j = low, high
+
+    while i < j:
+        while i < j and src[j] >= pivot:
+            j -= 1
+        src[i] = src[j]
+        while i < j and src[i] < pivot:
+            i += 1
+        src[j] = src[i]
+    src[i] = pivot
+    
+    quicksort(src, low, i - 1)
+    quicksort(src, i + 1, high)
+```
+
+基准的选择直接决定效率，若选中的基准总是最大值或最小值，每次只能分为基准本身和其他元素，那么时间复杂度退化为 $O(n^2)$，因此通常会随机选择基准值，或者选择中位数作为基准值。
+
+三数取中法（Median-of-Three）是一种选择基准值的方法，选择数组的第一个元素、最后一个元素和中间元素的中位数作为基准值。
+
+> 可以和 `low` 位置的元素交换一下。
+
+## Timsort
+
+Timsort 是一种混合排序算法，结合了插入排序和归并排序的优点，尤其适用于部分有序的数据。
+
+### Run Detection
+
+Run 是一个连续的子数组，满足以下条件之一：
+- 递增：$arr[i] \le arr[i + 1]$
+- 递减：$arr[i] \gt arr[i + 1]$
+
+归并排序没法利用部分有序的特性，在这里会先扫描出 run，若长度不足则使用插入排序将其扩展到最小长度 `minrun`，若严格递减则先反转成递增（注意是严格递减，为了保持稳定性），最后将 run 的起始位置和长度存储到一个栈中。
+
+显然 $minrun$ 的选择直接影响归并树的平衡程度，应该让 $N / minrun$ 的结果等于 2 的幂（或者略小于），这样在归并时这棵树才会是完全平衡的。
+
+如果 $N=2112$，取 $minrun=32$ 会产生 66 个 Run，导致最后一次合并极度不平衡（2048 个元素合并 64 个元素）；而取 $minrun=33$ 产生 64 个 Run 则完美平衡。
+
+具体见 [Minimum_run_size](https://en.wikipedia.org/wiki/Timsort#Minimum_run_size)
+
+### Merge Run
+
+有了 run 之后就可以使用归并排序的方式来合并这些 run 了，但实际上 TimSort 并没有在最后合并全部 run，而是在每次添加一个 run 之后就检查栈顶的 run 是否满足合并条件，如果满足就立即合并：
+
+- $X > Y + Z$
+- $Y > Z$
+
+合并两个 run 的时间复杂度是 $O(N + M)$，其中 $N$ 和 $M$ 分别是两个 run 的长度，空间复杂度是 $O(N)$，其中 $N$ 是经过二分查找缩减后的待合并部分的长度，见下文 [Smaller Merge Interval](#smaller-merge-interval)。
+
+固定 $minrun$ 产生的 run 的数量和长度是固定的，但合并的顺序并不是。
+
+尽可能让长度相似的 run 合并，可以减少合并的总时间复杂度。
+
+以上两个规则，类似于斐波那契数列，由于 $X > Y + Z$，Timsort 的序列长度增长比斐波那契数列还要快。
+
+已知斐波那契数列的增长是指数级的：$$F_n \approx \frac{\phi^n}{\sqrt{5}} \quad (\text{其中 } \phi \approx 1.618)$$
+
+由于序列总长度 $N$ 是有限的，而栈中每个元素都呈指数级增长，那么栈的最大深度 $d$ 满足：$$\phi^d \le N \implies d \le \log_{\phi}(N)$$
+
+Tips: 实际上条件约束是不够的，参见 [CPython #67703](https://github.com/python/cpython/issues/67703) 和 [proving-android-java-and-python-sorting-algorithm-is-broken-and-how-to-fix-it](http://envisage-project.eu/proving-android-java-and-python-sorting-algorithm-is-broken-and-how-to-fix-it) ([Web Archive](https://web.archive.org/web/20240419150557/http://envisage-project.eu/proving-android-java-and-python-sorting-algorithm-is-broken-and-how-to-fix-it/))，Python 已经将合并策略切换到 TimSort 的改进 [Powersort](https://en.wikipedia.org/wiki/Powersort) 了
+
+#### Merge Space Overhead
+
+原始的归并排序实现不是原地排序，并且它有 $N+M$ 的空间开销。有原地归并排序实现，但时间开销很高。为了达到一个中间值，Timsort 的方法具有较小的时间开销和比 N 更小的空间开销。
+
+对于两个相邻的 run 来说，将其中较短的 run 备份一份到临时数组中，然后开始比较，较小的元素放回原数组中，直到其中一个 run 的元素全部放回原数组中，此时另一个 run 的剩余元素已经在正确的位置上，或者可以直接将剩余元素放回原数组中。
+
+具体来说，数组上的分布是 
+
+```
+[... A ... B ...]
+```
+
+如果 `len(A) <= len(B)`，那么 `tmp = A.copy()`
+
+那么假设 A 有剩余，则
+
+```
+[... A' + B ... empty ...]
+```
+
+将 A' 中的元素逐个放回原数组中，直到 A' 中的元素全部放回原数组中。
+
+```
+[... A' + B ... A - A' ...]
+```
+
+假设 B 有剩余，则
+
+```
+[... A + B' ... B - B'...]
+```
+
+此时 B - B' 中的元素已经在正确的位置上了，不需要再移动了。
+
+若 `len(A) > len(B)`，则 `tmp = B.copy()`，然后反过来从右往左塞入，同理可得。
+
+#### Smaller Merge Interval
+
+假设 A 为 `[1, 2, 3, 4, 5, 7]`，B 为 `[3, 4, 6, 8, 9, 10]`，很显然不需要完整的合并 A 和 B，只需考虑 A 中大于 B 中最小元素的部分和 B 中小于 A 中最大元素的部分即可，即 A 中大于 3 的部分和 B 中小于 7 的部分，剩下的部分已经在正确的位置上了。
+
+因此，我们找到 `B[0]` 在 A 中的插入位置 `i`，以及 `A[-1]` 在 B 中的插入位置 `j`，具体上会二分查找。
+
+#### Galloping Mode
+
+对于无序数组的合并，确实需要逐个比较，但对于部分有序数据，可以利用单调性跳过大块元素。
+
+例如 A 中元素为 `[_ for _ in range(1000)]`，B 中元素为 `[500, 501, 502, 503, 504]`，在 `i, j = 0, 0` 的情况下，如果逐个递增，需要比较 500 次才能找到 A 中第一个大于 B 中最小元素的元素，但如果每次比较后都将 `i` 加倍，那么很快就可以找到了。
+
+假设正在合并 A、B 两个 Run。如果连续从 A 中取走了多个元素（默认超过 `MIN_GALLOP` 个，默认为 7），说明 A 的整体水平可能远小于 B。
+
+此时进入 Galloping Mode：
+
+1. 指数搜索：不再逐个比较 A[i] 和 B[j]，而是拿 B[j] 作为目标值，在 A 的剩余部分中进行“飞跃”查找。检查索引为 $i + 2^0, i + 2^1, i + 2^2, \dots, i + 2^k - 1$ 的元素，直到找到第一个大于 B[j] 的位置。
+
+2. 确定范围：将 B[j] 的插入位置锁定在一个区间内：$[i + 2^{k-1}-1, i + 2^k - 1)$。
+
+3. 二分查找：在该区间内使用二分查找精确定位。找到后，可以将 A 中该位置之前的一整块元素批量移动到合并区域。
+
+对于随机数据，飞跃模式可能会多出几次比较开销。因此 Timsort 会动态调整 `MIN_GALLOP` 阈值：若飞跃成功则减小阈值，使其更容易触发；若飞跃后发现跳过的元素很少，则增加阈值，甚至使其趋向无限大以关闭该模式。
+
+CPython 有关于 TimSort 的源码可以参考 [listobject.c](https://github.com/python/cpython/blob/main/Objects/listobject.c) 以及实现细节 [Original Explanation by Tim Peters](https://github.com/python/cpython/blob/main/Objects/listsort.txt)
+
+---
+
+我自己拙劣[实现了一份 Timsort](https://gist.github.com/z0z0r4/f45d95520091d5e8a82877a92e8b5083)，之后 Benchmark 如下，依据是比较次数
+
+- **\*sort (Random)**：随机数据
+
+- **\\sort (Descending)**：降序数据
+
+- **/sort (Ascending)**：升序数据
+
+- **3sort (3 exchanges)**：升序 + 3次随机交换
+
+- **+sort (Tail random)**：升序 + 尾部 10 个随机数
+
+- **%sort (1% replacement)**：升序 + 1% 随机替换
+
+- **~sort (Many duplicates)**：多重复值数据（仅 4 种唯一值）
+
+- **=sort (All equal)**：全等数据
+
+- **!sort (Mixed/Shuffle)**：随机打乱数据
+
+|  | Algorithm | *sort | \sort | /sort | +sort | ~sort | =sort | %sort | 3sort | !sort |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **512** | **My Timsort** | 4150 (**104.4%**) | 512 (**100.2%**) | 512 (**100.2%**) | 648 (**98.3%**) | 3125 (**112.8%**) | 512 (**100.2%**) | 735 (**112.0%**) | 783 (**108.7%**) | 4150 (**104.7%**) |
+|  | **Built-in** | 3976 | 511 | 511 | 659 | 2771 | 511 | 656 | 720 | 3965 |
+|  | **QuickSort** | 6934 | 5120 | 5119 | 5859 | 5815 | 5630 | 5359 | 5119 | 6814 |
+|  | **MergeSort** | 3984 | 2304 | 2304 | 2354 | 3660 | 2304 | 2514 | 2739 | 3971 |
+| **1024** | **My Timsort** | 9299 (**103.5%**) | 1024 (**100.1%**) | 1024 (**100.1%**) | 1192 (**101.6%**) | 6282 (**112.8%**) | 1024 (**100.1%**) | 1613 (**109.8%**) | 1328 (**104.1%**) | 9331 (**104.3%**) |
+|  | **Built-in** | 8983 | 1023 | 1023 | 1173 | 5571 | 1023 | 1469 | 1276 | 8944 |
+|  | **QuickSort** | 13868 | 11264 | 11263 | 12923 | 12474 | 12286 | 12288 | 11263 | 15160 |
+|  | **MergeSort** | 8978 | 5120 | 5120 | 5173 | 8215 | 5120 | 6344 | 5817 | 8938 |
+| **2048** | **My Timsort** | 20714 (**103.9%**) | 2048 (**100.0%**) | 2048 (**100.0%**) | 2236 (**100.5%**) | 12765 (**113.2%**) | 2048 (**100.0%**) | 3164 (**108.5%**) | 2369 (**106.9%**) | 20705 (**103.7%**) |
+|  | **Built-in** | 19938 | 2047 | 2047 | 2224 | 11272 | 2047 | 2917 | 2217 | 19958 |
+|  | **QuickSort** | 33714 | 24576 | 24575 | 27055 | 27055 | 26622 | 26517 | 24575 | 32692 |
+|  | **MergeSort** | 19930 | 11264 | 11264 | 11329 | 18268 | 11264 | 14757 | 12265 | 19932 |
+| **4096** | **My Timsort** | 45570 (**103.5%**) | 4096 (**100.0%**) | 4096 (**100.0%**) | 4292 (**100.1%**) | 25931 (**114.2%**) | 4096 (**100.0%**) | 6746 (**110.7%**) | 4454 (**103.3%**) | 45473 (**103.2%**) |
+|  | **Built-in** | 44013 | 4095 | 4095 | 4289 | 22702 | 4095 | 6092 | 4313 | 44054 |
+|  | **QuickSort** | 73575 | 53248 | 53247 | 59877 | 57008 | 57342 | 58079 | 53247 | 66931 |
+|  | **MergeSort** | 44025 | 24576 | 24576 | 24655 | 40277 | 24576 | 33407 | 28483 | 43985 |
