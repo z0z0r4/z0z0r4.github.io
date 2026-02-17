@@ -5,12 +5,12 @@ mermaid: false
 draft: true
 date: 2026-01-18 12:46:04
 tags:
-- learning-notes
-- CS61B
+  - learning-notes
+  - CS61B
 categories:
-- learning-notes
-- CS
-- CS61B
+  - learning-notes
+  - CS
+  - CS61B
 cover: covers/gobang.png
 comments:
 copyright:
@@ -18,7 +18,6 @@ sponsor:
 ---
 
 > 为什么我写起来感觉像 C++ 呢，可能是没具体写项目吧... ~~印象中 Java 很恶心啊~~
-
 
 ## Project 0 2048
 
@@ -53,7 +52,6 @@ class Node {
 }
 ```
 
-
 ### Sentinel Node
 
 我觉得这个设计非常巧妙，学到了。
@@ -66,7 +64,6 @@ class Node {
 
 ![图片取自 https://joshhug.gitbooks.io/hug61b/content/chap2/fig23/dllist_double_sentinel_size_0.png](https://joshhug.gitbooks.io/hug61b/content/chap2/fig23/dllist_double_sentinel_size_0.png)
 
-
 ![图片取自 https://joshhug.gitbooks.io/hug61b/content/chap2/fig23/dllist_circular_sentinel_size_2.png](/images/cs61b/dllist_circular_sentinel_size_2.png)
 
 ## Array
@@ -75,13 +72,13 @@ Java 里面的数组和其他的差不多，不再赘述，这里附上 [CS61B �
 
 > Compared to arrays in other languages, Java arrays:
 > 对比其他语言的数组，Java 数组：
-> 
+>
 > Have no special syntax for "slicing" (such as in Python).
 > 没有切片的特殊语法（比如 Python）。
-> 
+>
 > Cannot be shrunk or expanded (such as in Ruby).
 > 没有缩小或扩展的能力（比如 Ruby）。
-> 
+>
 > Do not have member methods (such as in Javascript).
 > 没有成员方法（比如 Javascript）。
 > Must contain values only of the same type (unlike Python).
@@ -118,33 +115,35 @@ func nextslicecap(newLen, oldCap int) int {
 		return newLen
 	}
 
-	const threshold = 256
-	if oldCap < threshold {
-		return doublecap
-	}
-	for {
-		// Transition from growing 2x for small slices
-		// to growing 1.25x for large slices. This formula
-		// gives a smooth-ish transition between the two.
-		newcap += (newcap + 3*threshold) >> 2
+    const threshold = 256
+    if oldCap < threshold {
+    	return doublecap
+    }
+    for {
+    	// Transition from growing 2x for small slices
+    	// to growing 1.25x for large slices. This formula
+    	// gives a smooth-ish transition between the two.
+    	newcap += (newcap + 3*threshold) >> 2
 
-		// We need to check `newcap >= newLen` and whether `newcap` overflowed.
-		// newLen is guaranteed to be larger than zero, hence
-		// when newcap overflows then `uint(newcap) > uint(newLen)`.
-		// This allows to check for both with the same comparison.
-		if uint(newcap) >= uint(newLen) {
-			break
-		}
-	}
+    	// We need to check `newcap >= newLen` and whether `newcap` overflowed.
+    	// newLen is guaranteed to be larger than zero, hence
+    	// when newcap overflows then `uint(newcap) > uint(newLen)`.
+    	// This allows to check for both with the same comparison.
+    	if uint(newcap) >= uint(newLen) {
+    		break
+    	}
+    }
 
-	// Set newcap to the requested cap when
-	// the newcap calculation overflowed.
-	if newcap <= 0 {
-		return newLen
-	}
-	return newcap
+    // Set newcap to the requested cap when
+    // the newcap calculation overflowed.
+    if newcap <= 0 {
+    	return newLen
+    }
+    return newcap
+
 }
-```
+
+````
 </details>
 
 ---
@@ -267,7 +266,8 @@ list_resize(PyListObject *self, Py_ssize_t newsize)
 #endif
     return 0;
 }
-```
+````
+
 </details>
 
 ---
@@ -455,6 +455,7 @@ const impl<A: [const] Allocator + [const] Destruct> RawVecInner<A> {
     }
 }
 ```
+
 </details>
 
 ## Disjoint Sets
@@ -500,6 +501,7 @@ Qucik Find 的思路是修改所有 id_a，是扁平的。
 ```
 
 而不是
+
 ```
         3
        / \
@@ -510,12 +512,11 @@ Qucik Find 的思路是修改所有 id_a，是扁平的。
               6
 ```
 
-
 ### Path Compression
 
 在 `isConnected(a, b)` 操作中，找到 a 和 b 的根节点的过程中，必须遍历整个路径。在遍历到根节点后，将路径上的所有节点直接连接到根节点，这样可以进一步降低树的高度，时间复杂度为 $O(\alpha(N))$，在长期行为上接近常数。
 
-## BST 二叉搜索树
+## Binary Search Tree (BST)
 
 BST 是一种特殊的二叉树，满足以下性质：
 
@@ -653,7 +654,7 @@ private Node rotateLeft(Node root) {
 
 ```
     2   add(R4)    2  rotateLeft(3)    2
-   / \    ->      / \     ->          / \    
+   / \    ->      / \     ->          / \
   1   3          1   3               1   R4
                       \                 /
                       R4               3
@@ -670,7 +671,7 @@ private Node rotateLeft(Node root) {
        /                 /                     / \                  / \
       R4                R4                    R3  R5               3   5
                        /
-                      R3 
+                      R3
 ```
 
 #### Case 3 两个红子节点（4-node）
@@ -808,7 +809,7 @@ Python 的 `dict` 将哈希表分为两个数组，一个是 `indices` 数组，
 
 2. `i = (i * 5 + perturb + 1) & mask;` (计算下一个索引位置)
 
-其中通过 `perturb` 来减少聚集现象，即相同低位哈希值的元素聚集在一起，导致冲突频发，利用了哈希值的高位比特来引入随机性。 
+其中通过 `perturb` 来减少聚集现象，即相同低位哈希值的元素聚集在一起，导致冲突频发，利用了哈希值的高位比特来引入随机性。
 
 ```c
 /* Internal function to find slot for an item from its hash
@@ -873,13 +874,13 @@ find_empty_slot(PyDictKeysObject *keys, Py_hash_t hash)
 <details>
 <summary>粗略计算</summary>
 
-首先假设节点为的索引为 $i$，则该层之前有 $2^n - 1$ 个节点，其中 $n$ 是该层的层数（从 0 开始），其在该层的偏移量从 0 开始是 $k$，因此 
+首先假设节点为的索引为 $i$，则该层之前有 $2^n - 1$ 个节点，其中 $n$ 是该层的层数（从 0 开始），其在该层的偏移量从 0 开始是 $k$，因此
 
 $$i = 2^n - 1 + k$$
 
 $$k = i - 2^n + 1$$
 
-父节点的层数为 $n - 1$，父节点在该层的偏移量为 $k / 2$（向下取整），因此父节点的索引为 
+父节点的层数为 $n - 1$，父节点在该层的偏移量为 $k / 2$（向下取整），因此父节点的索引为
 
 $$i_p =  2^{n-1} - 1 + k_p = 2^{n-1} - 1 + k / 2$$
 
@@ -903,7 +904,7 @@ $$ i_p = (i - 1) / 2$$
 
 最大堆只需要将上浮和下沉操作中的比较条件改为大于即可。
 
-## Traversals 
+## Traversals
 
 树的遍历有四种形式：
 
@@ -922,7 +923,7 @@ $$ i_p = (i - 1) / 2$$
        /   \
       2     3
      / \   / \
-    4   5 6   7 
+    4   5 6   7
 ```
 
 ### 前序遍历
@@ -1178,7 +1179,6 @@ class CSRGraph {
 
 邻接表在稀疏图中更高效，而邻接矩阵在稠密图中更高效，但实际上测试发现几乎没有差别，可能全存到缓存里面了。
 
-
 ### Graph Traversal
 
 图的遍历有两种常见的方法：
@@ -1259,11 +1259,11 @@ class BFSHelper {
 
 实现方法是维护一个优先队列，存储已知道路长度和对应的节点，每次从优先队列中取出总路径最短的节点，更新其相邻节点的路径长度，将其加入优先队列。
 
-### A* Algorithm
+### A\* Algorithm
 
 Dijkstra's Algorithm 是一种贪心算法，每次选择当前已知路径最短的节点进行扩展，但这意味着最坏情况下，会探索完所有小于等于目标节点的无用路径，会变成一个圆形的探索范围，效率太低。
 
-A* 算法在 Dijkstra's Algorithm 的基础上引入了启发式函数（heuristic function），通过估计从当前节点到目标节点的距离 $E$，将 $E + D$ 作为优先队列的排序依据，其中 $D$ 是从起点到当前节点的实际距离，这样可以利用已知全局信息引导搜索。
+A\* 算法在 Dijkstra's Algorithm 的基础上引入了启发式函数（heuristic function），通过估计从当前节点到目标节点的距离 $E$，将 $E + D$ 作为优先队列的排序依据，其中 $D$ 是从起点到当前节点的实际距离，这样可以利用已知全局信息引导搜索。
 
 这取决于启发式函数的设计，CS61B 有两点要求：
 
@@ -1275,7 +1275,7 @@ A* 算法在 Dijkstra's Algorithm 的基础上引入了启发式函数（heurist
 
 一致性比可接纳性更严格，因为两点之间直线最短，如果每一次实际走过的路程都不比估计的路程更短，那么从起点到目标点的实际路程也不会比估计的路程更短，因此一致性包含可接纳性。
 
-由于每次走最短的，假设  $ L_1 > L_2 $ 为实际全长，$ l_1$ 和 $ l_2 $ 为已知长度，因为 $ h_1 \le L_1 - l_1 $ 和 $ h_2 \le L_2 - l_2 $，所以在 $L_2$ 走完之前最后必有 $ l_1 + h_1 \le L_1 \le l_2 + h_2 = L_2 $，此时 $ l_2 = L_2， h_2 = 0$，可靠。
+由于每次走最短的，假设 $ L_1 > L_2 $ 为实际全长，$ l_1$ 和 $ l_2 $ 为已知长度，因为 $ h_1 \le L_1 - l_1 $ 和 $ h_2 \le L_2 - l_2 $，所以在 $L_2$ 走完之前最后必有 $ l_1 + h_1 \le L_1 \le l_2 + h_2 = L_2 $，此时 $ l_2 = L_2， h_2 = 0$，可靠。
 
 ## Minimum Spanning Trees (MST)
 
@@ -1380,6 +1380,7 @@ TODO: Double-Array Trie：[An Implementation of Double-Array Trie](https://linux
 对于长度为 $2^n$ 的数组，首先需要从长度为 $2^{n-1}$ 的两个数组合并，比较 $2^{n-1}$ 次；然后从长度为 $2^{n-2}$ 的四个数组合并，比较 $4 \cdot 2^{n-2} = 2^{n-1}$ 次；以此类推，直到从长度为 1 的 $2^n$ 个数组合并，比较 $2^n$ 次。
 
 <detial><summary>Python 示例</summary>
+
 ```python
 
 def mergesort(src: list, low, high):
@@ -1406,65 +1407,70 @@ def mergesort(src: list, low, high):
 
     src[low : high + 1] = tmp
 ```
+
 </detial>
 
-## Quick Sort
+### Quick Sort
 
 与 Merge Sort 类似，Quick Sort 也是分治法的一种，但它不是将数组分成两半，而是选择一个基准值（pivot），将数组分成两部分，一部分小于等于基准值，另一部分大于基准值，然后递归地对这两部分进行排序。
 
 在具体实现中，如何分区，有两种常见的方法：
 
 - Lomuto 分区：
-    用一个指针 `i` 指向小于等于 `pivot` 的最后一个元素的位置，另一个指针 `j` 遍历数组，当 `arr[j]` 小于等于 `pivot` 时，将 `i` 向后移动一位，然后交换 `arr[i]` 和 `arr[j]` 的位置，最后将基准值放到 `i + 1` 的位置。
+  用一个指针 `i` 指向小于等于 `pivot` 的最后一个元素的位置，另一个指针 `j` 遍历数组，当 `arr[j]` 小于等于 `pivot` 时，将 `i` 向后移动一位，然后交换 `arr[i]` 和 `arr[j]` 的位置，最后将基准值放到 `i + 1` 的位置。
 
-    <detial><summary>Python 示例</summary>
-    ```python
-    def quicksort(src: list, low: int, high: int):
-    if low >= high:
-        return
-    pivot = arr[low]
+  <detial><summary>Python 示例</summary>
 
-    i = low
+  ```python
+  def quicksort(src: list, low: int, high: int):
+  if low >= high:
+      return
+  pivot = arr[low]
 
-    for j in range(low + 1, high + 1):
-        if arr[j] <= pivot:
-            arr[i+1], arr[j] = arr[j], arr[i+1]
-            i+=1
+  i = low
 
-    arr[i], arr[low] = arr[low], arr[i]
-    quicksort(arr, low, i - 1)
-    quicksort(arr, i + 1, high)
-    ```
+  for j in range(low + 1, high + 1):
+      if arr[j] <= pivot:
+          arr[i+1], arr[j] = arr[j], arr[i+1]
+          i+=1
+
+  arr[i], arr[low] = arr[low], arr[i]
+  quicksort(arr, low, i - 1)
+  quicksort(arr, i + 1, high)
+  ```
+
     </detial>
 
 - Hoare 分区：
-    用两个指针 `i` 和 `j` 分别从数组的两端向中间移动，`i` 向右移动直到找到一个大于等于 `pivot` 的元素，`j` 向左移动直到找到一个小于等于 `pivot` 的元素，然后交换 `arr[i]` 和 `arr[j]` 的位置，直到 `i` 和 `j` 相遇。
+  用两个指针 `i` 和 `j` 分别从数组的两端向中间移动，`i` 向右移动直到找到一个大于等于 `pivot` 的元素，`j` 向左移动直到找到一个小于等于 `pivot` 的元素，然后交换 `arr[i]` 和 `arr[j]` 的位置，直到 `i` 和 `j` 相遇。
 
-    <detial><summary>Python 示例</summary>
-    ```python
-    def quicksort(arr: list, low: int, high: int):
-    if low >= high:
-        return
-    pivot = arr[low]
+  <detial><summary>Python 示例</summary>
 
-    i, j = low, high
+  ```python
+  def quicksort(arr: list, low: int, high: int):
+  if low >= high:
+      return
+  pivot = arr[low]
 
-    while True:
-        while i <= j and arr[i] <= pivot:
-            i += 1
-        while i <= j and arr[j] >= pivot:
-            j -= 1
+  i, j = low, high
 
-        if i < j:
-            arr[i], arr[j] = arr[j], arr[j]
-        else:
-            break
+  while True:
+      while i <= j and arr[i] <= pivot:
+          i += 1
+      while i <= j and arr[j] >= pivot:
+          j -= 1
 
-    arr[j], arr[low] = arr[low], arr[j]
-    
-    quicksort(arr, low, j - 1)
-    quicksort(arr, j + 1, high)
-    ```
+      if i < j:
+          arr[i], arr[j] = arr[j], arr[j]
+      else:
+          break
+
+  arr[j], arr[low] = arr[low], arr[j]
+
+  quicksort(arr, low, j - 1)
+  quicksort(arr, j + 1, high)
+  ```
+
     </detial>
 
 以上我们总是由于没有空位，只能在两侧找到可以互换的元素后，才调换位置。假如 `pivot` 所在可以空出来，由于它在左侧，可以把右侧的元素 `large1` 放上去，这样会有右侧会有多余的 `large1`，同样可以视为空位，继续把左侧的元素 `small1` 放到右侧，这样左侧又有了空位，继续把右侧的元素 `large2` 放上去，如此循环，直到左右指针相遇，此时将 `pivot` 放到相遇的位置上即可。
@@ -1485,7 +1491,7 @@ def quicksort(src: list, low: int, high: int):
             i += 1
         src[j] = src[i]
     src[i] = pivot
-    
+
     quicksort(src, low, i - 1)
     quicksort(src, i + 1, high)
 ```
@@ -1496,13 +1502,14 @@ def quicksort(src: list, low: int, high: int):
 
 > 可以和 `low` 位置的元素交换一下。
 
-## Timsort
+### Timsort
 
 Timsort 是一种混合排序算法，结合了插入排序和归并排序的优点，尤其适用于部分有序的数据。
 
 ### Run Detection
 
 Run 是一个连续的子数组，满足以下条件之一：
+
 - 递增：$arr[i] \le arr[i + 1]$
 - 递减：$arr[i] \gt arr[i + 1]$
 
@@ -1541,7 +1548,7 @@ Tips: 实际上条件约束是不够的，参见 [CPython #67703](https://github
 
 对于两个相邻的 run 来说，将其中较短的 run 备份一份到临时数组中，然后开始比较，较小的元素放回原数组中，直到其中一个 run 的元素全部放回原数组中，此时另一个 run 的剩余元素已经在正确的位置上，或者可以直接将剩余元素放回原数组中。
 
-具体来说，数组上的分布是 
+具体来说，数组上的分布是
 
 ```
 [... A ... B ...]
@@ -1619,21 +1626,233 @@ CPython 有关于 TimSort 的源码可以参考 [listobject.c](https://github.co
 
 - **!sort (Mixed/Shuffle)**：随机打乱数据
 
-|  | Algorithm | *sort | \sort | /sort | +sort | ~sort | =sort | %sort | 3sort | !sort |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| **512** | **My Timsort** | 4150 (**104.4%**) | 512 (**100.2%**) | 512 (**100.2%**) | 648 (**98.3%**) | 3125 (**112.8%**) | 512 (**100.2%**) | 735 (**112.0%**) | 783 (**108.7%**) | 4150 (**104.7%**) |
-|  | **Built-in** | 3976 | 511 | 511 | 659 | 2771 | 511 | 656 | 720 | 3965 |
-|  | **QuickSort** | 6934 | 5120 | 5119 | 5859 | 5815 | 5630 | 5359 | 5119 | 6814 |
-|  | **MergeSort** | 3984 | 2304 | 2304 | 2354 | 3660 | 2304 | 2514 | 2739 | 3971 |
-| **1024** | **My Timsort** | 9299 (**103.5%**) | 1024 (**100.1%**) | 1024 (**100.1%**) | 1192 (**101.6%**) | 6282 (**112.8%**) | 1024 (**100.1%**) | 1613 (**109.8%**) | 1328 (**104.1%**) | 9331 (**104.3%**) |
-|  | **Built-in** | 8983 | 1023 | 1023 | 1173 | 5571 | 1023 | 1469 | 1276 | 8944 |
-|  | **QuickSort** | 13868 | 11264 | 11263 | 12923 | 12474 | 12286 | 12288 | 11263 | 15160 |
-|  | **MergeSort** | 8978 | 5120 | 5120 | 5173 | 8215 | 5120 | 6344 | 5817 | 8938 |
-| **2048** | **My Timsort** | 20714 (**103.9%**) | 2048 (**100.0%**) | 2048 (**100.0%**) | 2236 (**100.5%**) | 12765 (**113.2%**) | 2048 (**100.0%**) | 3164 (**108.5%**) | 2369 (**106.9%**) | 20705 (**103.7%**) |
-|  | **Built-in** | 19938 | 2047 | 2047 | 2224 | 11272 | 2047 | 2917 | 2217 | 19958 |
-|  | **QuickSort** | 33714 | 24576 | 24575 | 27055 | 27055 | 26622 | 26517 | 24575 | 32692 |
-|  | **MergeSort** | 19930 | 11264 | 11264 | 11329 | 18268 | 11264 | 14757 | 12265 | 19932 |
-| **4096** | **My Timsort** | 45570 (**103.5%**) | 4096 (**100.0%**) | 4096 (**100.0%**) | 4292 (**100.1%**) | 25931 (**114.2%**) | 4096 (**100.0%**) | 6746 (**110.7%**) | 4454 (**103.3%**) | 45473 (**103.2%**) |
-|  | **Built-in** | 44013 | 4095 | 4095 | 4289 | 22702 | 4095 | 6092 | 4313 | 44054 |
-|  | **QuickSort** | 73575 | 53248 | 53247 | 59877 | 57008 | 57342 | 58079 | 53247 | 66931 |
-|  | **MergeSort** | 44025 | 24576 | 24576 | 24655 | 40277 | 24576 | 33407 | 28483 | 43985 |
+|          | Algorithm      | \*sort             | \sort             | /sort             | +sort             | ~sort              | =sort             | %sort             | 3sort             | !sort              |
+| -------- | -------------- | ------------------ | ----------------- | ----------------- | ----------------- | ------------------ | ----------------- | ----------------- | ----------------- | ------------------ |
+| **512**  | **My Timsort** | 4150 <br> (**104.4%**)  | 512 <br> (**100.2%**)  | 512 <br> (**100.2%**)  | 648 <br> (**98.3%**)   | 3125 <br> (**112.8%**)  | 512 <br> (**100.2%**)  | 735 <br> (**112.0%**)  | 783 <br> (**108.7%**)  | 4150 <br> (**104.7%**)  |
+|          | **Built-in**   | 3976               | 511               | 511               | 659               | 2771               | 511               | 656               | 720               | 3965               |
+|          | **QuickSort**  | 6934               | 5120              | 5119              | 5859              | 5815               | 5630              | 5359              | 5119              | 6814               |
+|          | **MergeSort**  | 3984               | 2304              | 2304              | 2354              | 3660               | 2304              | 2514              | 2739              | 3971               |
+| **1024** | **My Timsort** | 9299 <br> (**103.5%**)  | 1024 <br> (**100.1%**) | 1024 <br> (**100.1%**) | 1192 <br> (**101.6%**) | 6282 <br> (**112.8%**)  | 1024 <br> (**100.1%**) | 1613 <br> (**109.8%**) | 1328 <br> (**104.1%**) | 9331 <br> (**104.3%**)  |
+|          | **Built-in**   | 8983               | 1023              | 1023              | 1173              | 5571               | 1023              | 1469              | 1276              | 8944               |
+|          | **QuickSort**  | 13868              | 11264             | 11263             | 12923             | 12474              | 12286             | 12288             | 11263             | 15160              |
+|          | **MergeSort**  | 8978               | 5120              | 5120              | 5173              | 8215               | 5120              | 6344              | 5817              | 8938               |
+| **2048** | **My Timsort** | 20714 <br> (**103.9%**) | 2048 <br> (**100.0%**) | 2048 <br> (**100.0%**) | 2236 <br> (**100.5%**) | 12765 <br> (**113.2%**) | 2048 <br> (**100.0%**) | 3164 <br> (**108.5%**) | 2369 <br> (**106.9%**) | 20705 <br> (**103.7%**) |
+|          | **Built-in**   | 19938              | 2047              | 2047              | 2224              | 11272              | 2047              | 2917              | 2217              | 19958              |
+|          | **QuickSort**  | 33714              | 24576             | 24575             | 27055             | 27055              | 26622             | 26517             | 24575             | 32692              |
+|          | **MergeSort**  | 19930              | 11264             | 11264             | 11329             | 18268              | 11264             | 14757             | 12265             | 19932              |
+| **4096** | **My Timsort** | 45570 <br> (**103.5%**) | 4096 <br> (**100.0%**) | 4096 <br> (**100.0%**) | 4292 <br> (**100.1%**) | 25931 <br> (**114.2%**) | 4096 <br> (**100.0%**) | 6746 <br> (**110.7%**) | 4454 <br> (**103.3%**) | 45473 <br> (**103.2%**) |
+|          | **Built-in**   | 44013              | 4095              | 4095              | 4289              | 22702              | 4095              | 6092              | 4313              | 44054              |
+|          | **QuickSort**  | 73575              | 53248             | 53247             | 59877             | 57008              | 57342             | 58079             | 53247             | 66931              |
+|          | **MergeSort**  | 44025              | 24576             | 24576             | 24655             | 40277              | 24576             | 33407             | 28483             | 43985              |
+
+### Counting Sort
+
+基于比较的话，时间复杂度总是 $O(n \log n)$。但如果已知数据范围且范围较小，我们可以空间换时间，使用一个计数数组来统计每个元素出现的次数，然后根据计数数组来构建排序后的结果。
+
+假设数组 `A` 数据范围为 $[0, k]$，我们可以创建一个长度为 $k + 1$ 的计数数组 `count`，其中 `count[i]` 表示元素 $i$ 在输入数组中出现的次数。然后，我们可以遍历计数数组，将每个 $i$ 重复 `count[i]` 次添加到结果数组中。
+
+但这样会丢失稳定性，可以通过记录前缀和与逆序遍历来保持稳定性，不直接从 `count` 堆元素的计数构建数组，而是让 `count` 提供下一个数值为 `i` 的填入位置。由于是前缀和，因此要想利用应该是逆向遍历。
+
+```python
+def counting_sort(items: list) -> list:
+    max_val = max(items) if items else 0
+    n = len(items)
+    count = [0] * (max_val + 2)
+    result = [0] * n
+
+    # 统计每个元素的出现次数，存储在 count 中
+    for val in items:
+        count[val + 1] += 1
+
+    # 计算前缀和，count[i] 将表示小于等于 i 的元素数量，即从后往前填充 result 时，i 的填入位置
+    for i in range(1, max_val + 2):
+        count[i] = count[i - 1] + count[i]
+
+    # 从后往前遍历输入数组，根据 count 将元素放入 result 中，保持稳定性，同时更新 count
+    for i in range(n - 1, -1, -1):
+        val = items[i]
+        index = count[val + 1]
+        result[index - 1] = val
+        count[val + 1] -= 1
+
+    return result
+```
+
+### Radix Sort
+
+[计数排序](#counting-sort) 受限于数据范围，如果数据范围很大，不适合计数排序。
+
+但如果是字符串，数字等类型，可以按字符/按位拆分，逐次计数排序，最终得到排序结果。
+
+其中，LSD（Least Significant Digit）方法是从最低位开始排序，MSD（Most Significant Digit）方法是从最高位开始排序。
+
+MSD 很容易理解，先按最高位分桶，然后对每个桶递归地按下一位分桶，直到所有位都处理完了。
+
+但 LSD 的思路比较巧妙，可以理解为是 MSD 的逆过程：
+
+在 MSD 中，如果要最终从 $k$ 位得到排序结果，则需要知道 $k-1$ 位的排序结果来辅佐，以此类推，直到最低位；
+
+反之亦然，如果我们先知道 $k-1$ 位的排序结果，那么再按 $k$ 位进行排序时，就可以得到完整的排序结果了。
+
+这两种办法都会需要一个稳定的排序算法来保证相同位的元素在排序后相对位置不变，通常选择计数排序。
+
+#### MSD Radix Sort
+
+MSD 看似简单，实则更复杂，需要递归。
+
+注意递归的边界条件，长度为 0 或 1 的数组是有序的，或者当 `exp` 为 0 时，说明已经没有位可以处理了。
+
+```python
+def get_digit(val, exp):
+    """提取 log10(exp) + 1 位的数字"""
+    assert exp > 0, "exp must be a positive integer"
+    return (val // exp) % 10
+
+def MSD_radix_sort(items):
+    if not items:
+        return items
+
+    max_val = max(items)
+    max_exp = 1
+    while max_val // (max_exp * 10) > 0:
+        max_exp *= 10
+
+    return _msd_recursive(items, max_exp)
+
+def _msd_recursive(items, exp):
+    if len(items) <= 1 or exp == 0:
+        return items
+
+    buckets = [[] for _ in range(10)]
+
+    for val in items:
+        digit = get_digit(val, exp)
+        buckets[digit].append(val)
+
+    sorted_items = []
+    for bucket in buckets:
+        sorted_items.extend(_msd_recursive(bucket, exp // 10))
+
+    return sorted_items
+```
+
+但实际上上面这个实现浪费很多内存，因为每次递归都会创建一个新的桶数组，并且在合并结果时也会创建一个新的数组来存储排序后的结果。
+
+下面这个实现不在递归中创建桶数组，而是直接在原数组上进行分区。
+
+```python
+def get_digit(val, exp):
+    """提取 log10(exp) + 1 位的数字"""
+    assert exp > 0, "exp must be a positive integer"
+    return (val // exp) % 10
+
+def MSD_radix_sort(items):
+    if not items:
+        return items
+
+    max_val = max(items)
+    max_exp = 1
+    while max_val // (max_exp * 10) > 0:
+        max_exp *= 10
+
+    def _msd_recursive(items, low, high, exp):
+        if low >= high or exp <= 0:
+            return
+
+        count = [0] * 10
+        for i in range(low, high + 1):
+            digit = get_digit(items[i], exp)
+            count[digit] += 1
+
+        prefix_sums = count[:]
+
+        for i in range(1, 10):
+            prefix_sums[i] += prefix_sums[i - 1]
+
+        result = [0] * (high - low + 1)
+        for i in range(high, low - 1, -1):
+            digit = get_digit(items[i], exp)
+            index = prefix_sums[digit]
+            result[index - 1] = items[i]
+            prefix_sums[digit] -= 1
+
+        items[low : high + 1] = result[:] # 此处释放 result
+
+        start = low
+        for i in range(10):
+            bucket_size = count[i]
+            if bucket_size > 0:
+                _msd_recursive(items, start, start + bucket_size - 1, exp // 10)
+                start += bucket_size
+
+    _msd_recursive(items, 0, len(items) - 1, max_exp)
+    return items
+```
+
+#### LSD Radix Sort
+
+LSD 的实现相对简单，直接从最低位开始排序，每次使用计数排序来排序当前位，直到最大元素的最高位。
+
+```python
+def LSD_radix_sort(items):
+    if not items:
+        return items
+
+    max_val = max(items)
+    exp = 1
+    n = len(items)
+    result = [0] * n
+
+    while max_val // exp > 0:
+        count = [0] * 10
+
+        for val in items:
+            digit = (val // exp) % 10
+            count[digit] += 1
+
+        for i in range(1, 10):
+            count[i] += count[i - 1]
+
+        for i in range(n - 1, -1, -1):
+            val = items[i]
+            digit = (val // exp) % 10
+            index = count[digit]
+            result[index - 1] = val
+            count[digit] -= 1
+
+        items[:] = result[:]
+        exp *= 10
+
+    return result
+```
+
+#### Complexity
+
+参考 [CS61B 35.-radix-sorts/35.4-summary](https://cs61b-2.gitbook.io/cs61b-textbook/35.-radix-sorts/35.4-summary)
+
+- $W$ 是最长键的宽度/位数
+- $N$ 是数组长度
+- $R$ 是基数
+
+
+| Algorithm      | Memory         | Runtime (Worst) | Notes                            | Stable? |
+| -------------- | -------------- | --------------- | -------------------------------- | ------- |
+| Heapsort       | $\Theta(1)$           | $\Theta(N \log N)$     | Bad caching 61C                  | No      |
+| Insertion      | $\Theta(1)$           | $\Theta(N^2)$         | Fast for small N or nearly sorted | Yes     |
+| Mergesort      | $\Theta(N)$           | $\Theta(N \log N)$     | Fastest stable sort              | Yes     |
+| Random Quicksort | $\Theta(\log N)$     | $\Theta(N \log N)$ (expected) | Fastest comparison sort          | No      |
+| Counting Sort  | $\Theta(N + R)$       | $\Theta(N + R)$       | Alphabet keys only              | Yes     |
+| LSD Sort       | $\Theta(N + R)$       | $\Theta(WN + WR)$ | Alphabet string keys only        | Yes     |
+| MSD Sort       | $\Theta(N + WR)$      | $\Theta(N + R)$ (best) <br> $\Theta(WN + WR)$ (worst) | Bad caching 61C                  | Yes     |
+
+LSD 非常稳定，因为是从最低位开始排序，必须要处理到最高位才能得到结果。
+
+MSD 在最坏情况下，处理到最低位，则和 LSD 一样；若在最好情况下，可能处理完最高位就结束了，则时间复杂度为 $\Theta(N + R)$，有剪枝的效果。
+
+但并非 Radix Sort 就一定比基于比较的排序算法快，因为它的时间复杂度还依赖于 $W$ 和 $R$，如果 $N$ 较小或者 $\log N$ 比 $W$ 小，那么基于比较的排序算法可能更快。
+
+此外，对于定长手机号、邮编等短键可以用 LSD，而对于变长字符串等长键则适合用 MSD。
+
+以及，不一定要按位划分，其实可以设定不同的 $R$。对于数字，比如 256 进制；对于字符串，比如两个字符为一个单位，$R$ 就是 $26^2$ 了。关键在于 $R$ 和桶的数量的平衡。
+
+## Compression
