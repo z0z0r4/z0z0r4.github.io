@@ -17,11 +17,11 @@ copyright:
 sponsor:
 ---
 
-> 为什么我写起来感觉像 C++ 呢，可能是没具体写项目吧... ~~印象中 Java 很恶心啊~~
+> 此篇 Blog 记录了我在 CS61B 课程中了解到内容，可能在部分章节有点发散，梦到啥查啥了
 
 ## Project 0 2048
 
-在给出的框架上实现上下左右倾斜的函数，挺简单的，应该是实现了一份 $O(n)$ 的版本。
+在给出的框架上实现上下左右倾斜的函数，挺简单。
 
 [官方的逻辑](https://sp25.datastructur.es/projects/proj0/) 好像是分步骤的，先把所有非零元素挤到一边，然后再合并相邻的相同元素，最后再把非零元素挤到一边，逻辑更清晰吧，但我看的是 [Hard Mode Project](https://sp25.datastructur.es/projects/proj0/hardmode)，就没跟着它思路走了。
 
@@ -1542,6 +1542,70 @@ HashMap 可以存储任意 key，只要它可以产生合适的哈希值，但�
 
 TODO: Double-Array Trie：[An Implementation of Double-Array Trie](https://linux.thai.net/~thep/datrie/datrie.html)，我看力竭了，等以后有机会再看吧。
 
+### Double-Array Trie
+
+> 在双数组 `base` 和 `check` 的设计之前，还有三数组的设计，暂未探究历史
+
+双数组的设计节省空间和对 CPU 缓存友好，有 `base` 和 `check` 两个数组，分别用于状态转移和状态验证。
+
+`base` 数组存储每一个节点的下一个状态的基地址，下一个状态的索引为 `base[current] + char`，其中 `char` 可以是当前字符的 ASCII 码或者其他编码值。
+
+但仅有 `base` 数组无法区分不同状态配合不同的值碰巧落在同一个索引的情况，因此需要 `check` 数组来获取当前状态的前一个状态，如果 `check[base[current] + char]` 的值等于 `current`，则说明该状态是合法的，否则说明状态不存在。
+
+为了方便，`base[0]` 和  `base[1]` 都忽略，`base[1] = 1` 作为根节点的基地址，其他元素全部初始化为 0，表示为空。
+
+> 状态转移方程：
+> $next = base[current] + char$
+> $check[next] = current$
+
+可以参考 [datrie](https://linux.thai.net/~thep/datrie/datrie.html)
+
+#### Add
+
+对于字符串，迭代处理每一个字符。
+
+初始 `p` 为 1。
+
+插入字符时有三种情况：
+
+- `check[self.base[p] + char] == 0`：没有冲突，直接插入，找到下一个状态 `next = self.base[p] + char`，设置 `check[next] = p`，然后继续插入下一个字符。
+
+- `check[self.base[p] + char] == p`：已经存在，继续插入下一个字符。
+
+- `check[self.base[p] + char] != 0`：发生冲突
+
+每次插入一个字符后，`p` 都会更新为 `base[p] + char`，继续处理下一个字符，直到字符串的最后一个字符被处理完。
+
+最后可以将 `base[p]` 设置为负数，表示该节点是一个完整的字符串。
+
+> 注意后续取值应该是绝对值。
+
+#### Conflict
+
+冲突时，只能将当前状态 `p` 的所有子节点都迁移到一个新的基地址 `new_base`，然后更新 `base[p]` 和 `check` 数组。
+
+找 `new_base` 需要注意所有 `new_base + child` 都是是空的。 
+
+注意要在 `new_base` 的基础上处理孙子节点的 `check` 数组，更新为新的父节点 `new_base + child`。
+
+注意不需要在当前位置往后找，前面可能同样有合适的空余位置。
+
+#### Search
+
+类似于 Trie 的搜索，初始状态为 `base[p] = 1`，对于每一个字符，状态为 `t = base[p] + char`，如果 `check[t] != p`，说明不存在；否则继续处理下一个字符，直到字符串的最后一个字符被处理完，如果 `base[p] < 0`，说明字符串存在。
+
+#### Optimization
+
+很明显缺陷在于发生冲突的时候，需要迁移整个子树，要在数组里寻找空位，因此有思路是利用 `base` 和 `check` 的空位分别作为 `prev` 和 `next` 指针来维护一个空位链表，这样就可以快速找到空位。
+
+将 `check` 的空位标为负数，代表不是合法状态而是空位链表节点。
+
+每次 `relocate` 后，将释放的空位头插入空位链表中。
+
+---
+
+我的参考~~AI~~实现见 <https://gist.github.com/z0z0r4/ceb9c7ec98bc8beee4862e09426ea436>
+
 ## Sorting
 
 ### Selection Sort
@@ -2119,7 +2183,3 @@ LZ78、DEFLATE、LZMA 也许会有 ZSTD？看难度和时间，起码我感兴�
 ---
 
 NP 完全性理论预计将在 CLRS 里面再看。
-
----
-
-还有 Double-Array Trie
