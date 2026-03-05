@@ -6,9 +6,9 @@ date: 2025-12-08 23:42:30
 tags: 
 - math
 - linear-algebra
-- learning-notes
+- study-notes
 categories: 
-- learning-notes
+- study-notes
 - math
 - linear-algebra
 cover: covers/linear_algebra_the_big_picture.png

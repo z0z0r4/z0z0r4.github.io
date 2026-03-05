@@ -5,9 +5,9 @@ mermaid: false
 date: 2026-01-16 13:26:17
 tags:
   - CSAPP
-  - learning-notes
+  - study-notes
 categories:
-  - learning-notes
+  - study-notes
   - CS
   - CSAPP
 cover: /images/csapp/data-alignment.png

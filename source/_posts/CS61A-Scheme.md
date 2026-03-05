@@ -5,9 +5,9 @@ mermaid: false
 date: 2026-02-06 01:13:48
 tags:
 - CS61A
-- learning-notes
+- study-notes
 categories:
-- learning-notes
+- study-notes
 - CS
 - CS61A
 cover: images/CS61A_cover.png

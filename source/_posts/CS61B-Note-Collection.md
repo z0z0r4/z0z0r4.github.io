@@ -5,10 +5,10 @@ mermaid: false
 draft: true
 date: 2026-01-18 12:46:04
 tags:
-  - learning-notes
+  - study-notes
   - CS61B
 categories:
-  - learning-notes
+  - study-notes
   - CS
   - CS61B
 cover: covers/gobang.png

@@ -5,9 +5,9 @@ mermaid: false
 date: 2026-03-03 15:59:34
 tags:
   - CSAPP
-  - learning-notes
+  - study-notes
 categories:
-  - learning-notes
+  - study-notes
   - CS
   - CSAPP
 cover: covers/IMG_20260303_205748_156.png

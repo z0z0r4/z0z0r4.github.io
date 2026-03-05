@@ -5,9 +5,9 @@ mermaid: false
 date: 2025-12-14 01:02:08
 tags: 
 - python
-- learning-notes
+- study-notes
 categories: 
-- learning-notes
+- study-notes
 - coding
 - python
 cover: covers/python-magic-method.jpeg
