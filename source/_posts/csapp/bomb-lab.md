@@ -18,6 +18,21 @@ sponsor:
 
 2026-03-03 完成 :D
 
+```shell
+❯ ./bomb ans.txt
+Welcome to my fiendish little bomb. You have 6 phases with
+which to blow yourself up. Have a nice day!
+Phase 1 defused. How about the next one?
+That's number 2.  Keep going!
+Halfway there!
+So you got that one.  Try this one.
+Good work!  On to the next...
+Curses, you've found the secret phase!
+But finding it and solving it are quite different...
+Wow! You've defused the secret stage!
+Congratulations! You've defused the bomb!
+```
+
 [材料下载](https://csapp.cs.cmu.edu/3e/bomb.tar)
 
 其中可以将答案写在文件里面，然后运行 `./bomb ans.txt`，可以不用手动输入。
@@ -31,6 +46,7 @@ sponsor:
 <details>
 <summary>我的一份答案 ans.txt</summary>
 
+```
 Border relations with Canada have never been better.
 1 2 4 8 16 32
 0 207
@@ -38,6 +54,7 @@ Border relations with Canada have never been better.
 9ON567
 4 3 2 1 6 5
 20
+```
 
 </details>
 
@@ -45,19 +62,19 @@ Border relations with Canada have never been better.
 
 ---
 
-## phase1
+## phase 1
 
 `0x402400` 里面存了 `Border relations with Canada have never been better.`
 
 这个字符串就是答案。
 
-## phase2
+## phase 2
 
 读取六个数字，第一个数字必须为 1，然后要求前一个数字是后一个数字的两倍，即等比数列。
 
 答案是 1 2 4 8 16 32。
 
-## phase3
+## phase 3
 
 `phase_3` 读取两个数字到 `%rcx` 和 `%rdx`，要求 `%rcx` 即第一个数字的取值范围为 0~7，然后 `jmp  *0x402470(,%rax,8)` 会按照下面的跳表，跳到 8 种 case。
 
@@ -198,11 +215,11 @@ Border relations with Canada have never been better.
 
 </details>
 
-## phase4
+## phase 4
 
-phase4 给定 $[0,14]$ 二分查找，用一个寄存器 `%eax` 就可以简单的记录数字树中的路径，向左则 `%eax * 2`，向右则 `%eax * 2 + 1`，`*2` 可以每跳转一次左移一位，最后递归结束后可以得到完整的路径（注意是调用递归后才记录，所以是倒序的，人得从右往左读）
+phase 4 给定 $[0,14]$ 二分查找，用一个寄存器 `%eax` 就可以简单的记录数字树中的路径，向左则 `%eax * 2`，向右则 `%eax * 2 + 1`，`*2` 可以每跳转一次左移一位，最后递归结束后可以得到完整的路径（注意是调用递归后才记录，所以是倒序的，人得从右往左读）
 
-phase4 要求 `%eax` 初始化时 0，`%eax` 结果是 0，也就是一直向左，不向右 +1。
+phase 4 要求 `%eax` 初始化时 0，`%eax` 结果是 0，也就是一直向左，不向右 +1。
 
 最后要求第二个数字是 0（但我没看懂为什么这里突兀的多这一步，和整个前面的没法衔接起来...）
 
@@ -272,9 +289,9 @@ phase4 要求 `%eax` 初始化时 0，`%eax` 结果是 0，也就是一直向左
 ```
 </details>
 
-## phase5
+## phase 5
 
-phase5 读取六个字符的字符串，然后取每个字符的低四位（一个 char 有 8 位），四位的取值范围是 0~15，将字符映射到 `0x4024b0` 所存的 `maduiersnfotvbylSo` 的对应字符，然后要求最后结果拼起来是 `0x40245e` 对应的 `flyers`。
+phase 5 读取六个字符的字符串，然后取每个字符的低四位（一个 char 有 8 位），四位的取值范围是 0~15，将字符映射到 `0x4024b0` 所存的 `maduiersnfotvbylSo` 的对应字符，然后要求最后结果拼起来是 `0x40245e` 对应的 `flyers`。
 
 <details>
 <summary> phase_5 注释 </summary>
@@ -330,9 +347,9 @@ phase5 读取六个字符的字符串，然后取每个字符的低四位（一�
 
 其中还有 canary，在 `phase_5` 的头尾，这些应该会在 attack lab 用到。
 
-## phase6
+## phase 6
 
-phase6 要求输入六个不重复、范围在 1~6 的数字，将其逐个 `7 - n` 映射下，然后按照映射后的数字来重新组合链表，结果要求链表必须是递减的。
+phase 6 要求输入六个不重复、范围在 1~6 的数字，将其逐个 `7 - n` 映射下，然后按照映射后的数字来重新组合链表，结果要求链表必须是递减的。
 
 我觉得逻辑不是很难，不像上面的进入树的痕迹记录那样的 trick 让我眼前一新（也是记住了），但跳转太多、指令太多了，花了不少时间。
 
