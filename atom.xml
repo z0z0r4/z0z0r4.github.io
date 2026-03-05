@@ -6,7 +6,7 @@
   <link href="https://blog.z0z0r4.top/atom.xml" rel="self"/>
   
   <link href="https://blog.z0z0r4.top/"/>
-  <updated>2026-02-05T23:37:08.642Z</updated>
+  <updated>2026-03-05T10:30:31.510Z</updated>
   <id>https://blog.z0z0r4.top/</id>
   
   <author>
@@ -15,6 +15,99 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CSAPP Bomb Lab</title>
+    <link href="https://blog.z0z0r4.top/2026/03/03/csapp/bomb-lab/"/>
+    <id>https://blog.z0z0r4.top/2026/03/03/csapp/bomb-lab/</id>
+    <published>2026-03-03T07:59:34.000Z</published>
+    <updated>2026-03-05T10:30:31.510Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;2026-03-03 完成 😄&lt;/p&gt;
+&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
+    
+    <category term="CS" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/"/>
+    
+    <category term="CSAPP" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/CSAPP/"/>
+    
+    
+    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
+    
+    <category term="CSAPP" scheme="https://blog.z0z0r4.top/tags/CSAPP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CSAPP Data Lab</title>
+    <link href="https://blog.z0z0r4.top/2026/02/25/csapp/data-lab/"/>
+    <id>https://blog.z0z0r4.top/2026/02/25/csapp/data-lab/</id>
+    <published>2026-02-25T10:45:09.000Z</published>
+    <updated>2026-03-05T10:25:42.826Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;2026-02-25 到 2026-02-28 完成 😐&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
+    
+    <category term="CS" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/"/>
+    
+    <category term="CSAPP" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/CSAPP/"/>
+    
+    
+    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
+    
+    <category term="CSAPP" scheme="https://blog.z0z0r4.top/tags/CSAPP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Plan and Check-in</title>
+    <link href="https://blog.z0z0r4.top/2026/02/24/check-in/"/>
+    <id>https://blog.z0z0r4.top/2026/02/24/check-in/</id>
+    <published>2026-02-24T04:57:52.000Z</published>
+    <updated>2026-03-05T10:25:42.826Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;look-back&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#look-back&quot;&gt;&lt;/a&gt; Look Back&lt;/h1&gt;
+&lt;p&gt;寒假结束前几天，回顾了一下整个大一，发现我在 12</summary>
+        
+      
+    
+    
+    
+    <category term="daily-record" scheme="https://blog.z0z0r4.top/categories/daily-record/"/>
+    
+    <category term="CS" scheme="https://blog.z0z0r4.top/categories/daily-record/CS/"/>
+    
+    
+    <category term="daily-record" scheme="https://blog.z0z0r4.top/tags/daily-record/"/>
+    
+  </entry>
   
   <entry>
     <title>CS61A Scheme</title>

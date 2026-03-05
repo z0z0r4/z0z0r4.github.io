@@ -1,5 +1,8 @@
-https://blog.z0z0r4.top/2026/01/15/pcls-gallery/
+https://blog.z0z0r4.top/2026/03/03/csapp/bomb-lab/
 https://blog.z0z0r4.top/2026/01/18/CS61B-Note-Collection/
+https://blog.z0z0r4.top/2026/02/24/check-in/
+https://blog.z0z0r4.top/2026/02/25/csapp/data-lab/
+https://blog.z0z0r4.top/2026/01/15/pcls-gallery/
 https://blog.z0z0r4.top/2026/02/06/CS61A-Scheme/
 https://blog.z0z0r4.top/2026/01/16/csapp/data-alignment/
 https://blog.z0z0r4.top/2026/01/11/csapp/float/
@@ -32,3 +35,4 @@ https://blog.z0z0r4.top/categories/daily-record/games/
 https://blog.z0z0r4.top/categories/daily-record/games/minecraft/
 https://blog.z0z0r4.top/categories/learning-notes/CS/CS61B/
 https://blog.z0z0r4.top/categories/learning-notes/CS/CS61A/
+https://blog.z0z0r4.top/categories/daily-record/CS/
