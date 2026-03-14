@@ -25,7 +25,7 @@
 <meta property="og:image" content="https://joshhug.gitbooks.io/hug61b/content/chap2/fig23/dllist_double_sentinel_size_0.png">
 <meta property="og:image" content="https://blog.z0z0r4.top/images/cs61b/dllist_circular_sentinel_size_2.png">
 <meta property="article:published_time" content="2026-01-18T04:46:04.000Z">
-<meta property="article:modified_time" content="2026-03-14T04:41:05.557Z">
+<meta property="article:modified_time" content="2026-03-14T04:47:02.772Z">
 <meta property="article:author" content="z0z0r4">
 <meta property="article:tag" content="CS61B">
 <meta property="article:tag" content="study-notes">
@@ -515,9 +515,9 @@ Must contain values only of the same type (unlike Python).<br />
 <p>优先队列需要实现 <code>add(item)</code>、<code>getSmallest()</code> 和 <code>removeSmallest()</code> 三个操作。</p>
 <p>其中已知数据结构里效率最高的是 BST，然而要用 BST 来实现的话，插入和查找的时间复杂度都是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>。将最小堆定义为完全二叉树，且每个节点的值都小于等于其子节点的值，这样最小元素就位于根节点，<code>getSmallest()</code> 的时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span>，而 <code>add(item)</code> 和 <code>removeSmallest()</code> 的时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>。</p>
 <h3 id="additem-实现"><a class="markdownIt-Anchor" href="#additem-实现"></a> <code>add(item)</code> 实现</h3>
-<p>将新元素添加到堆的末尾，然后进行上浮操作（swim），将新元素与其父节点比较，如果新元素小于父节点，就交换它们的位置，直到新元素不再小于父节点或者到达根节点为止。</p>
+<p>见 <a href="#insert-4">Heap Insert</a> 部分。</p>
 <h3 id="removesmallest-实现"><a class="markdownIt-Anchor" href="#removesmallest-实现"></a> <code>removeSmallest()</code> 实现</h3>
-<p>将堆的最后一个元素移动到根节点的位置，然后进行下沉操作，将根节点与其较小的子节点比较，如果根节点大于较小的子节点，就交换它们的位置，直到根节点不再大于较小的子节点或者到达叶子节点为止。</p>
+<p>见 <a href="#delete-3">Heap Delete</a> 部分。</p>
 <h2 id="traversals"><a class="markdownIt-Anchor" href="#traversals"></a> Traversals</h2>
 <p>树的遍历有四种形式：</p>
 <ul>
@@ -1281,10 +1281,10 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
       </div>
       <div>
         <span class="icon-brush"></span>
-        50.4k
+        50.3k
         &nbsp;|&nbsp;
         <span class="icon-coffee"></span>
-        04:01
+        04:00
       </div>
       <div class="footer-beian">
         <a target="_blank" rel="noopener nofollow noreferrer" href="https://beian.miit.gov.cn">粤ICP备2025511811号</a>
@@ -1424,7 +1424,7 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
           description: "",
           stripContent: " 此篇 Blog 记录了我在 CS61B 课程中了解到内容，可能在部分章节有点发散，梦到啥查啥了   Project 0 2048 在给出的框架上实现上下左右倾斜的函数，挺简单。 官方的逻辑 好像是分步骤的，先把所有非零元素挤到一边，然后再合并相邻的相同元素，最后再把非零元素挤到一边，逻辑更清晰吧，但我看的是 Hard Mode Project，就没跟着它思路走了。   Linked List  SLList 单链表，只有 next 没有 prev，所以只能从头结点开始往后遍历，不能反向遍历。 ",
           date: "Sun Jan 18 2026 12:46:04 GMT+0800",
-          updated: "Sat Mar 14 2026 12:41:05 GMT+0800",
+          updated: "Sat Mar 14 2026 12:47:02 GMT+0800",
           cover: "/covers/gobang.png",
         };
       </script>
