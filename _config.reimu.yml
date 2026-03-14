@@ -106,8 +106,8 @@ footer:
 sidebar: left
 
 social:
-  # email: mailto:xxx@gmail.com
-  # github: https://github.com/yourname
+  email: mailto:z0z0r4@outlook.com
+  github: https://github.com/z0z0r4
   # google: https://plus.google.com/yourname
   # twitter: https://twitter.com/yourname
   # facebook: https://www.facebook.com/yourname
@@ -119,7 +119,7 @@ social:
   # flickr: https://www.flickr.com/photos/yourname
   # dribbble: https://dribbble.com/yourname
   # behance: https://www.behance.net/yourname
-  # bilibili: https://space.bilibili.com/yourname
+  bilibili: https://space.bilibili.com/558830935
   # weibo: https://weibo.com/yourname
   # zhihu: https://www.zhihu.com/people/yourname
   # reddit: https://www.reddit.com/user/yourname
@@ -128,9 +128,9 @@ social:
   # deviantart: https://yourname.deviantart.com
   # stackoverflow: https://stackoverflow.com/users/yourname
   # keybase: https://keybase.io/yourname
-  # telegram: https://t.me/yourname
+  telegram: https://t.me/z0z0r4
   # discord: https://discordapp.com/users/yourname
-  # steam: https://steamcommunity.com/id/yourname
+  steam: https://steamcommunity.com/profiles/76561199091926896/
 
 widgets:
   # - category
@@ -166,7 +166,7 @@ i18n:
 triangle_badge:
   enable: false
   icon: github # same as the icon in the social config
-  link: https://github.com/D-Sketon/hexo-theme-reimu
+  link: https://github.com/z0z0r4/z0z0r4.github.io
 
 layout:
   max_width: 1500px # the max width of the main content area
