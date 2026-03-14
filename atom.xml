@@ -6,7 +6,7 @@
   <link href="https://blog.z0z0r4.top/atom.xml" rel="self"/>
   
   <link href="https://blog.z0z0r4.top/"/>
-  <updated>2026-03-05T10:30:31.510Z</updated>
+  <updated>2026-03-05T10:39:56.330Z</updated>
   <id>https://blog.z0z0r4.top/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://blog.z0z0r4.top/2026/03/03/csapp/bomb-lab/"/>
     <id>https://blog.z0z0r4.top/2026/03/03/csapp/bomb-lab/</id>
     <published>2026-03-03T07:59:34.000Z</published>
-    <updated>2026-03-05T10:30:31.510Z</updated>
+    <updated>2026-03-05T10:39:56.330Z</updated>
     
     
       
@@ -35,16 +35,16 @@
     
     
     
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/categories/study-notes/"/>
     
-    <category term="CS" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/"/>
+    <category term="CS" scheme="https://blog.z0z0r4.top/categories/study-notes/CS/"/>
     
-    <category term="CSAPP" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/CSAPP/"/>
+    <category term="CSAPP" scheme="https://blog.z0z0r4.top/categories/study-notes/CS/CSAPP/"/>
     
-    
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
     
     <category term="CSAPP" scheme="https://blog.z0z0r4.top/tags/CSAPP/"/>
+    
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/tags/study-notes/"/>
     
   </entry>
   
@@ -53,7 +53,7 @@
     <link href="https://blog.z0z0r4.top/2026/02/25/csapp/data-lab/"/>
     <id>https://blog.z0z0r4.top/2026/02/25/csapp/data-lab/</id>
     <published>2026-02-25T10:45:09.000Z</published>
-    <updated>2026-03-05T10:25:42.826Z</updated>
+    <updated>2026-03-05T10:39:56.330Z</updated>
     
     
       
@@ -68,16 +68,16 @@
     
     
     
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/categories/study-notes/"/>
     
-    <category term="CS" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/"/>
+    <category term="CS" scheme="https://blog.z0z0r4.top/categories/study-notes/CS/"/>
     
-    <category term="CSAPP" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/CSAPP/"/>
+    <category term="CSAPP" scheme="https://blog.z0z0r4.top/categories/study-notes/CS/CSAPP/"/>
     
-    
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
     
     <category term="CSAPP" scheme="https://blog.z0z0r4.top/tags/CSAPP/"/>
+    
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/tags/study-notes/"/>
     
   </entry>
   
@@ -114,7 +114,7 @@
     <link href="https://blog.z0z0r4.top/2026/02/06/CS61A-Scheme/"/>
     <id>https://blog.z0z0r4.top/2026/02/06/CS61A-Scheme/</id>
     <published>2026-02-05T17:13:48.000Z</published>
-    <updated>2026-02-05T23:37:08.642Z</updated>
+    <updated>2026-03-05T10:39:56.322Z</updated>
     
     
       
@@ -128,16 +128,16 @@
     
     
     
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/categories/study-notes/"/>
     
-    <category term="CS" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/"/>
+    <category term="CS" scheme="https://blog.z0z0r4.top/categories/study-notes/CS/"/>
     
-    <category term="CS61A" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/CS61A/"/>
+    <category term="CS61A" scheme="https://blog.z0z0r4.top/categories/study-notes/CS/CS61A/"/>
     
-    
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
     
     <category term="CS61A" scheme="https://blog.z0z0r4.top/tags/CS61A/"/>
+    
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/tags/study-notes/"/>
     
   </entry>
   
@@ -146,7 +146,7 @@
     <link href="https://blog.z0z0r4.top/2026/01/16/csapp/data-alignment/"/>
     <id>https://blog.z0z0r4.top/2026/01/16/csapp/data-alignment/</id>
     <published>2026-01-16T05:26:17.000Z</published>
-    <updated>2026-02-05T22:43:58.285Z</updated>
+    <updated>2026-03-05T10:39:56.330Z</updated>
     
     
       
@@ -163,16 +163,16 @@
     
     
     
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/categories/study-notes/"/>
     
-    <category term="CS" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/"/>
+    <category term="CS" scheme="https://blog.z0z0r4.top/categories/study-notes/CS/"/>
     
-    <category term="CSAPP" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/CSAPP/"/>
+    <category term="CSAPP" scheme="https://blog.z0z0r4.top/categories/study-notes/CS/CSAPP/"/>
     
-    
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
     
     <category term="CSAPP" scheme="https://blog.z0z0r4.top/tags/CSAPP/"/>
+    
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/tags/study-notes/"/>
     
   </entry>
   
@@ -220,7 +220,7 @@
     <link href="https://blog.z0z0r4.top/2026/01/11/csapp/float/"/>
     <id>https://blog.z0z0r4.top/2026/01/11/csapp/float/</id>
     <published>2026-01-11T08:26:43.000Z</published>
-    <updated>2026-01-16T03:38:16.069Z</updated>
+    <updated>2026-03-05T10:39:56.330Z</updated>
     
     
       
@@ -235,16 +235,16 @@
     
     
     
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/categories/study-notes/"/>
     
-    <category term="CS" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/"/>
+    <category term="CS" scheme="https://blog.z0z0r4.top/categories/study-notes/CS/"/>
     
-    <category term="CSAPP" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/CSAPP/"/>
+    <category term="CSAPP" scheme="https://blog.z0z0r4.top/categories/study-notes/CS/CSAPP/"/>
     
-    
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
     
     <category term="CSAPP" scheme="https://blog.z0z0r4.top/tags/CSAPP/"/>
+    
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/tags/study-notes/"/>
     
   </entry>
   
@@ -253,7 +253,7 @@
     <link href="https://blog.z0z0r4.top/2025/12/25/gobang/"/>
     <id>https://blog.z0z0r4.top/2025/12/25/gobang/</id>
     <published>2025-12-24T16:26:46.000Z</published>
-    <updated>2026-01-16T03:38:06.697Z</updated>
+    <updated>2026-03-05T10:39:56.322Z</updated>
     
     
       
@@ -267,12 +267,12 @@
     
     
     
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/categories/study-notes/"/>
     
-    <category term="CS" scheme="https://blog.z0z0r4.top/categories/learning-notes/CS/"/>
+    <category term="CS" scheme="https://blog.z0z0r4.top/categories/study-notes/CS/"/>
     
     
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/tags/study-notes/"/>
     
   </entry>
   
@@ -281,7 +281,7 @@
     <link href="https://blog.z0z0r4.top/2025/12/14/python-magic-method/"/>
     <id>https://blog.z0z0r4.top/2025/12/14/python-magic-method/</id>
     <published>2025-12-13T17:02:08.000Z</published>
-    <updated>2026-01-16T03:37:16.577Z</updated>
+    <updated>2026-03-05T10:39:56.322Z</updated>
     
     
       
@@ -295,16 +295,16 @@
     
     
     
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/categories/study-notes/"/>
     
-    <category term="coding" scheme="https://blog.z0z0r4.top/categories/learning-notes/coding/"/>
+    <category term="coding" scheme="https://blog.z0z0r4.top/categories/study-notes/coding/"/>
     
-    <category term="python" scheme="https://blog.z0z0r4.top/categories/learning-notes/coding/python/"/>
+    <category term="python" scheme="https://blog.z0z0r4.top/categories/study-notes/coding/python/"/>
     
-    
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
     
     <category term="python" scheme="https://blog.z0z0r4.top/tags/python/"/>
+    
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/tags/study-notes/"/>
     
   </entry>
   
@@ -313,7 +313,7 @@
     <link href="https://blog.z0z0r4.top/2025/12/08/linear-algebra/"/>
     <id>https://blog.z0z0r4.top/2025/12/08/linear-algebra/</id>
     <published>2025-12-08T15:42:30.000Z</published>
-    <updated>2026-01-16T03:36:53.269Z</updated>
+    <updated>2026-03-05T10:39:56.322Z</updated>
     
     
       
@@ -327,18 +327,18 @@
     
     
     
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/categories/learning-notes/"/>
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/categories/study-notes/"/>
     
-    <category term="math" scheme="https://blog.z0z0r4.top/categories/learning-notes/math/"/>
+    <category term="math" scheme="https://blog.z0z0r4.top/categories/study-notes/math/"/>
     
-    <category term="linear-algebra" scheme="https://blog.z0z0r4.top/categories/learning-notes/math/linear-algebra/"/>
+    <category term="linear-algebra" scheme="https://blog.z0z0r4.top/categories/study-notes/math/linear-algebra/"/>
     
     
     <category term="math" scheme="https://blog.z0z0r4.top/tags/math/"/>
     
     <category term="linear-algebra" scheme="https://blog.z0z0r4.top/tags/linear-algebra/"/>
     
-    <category term="learning-notes" scheme="https://blog.z0z0r4.top/tags/learning-notes/"/>
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/tags/study-notes/"/>
     
   </entry>
   
