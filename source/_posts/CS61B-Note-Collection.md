@@ -1044,19 +1044,179 @@ find_empty_slot(PyDictKeysObject *keys, Py_hash_t hash)
 看起来这个设计改进于 [Python-Dev More compact dictionaries with faster iteration]
 (https://mail.python.org/pipermail/python-dev/2012-December/123028.html)，这里还产生了个非常有用的副作用————字典的迭代顺序和插入顺序一致了，`entries` 数组的顺序就是插入的顺序。
 
-## Priority Queue
+## Heap
 
-优先队列需要实现 `add(item)`、`getSmallest()` 和 `removeSmallest()` 三个操作。
+> 以下部分补充是在学习 CLRS 的时候写的，未来可能单开文章，暂时放这里。
 
-其中已知数据结构里效率最高的是 BST，然而要用 BST 来实现的话，插入和查找的时间复杂度都是 $O(\log n)$。将最小堆定义为完全二叉树，且每个节点的值都小于等于其子节点的值，这样最小元素就位于根节点，`getSmallest()` 的时间复杂度为 $O(1)$，而 `add(item)` 和 `removeSmallest()` 的时间复杂度为 $O(\log n)$。
+堆是一棵树，其每个节点都有一个键值，且每个节点的键值都大于等于/小于等于其父亲的键值，大于的是小根堆，小于的是大根堆，以下内容都是大根堆。
 
-### `add(item)` 实现
+以下实现是二叉堆。
 
-将新元素添加到堆的末尾，然后进行上浮操作（swim），将新元素与其父节点比较，如果新元素小于父节点，就交换它们的位置，直到新元素不再小于父节点或者到达根节点为止。
+<details>
+<summary>二叉堆实现</summary>
 
-### `removeSmallest()` 实现
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
 
-将堆的最后一个元素移动到根节点的位置，然后进行下沉操作，将根节点与其较小的子节点比较，如果根节点大于较小的子节点，就交换它们的位置，直到根节点不再大于较小的子节点或者到达叶子节点为止。
+class BinaryHeap
+{
+private:
+    vector<int> heap;
+
+    int leftChild(int index)
+    {
+        return 2 * index + 1;
+    }
+
+    int rightChild(int index)
+    {
+        return 2 * index + 2;
+    }
+
+    int parent(int index)
+    {
+        return (index - 1) / 2;
+    }
+
+public:
+    void heapify(int index)
+    {
+        while (index < heap.size())
+        {
+            int left = this->leftChild(index);
+            int right = this->rightChild(index);
+            int maxIndex = index;
+            if (left < heap.size() && heap[left] > heap[maxIndex])
+            {
+                maxIndex = left;
+            }
+            if (right < heap.size() && heap[right] > heap[maxIndex])
+            {
+                maxIndex = right;
+            }
+            if (maxIndex == index)
+            {
+                break;
+            }
+            swap(heap[index], heap[maxIndex]);
+            index = maxIndex;
+        }
+    }
+
+    void buildHeap(vector<int> &arr)
+    {
+        heap = arr;
+        for (int i = heap.size() / 2 - 1; i >= 0; i--)
+        {
+            heapify(i);
+        }
+    }
+
+    void insert(int value)
+    {
+        heap.push_back(value);
+        int index = heap.size() - 1;
+        while (index > 0)
+        {
+            int parent = this->parent(index);
+            if (heap[index] > heap[parent])
+            {
+                swap(heap[index], heap[parent]);
+                index = parent;
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+
+    void deleteMax()
+    {
+        if (heap.empty())
+        {
+            return;
+        }
+
+        heap[0] = heap.back();
+        heap.pop_back();
+        int index = 0;
+        heapify(index);
+    }
+
+    void printTree()
+    {
+        int level = 0;
+        int count = 0;
+        for (int i : heap)
+        {
+            cout << i << " ";
+            count++;
+            if (count == pow(2, level))
+            {
+                cout << endl;
+                level++;
+                count = 0;
+            }
+        }
+        cout << endl;
+    }
+
+    vector<int> getHeap()
+    {
+        return heap;
+    }
+
+    bool verifyHeap()
+    {
+        for (int i = 0; i < heap.size(); i++)
+        {
+            int left = leftChild(i);
+            int right = rightChild(i);
+            if (left < heap.size() && heap[left] > heap[i])
+            {
+                return false;
+            }
+            if (right < heap.size() && heap[right] > heap[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+};
+
+int main()
+{
+    BinaryHeap bh;
+    vector<int> arr = {3, 1, 4, 1, 5, 9, 2, 6, 5};
+    bh.buildHeap(arr);
+    bh.printTree();
+    assert(bh.verifyHeap());
+
+    bh.insert(10);
+    bh.printTree();
+    assert(bh.verifyHeap());
+
+    bh.insert(7);
+    bh.printTree();
+    assert(bh.verifyHeap());
+
+    bh.deleteMax();
+    bh.printTree();
+    assert(bh.verifyHeap());
+
+    bh.deleteMax();
+    bh.printTree();
+    assert(bh.verifyHeap());
+
+    return 0;
+}
+```
+
+</details>
 
 ### Tree Representation
 
@@ -1085,7 +1245,7 @@ $$i_p =  2^{n-1} - 1 + k_p = 2^{n-1} - 1 + k / 2$$
 
 代入 $k = i - 2^n + 1$，得到
 
-$$i_p = 2^{n-1} - 1 + (i - 2^n + 1) / 2$
+$$i_p = 2^{n-1} - 1 + (i - 2^n + 1) / 2$$
 
 $$ 2 i_p = 2^n - 2 + i - 2^n + 1 = i - 1$$
 
@@ -1099,9 +1259,74 @@ $$ i_p = (i - 1) / 2$$
 
 </details>
 
-### 最大堆
+### Swim up
 
-最大堆只需要将上浮和下沉操作中的比较条件改为大于即可。
+上浮指的是将可能打破堆性质的节点向上交换，直到符合性质。
+
+### Sinking
+
+下沉同样也是和上浮同理，只是方向不同。
+
+### Insert
+
+插入到堆的最后一个空位，然后上浮到符合大小关系的位置。
+
+### Delete
+
+删除可以简单的将要删除的元素和堆的最后一个元素交换，由于可能破坏堆的性质，所以需要从该位置开始堆化。
+
+### Heapify
+
+假设 A 有满足最大堆性质的子堆 B、C，但是 A 的值小于 B（或者 C），性质被破坏，此时将 A 与最大值交换，那么 A、B、C 这三个节点符合堆，但是由于原来的最大值所在的子堆的根被换成了 A，那么这个子堆的性质可能被打破，需要继续向下堆化。（由于另一个子堆没被影响，最大值当然大于它，所以不需要堆化它）
+
+```
+   \                   \
+   ...                 ... 
+     \                   \
+      A         ->        C (Largest)
+     / \                 / \ 
+    B   C (Largest)     B   A
+   / \ / \             / \ / \ 
+ ... ... ...         ... ... ...
+```
+
+堆化的时间复杂度是 $O(h)$，其中 $h$ 是堆的高度。
+
+### Build Heap
+
+如上有堆化的过程，但是前提是有已经满足性质的子堆 B、C。
+
+首先将所有元素放入数组，构成完全二叉树。因为叶子节点只有本身，当然符合堆的性质，所以可以从最后一个非叶子节点开始，将它的两个叶子节点作为子堆开始堆化，依次按层从右往左向上堆化，就可以构建堆。
+
+> 建堆的时间复杂度是 $O(n)$，堆化每个节点的时间复杂度是 $O(\lfloor \lg n \rfloor - k)$，其中 $k$ 是该节点所在的层数。
+> 
+> $$\sum_{h=0}^{\lfloor \lg n \rfloor} \frac{n}{2^{h+1}} O(h)$$
+>
+> 利用公式
+>
+> $$\sum_{k=0}^{\infty}  k x^k = \frac{x}{(1-x)^2}$$
+>
+> 代入 $x = \frac{1}{2}$，得到
+>
+> $$\sum_{h=0}^{\infty} \frac{h}{2^h} = 2$$
+>
+> 所以
+>
+> $$\sum_{h=0}^{\lfloor \lg n \rfloor} \frac{n}{2^{h+1}} O(h) = O(n \sum_{h=0}^{\infty} \frac{h}{2^h}) = O(n)$$
+
+## Priority Queue
+
+优先队列需要实现 `add(item)`、`getSmallest()` 和 `removeSmallest()` 三个操作。
+
+其中已知数据结构里效率最高的是 BST，然而要用 BST 来实现的话，插入和查找的时间复杂度都是 $O(\log n)$。将最小堆定义为完全二叉树，且每个节点的值都小于等于其子节点的值，这样最小元素就位于根节点，`getSmallest()` 的时间复杂度为 $O(1)$，而 `add(item)` 和 `removeSmallest()` 的时间复杂度为 $O(\log n)$。
+
+### `add(item)` 实现
+
+将新元素添加到堆的末尾，然后进行上浮操作（swim），将新元素与其父节点比较，如果新元素小于父节点，就交换它们的位置，直到新元素不再小于父节点或者到达根节点为止。
+
+### `removeSmallest()` 实现
+
+将堆的最后一个元素移动到根节点的位置，然后进行下沉操作，将根节点与其较小的子节点比较，如果根节点大于较小的子节点，就交换它们的位置，直到根节点不再大于较小的子节点或者到达叶子节点为止。
 
 ## Traversals
 
