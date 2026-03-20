@@ -6,7 +6,7 @@
   <link href="https://blog.z0z0r4.top/atom.xml" rel="self"/>
   
   <link href="https://blog.z0z0r4.top/"/>
-  <updated>2026-03-05T10:39:56.330Z</updated>
+  <updated>2026-03-19T05:43:32.578Z</updated>
   <id>https://blog.z0z0r4.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CLRS Data Structure</title>
+    <link href="https://blog.z0z0r4.top/2026/03/19/CLRS/data-structure/"/>
+    <id>https://blog.z0z0r4.top/2026/03/19/CLRS/data-structure/</id>
+    <published>2026-03-19T05:59:34.000Z</published>
+    <updated>2026-03-19T05:43:32.578Z</updated>
+    
+    
+    
+    
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/categories/study-notes/"/>
+    
+    <category term="CS" scheme="https://blog.z0z0r4.top/categories/study-notes/CS/"/>
+    
+    <category term="CLRS" scheme="https://blog.z0z0r4.top/categories/study-notes/CS/CLRS/"/>
+    
+    
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/tags/study-notes/"/>
+    
+    <category term="CLRS" scheme="https://blog.z0z0r4.top/tags/CLRS/"/>
+    
+  </entry>
   
   <entry>
     <title>CSAPP Bomb Lab</title>
