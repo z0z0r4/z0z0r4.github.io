@@ -150,7 +150,7 @@ Border relations with Canada have never been better.
 <details>
 <summary> phase_3 注释 </summary>
 
-
+```asm
 0000000000400f43 <phase_3>:
   400f43:	48 83 ec 18          	sub    $0x18,%rsp
   400f47:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx // %rcx = %rsp + 0xc int 4 bytes, num2
@@ -212,6 +212,7 @@ Border relations with Canada have never been better.
   400fc4:	e8 71 04 00 00       	call   40143a <explode_bomb> // if not equal, explode the bomb
   400fc9:	48 83 c4 18          	add    $0x18,%rsp // clean up the stack
   400fcd:	c3                   	ret
+```
 
 </details>
 
