@@ -22,7 +22,7 @@
 <meta property="og:description" content="2026-03-03 完成 😄 123456789101112❯ .&#x2F;bomb ans.txtWelcome to my fiendish little bomb. You have 6 phases withwhich to blow yourself up. Have a nice day!Phase 1 defused. How about the next one?That&#x27;s">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-03-03T07:59:34.000Z">
-<meta property="article:modified_time" content="2026-03-05T10:39:56.330Z">
+<meta property="article:modified_time" content="2026-03-21T03:41:34.472Z">
 <meta property="article:author" content="z0z0r4">
 <meta property="article:tag" content="CSAPP">
 <meta property="article:tag" content="study-notes">
@@ -178,7 +178,7 @@
       <div class="article-date">
   <span class="article-date-link icon-calendar" data-aos="zoom-in">
     <time datetime="2026-03-03T07:59:34.000Z" itemprop="datePublished">2026-03-03</time>
-    <time style="display: none;" id="post-update-time">2026-03-05</time>
+    <time style="display: none;" id="post-update-time">2026-03-21</time>
   </span>
 </div>
 
@@ -241,56 +241,7 @@
 </blockquote>
 <details>
 <summary> phase_3 注释 </summary>
-<p>0000000000400f43 &lt;phase_3&gt;:<br />
-400f43:	48 83 ec 18          	sub    $0x18,%rsp<br />
-400f47:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx // %rcx = %rsp + 0xc int 4 bytes, num2<br />
-400f4c:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx // %rdx = %rsp + 0x8 int 4 bytes, num1<br />
-400f51:	be cf 25 40 00       	mov    $0x4025cf,%esi // %esi = 0x4025cf (%d %d) (%rdx %rcx)<br />
-400f56:	b8 00 00 00 00       	mov    $0x0,%eax // %eax = 0 (the count of successfully parsed items)<br />
-400f5b:	e8 90 fc ff ff       	call   400bf0 <a href="mailto:__isoc99_sscanf@plt">__isoc99_sscanf@plt</a><br />
-400f60:	83 f8 01             	cmp    $0x1,%eax // cmp %eax, 0x1<br />
-400f63:	7f 05                	jg     400f6a &lt;phase_3+0x27&gt; // %eax &gt; 0x1<br />
-400f65:	e8 d0 04 00 00       	call   40143a &lt;explode_bomb&gt; // only one item, explode the bomb<br />
-400f6a:	83 7c 24 08 07       	cmpl   $0x7,0x8(%rsp) // cmp 0x8(%rsp) (num1), 0x7<br />
-400f6f:	77 3c                	ja     400fad &lt;phase_3+0x6a&gt; // num1 &gt; 0x7, if so jump to 400fad, which explodes the bomb<br />
-400f71:	8b 44 24 08          	mov    0x8(%rsp),%eax // %eax = 0x8(%rsp) (%eax = num1)<br />
-400f75:	ff 24 c5 70 24 40 00 	jmp    *0x402470(,%rax,8) // jump to the address stored at 0x402470 + %rax * 8, which is a jump table</p>
-<p>// 0x402470:       0x0000000000400f7c      0x0000000000400fb9<br />
-// 0x402480:       0x0000000000400f83      0x0000000000400f8a<br />
-// 0x402490:       0x0000000000400f91      0x0000000000400f98<br />
-// 0x4024a0:       0x0000000000400f9f      0x0000000000400fa6</p>
-<p>// case 0<br />
-400f7c:	b8 cf 00 00 00       	mov    $0xcf,%eax // %eax = 0xcf = 207<br />
-400f81:	eb 3b                	jmp    400fbe &lt;phase_3+0x7b&gt;</p>
-<p>// case 2<br />
-400f83:	b8 c3 02 00 00       	mov    $0x2c3,%eax // %eax = 0x2c3 = 707<br />
-400f88:	eb 34                	jmp    400fbe &lt;phase_3+0x7b&gt;</p>
-<p>// case 3<br />
-400f8a:	b8 00 01 00 00       	mov    $0x100,%eax // %eax = 0x100 = 256<br />
-400f8f:	eb 2d                	jmp    400fbe &lt;phase_3+0x7b&gt;</p>
-<p>// case 4<br />
-400f91:	b8 85 01 00 00       	mov    $0x185,%eax // %eax = 0x185 = 389<br />
-400f96:	eb 26                	jmp    400fbe &lt;phase_3+0x7b&gt;</p>
-<p>// case 5<br />
-400f98:	b8 ce 00 00 00       	mov    $0xce,%eax // %eax = 0xce = 206<br />
-400f9d:	eb 1f                	jmp    400fbe &lt;phase_3+0x7b&gt;</p>
-<p>// case 6<br />
-400f9f:	b8 aa 02 00 00       	mov    $0x2aa,%eax // %eax = 0x2aa = 682<br />
-400fa4:	eb 18                	jmp    400fbe &lt;phase_3+0x7b&gt;</p>
-<p>// case 7<br />
-400fa6:	b8 47 01 00 00       	mov    $0x147,%eax // %eax = 0x147 = 327<br />
-400fab:	eb 11                	jmp    400fbe &lt;phase_3+0x7b&gt;</p>
-<p>// unknown<br />
-400fad:	e8 88 04 00 00       	call   40143a &lt;explode_bomb&gt;<br />
-400fb2:	b8 00 00 00 00       	mov    $0x0,%eax // %eax = 0<br />
-400fb7:	eb 05                	jmp    400fbe &lt;phase_3+0x7b&gt;</p>
-<p>// 1<br />
-400fb9:	b8 37 01 00 00       	mov    $0x137,%eax // %eax = 0x137 = 311</p>
-<p>400fbe:	3b 44 24 0c          	cmp    0xc(%rsp),%eax // cmp 0xc + %rsp, %eax<br />
-400fc2:	74 05                	je     400fc9 &lt;phase_3+0x86&gt; // if equal, jump to 400fc9, which ends the phase<br />
-400fc4:	e8 71 04 00 00       	call   40143a &lt;explode_bomb&gt; // if not equal, explode the bomb<br />
-400fc9:	48 83 c4 18          	add    $0x18,%rsp // clean up the stack<br />
-400fcd:	c3                   	ret</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">0000000000400f43 &lt;phase_3&gt;:</span><br><span class="line">  400f43:	48 83 ec 18          	sub    $0x18,%rsp</span><br><span class="line">  400f47:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx // %rcx = %rsp + 0xc int 4 bytes, num2</span><br><span class="line">  400f4c:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx // %rdx = %rsp + 0x8 int 4 bytes, num1</span><br><span class="line">  400f51:	be cf 25 40 00       	mov    $0x4025cf,%esi // %esi = 0x4025cf (%d %d) (%rdx %rcx)</span><br><span class="line">  400f56:	b8 00 00 00 00       	mov    $0x0,%eax // %eax = 0 (the count of successfully parsed items)</span><br><span class="line">  400f5b:	e8 90 fc ff ff       	call   400bf0 &lt;__isoc99_sscanf@plt&gt;</span><br><span class="line">  400f60:	83 f8 01             	cmp    $0x1,%eax // cmp %eax, 0x1</span><br><span class="line">  400f63:	7f 05                	jg     400f6a &lt;phase_3+0x27&gt; // %eax &gt; 0x1</span><br><span class="line">  400f65:	e8 d0 04 00 00       	call   40143a &lt;explode_bomb&gt; // only one item, explode the bomb</span><br><span class="line">  400f6a:	83 7c 24 08 07       	cmpl   $0x7,0x8(%rsp) // cmp 0x8(%rsp) (num1), 0x7</span><br><span class="line">  400f6f:	77 3c                	ja     400fad &lt;phase_3+0x6a&gt; // num1 &gt; 0x7, if so jump to 400fad, which explodes the bomb</span><br><span class="line">  400f71:	8b 44 24 08          	mov    0x8(%rsp),%eax // %eax = 0x8(%rsp) (%eax = num1)</span><br><span class="line">  400f75:	ff 24 c5 70 24 40 00 	jmp    *0x402470(,%rax,8) // jump to the address stored at 0x402470 + %rax * 8, which is a jump table</span><br><span class="line"></span><br><span class="line">  // 0x402470:       0x0000000000400f7c      0x0000000000400fb9</span><br><span class="line">  // 0x402480:       0x0000000000400f83      0x0000000000400f8a</span><br><span class="line">  // 0x402490:       0x0000000000400f91      0x0000000000400f98</span><br><span class="line">  // 0x4024a0:       0x0000000000400f9f      0x0000000000400fa6</span><br><span class="line"></span><br><span class="line">  // case 0</span><br><span class="line">  400f7c:	b8 cf 00 00 00       	mov    $0xcf,%eax // %eax = 0xcf = 207</span><br><span class="line">  400f81:	eb 3b                	jmp    400fbe &lt;phase_3+0x7b&gt;</span><br><span class="line">  </span><br><span class="line">  // case 2</span><br><span class="line">  400f83:	b8 c3 02 00 00       	mov    $0x2c3,%eax // %eax = 0x2c3 = 707</span><br><span class="line">  400f88:	eb 34                	jmp    400fbe &lt;phase_3+0x7b&gt;</span><br><span class="line"></span><br><span class="line">  // case 3</span><br><span class="line">  400f8a:	b8 00 01 00 00       	mov    $0x100,%eax // %eax = 0x100 = 256</span><br><span class="line">  400f8f:	eb 2d                	jmp    400fbe &lt;phase_3+0x7b&gt;</span><br><span class="line"></span><br><span class="line">  // case 4</span><br><span class="line">  400f91:	b8 85 01 00 00       	mov    $0x185,%eax // %eax = 0x185 = 389</span><br><span class="line">  400f96:	eb 26                	jmp    400fbe &lt;phase_3+0x7b&gt;</span><br><span class="line"></span><br><span class="line">  // case 5</span><br><span class="line">  400f98:	b8 ce 00 00 00       	mov    $0xce,%eax // %eax = 0xce = 206</span><br><span class="line">  400f9d:	eb 1f                	jmp    400fbe &lt;phase_3+0x7b&gt;</span><br><span class="line"></span><br><span class="line">  // case 6</span><br><span class="line">  400f9f:	b8 aa 02 00 00       	mov    $0x2aa,%eax // %eax = 0x2aa = 682</span><br><span class="line">  400fa4:	eb 18                	jmp    400fbe &lt;phase_3+0x7b&gt;</span><br><span class="line"></span><br><span class="line">  // case 7</span><br><span class="line">  400fa6:	b8 47 01 00 00       	mov    $0x147,%eax // %eax = 0x147 = 327</span><br><span class="line">  400fab:	eb 11                	jmp    400fbe &lt;phase_3+0x7b&gt;</span><br><span class="line">  </span><br><span class="line">  // unknown</span><br><span class="line">  400fad:	e8 88 04 00 00       	call   40143a &lt;explode_bomb&gt;</span><br><span class="line">  400fb2:	b8 00 00 00 00       	mov    $0x0,%eax // %eax = 0</span><br><span class="line">  400fb7:	eb 05                	jmp    400fbe &lt;phase_3+0x7b&gt;</span><br><span class="line"></span><br><span class="line">  // 1</span><br><span class="line">  400fb9:	b8 37 01 00 00       	mov    $0x137,%eax // %eax = 0x137 = 311</span><br><span class="line"></span><br><span class="line">  400fbe:	3b 44 24 0c          	cmp    0xc(%rsp),%eax // cmp 0xc + %rsp, %eax</span><br><span class="line">  400fc2:	74 05                	je     400fc9 &lt;phase_3+0x86&gt; // if equal, jump to 400fc9, which ends the phase</span><br><span class="line">  400fc4:	e8 71 04 00 00       	call   40143a &lt;explode_bomb&gt; // if not equal, explode the bomb</span><br><span class="line">  400fc9:	48 83 c4 18          	add    $0x18,%rsp // clean up the stack</span><br><span class="line">  400fcd:	c3                   	ret</span><br></pre></td></tr></table></figure>
 </details>
 <h2 id="phase-4"><a class="markdownIt-Anchor" href="#phase-4"></a> phase 4</h2>
 <p>phase 4 给定 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><mn>14</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[0,14]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">14</span><span class="mclose">]</span></span></span></span> 二分查找，用一个寄存器 <code>%eax</code> 就可以简单的记录数字树中的路径，向左则 <code>%eax * 2</code>，向右则 <code>%eax * 2 + 1</code>，<code>*2</code> 可以每跳转一次左移一位，最后递归结束后可以得到完整的路径（注意是调用递归后才记录，所以是倒序的，人得从右往左读）</p>
@@ -378,10 +329,10 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
       </div>
       <div>
         <span class="icon-brush"></span>
-        50.2k
+        55.1k
         &nbsp;|&nbsp;
         <span class="icon-coffee"></span>
-        04:01
+        04:22
       </div>
       <div class="footer-beian">
         <a target="_blank" rel="noopener nofollow noreferrer" href="https://beian.miit.gov.cn">粤ICP备2025511811号</a>
@@ -536,7 +487,7 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
           description: "",
           stripContent: "2026-03-03 完成 😄 123456789101112❯ ./bomb ans.txtWelcome to my fiendish little bomb. You have 6 phases withwhich to blow yourself up. Have a nice day!Phase 1 defused. How about the next one?That&amp;#x27;s number 2.  Keep going!Halfway there!So you got th",
           date: "Tue Mar 03 2026 15:59:34 GMT+0800",
-          updated: "Thu Mar 05 2026 18:39:56 GMT+0800",
+          updated: "Sat Mar 21 2026 11:41:34 GMT+0800",
           cover: "/covers/IMG_20260303_205748_156.png",
         };
       </script>
