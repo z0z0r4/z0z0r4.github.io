@@ -65,8 +65,12 @@ sponsor:
 
 ## 2026-02-28
 
-[完成 CSAPP DataLab](./csapp/data-lab.md)
+[完成 CSAPP DataLab](/2026/02/25/csapp/data-lab)
 
 ## 2026-03-03
 
-[完成 CSAPP BobmLab](./csapp/bomb-lab.md)
+[完成 CSAPP BobmLab](/2026/03/03/csapp/bomb-lab)
+
+## 2026-03-22
+
+最近有进展的只有 CLRS，CSAPP 被暂时搁置了...
