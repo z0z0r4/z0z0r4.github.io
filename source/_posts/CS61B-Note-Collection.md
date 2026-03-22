@@ -1765,7 +1765,7 @@ HashMap 可以存储任意 key，只要它可以产生合适的哈希值，但�
 
 - [Radix Tree](https://en.wikipedia.org/wiki/Radix_tree)：和 Trie 类似，但如果节点只有一个子节点，退化成链表，那么则合并这些链表成一个节点，存储整个字符串；同时将每个节点存储的字符改为一个字符串片段，由参数 $r$ 决定分支数量和分片长度。
 
-TODO: Double-Array Trie：[An Implementation of Double-Array Trie](https://linux.thai.net/~thep/datrie/datrie.html)，我看力竭了，等以后有机会再看吧。
+~~TODO: Double-Array Trie：[An Implementation of Double-Array Trie](https://linux.thai.net/~thep/datrie/datrie.html)，我看力竭了，等以后有机会再看吧。~~ 已完成
 
 ### Double-Array Trie
 
