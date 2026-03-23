@@ -100,7 +100,7 @@
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">12</div>
+    <div class="sidebar-state-number">13</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
@@ -161,8 +161,40 @@
 
           <section id="main" aria-label="Main content">      <div class="post-wrapper">
   <div class="post-wrap left" data-aos="fade-up">
-      <a class="post-link" href="/2025/12/14/python-magic-method/" aria-label="Python Magic Method" title="Python Magic Method"></a>
+      <a class="post-link" href="/2025/12/25/gobang/" aria-label="Gobang" title="Gobang"></a>
     <div class="post-cover left">
+        <img data-src="/covers/gobang.png" data-sizes="auto" alt="Gobang" class="lazyload">
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-12-25</span>
+        <span><span class="icon-pencil"></span>3k 字</span>
+        <span><span class="icon-clock"></span>17 分钟</span>
+      </div>
+      <h2 class="post-title">Gobang</h2>
+      <article class="post-article">
+          封面取自 OI Wiki Alpha–Beta 剪枝
+大概花了一下午，C++ 期末作业做了个简单的 AI 五子棋，使用 minimax 算法和 alpha-beta 剪枝。
+记录一下如何实现：
+
+
+需要有评估函数，评估下一步棋的好坏。
+取棋盘上所有的连续的五子组合，除去五个空的情况，然后从黑白两方，分别通过连成了哪些模式，累加双方得分，最后用黑方得分减去白方得分，作为当前棋盘的评估值。
+
+
+选择落子位置时，只考虑当前棋盘上有棋子的格子周围一定范围内的空格，避免搜索过多无意义的位置。
+
+
+实现 minimax 算法，递归地模拟双方落子，直到达到设定的搜索深度。
+双方都假定对方会在己方落子后，会选
+      </article>
+    </div>
+  </div>
+</div>
+      <div class="post-wrapper">
+  <div class="post-wrap right" data-aos="fade-up">
+      <a class="post-link" href="/2025/12/14/python-magic-method/" aria-label="Python Magic Method" title="Python Magic Method"></a>
+    <div class="post-cover right">
         <img data-src="/covers/python-magic-method.jpeg" data-sizes="auto" alt="Python Magic Method" class="lazyload">
     </div>
     <div class="post-info">
@@ -189,9 +221,9 @@ A method that is called implicitly by Python to execute a certain operation on a
   </div>
 </div>
       <div class="post-wrapper">
-  <div class="post-wrap right" data-aos="fade-up">
+  <div class="post-wrap left" data-aos="fade-up">
       <a class="post-link" href="/2025/12/08/linear-algebra/" aria-label="Linear Algebra" title="Linear Algebra"></a>
-    <div class="post-cover right">
+    <div class="post-cover left">
         <img data-src="/covers/linear_algebra_the_big_picture.png" data-sizes="auto" alt="Linear Algebra" class="lazyload">
     </div>
     <div class="post-info">
@@ -237,10 +269,10 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
       </div>
       <div>
         <span class="icon-brush"></span>
-        55.1k
+        59.7k
         &nbsp;|&nbsp;
         <span class="icon-coffee"></span>
-        04:22
+        04:44
       </div>
       <div class="footer-beian">
         <a target="_blank" rel="noopener nofollow noreferrer" href="https://beian.miit.gov.cn">粤ICP备2025511811号</a>
@@ -275,7 +307,7 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">12</div>
+    <div class="sidebar-state-number">13</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
