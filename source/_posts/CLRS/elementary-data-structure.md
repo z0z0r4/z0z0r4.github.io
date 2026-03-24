@@ -1,5 +1,5 @@
 ---
-title: CLRS Data Structure
+title: CLRS Elementary Data Structure
 sticky: false
 mermaid: false
 date: 2026-03-19 13:59:34
