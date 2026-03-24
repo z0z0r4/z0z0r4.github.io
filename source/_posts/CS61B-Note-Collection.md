@@ -998,7 +998,7 @@ class HashTable {
 
 Python 的 `dict` 将哈希表分为两个数组，一个是 `indices` 数组，存储哈希值和元素在 `entries` 数组中的索引；另一个是 `entries` 数组，存储实际的键值对。
 
-前者和上面的哈希表设计差不多，后者则是一个紧凑的数组，存储实际的键值对，它的每个元素大小远大于一个 `int` 索引（），将索引和数据分离能大幅节省空间。
+前者和上面的哈希表设计差不多，后者则是一个紧凑的数组，存储实际的键值对，它的每个元素大小远大于一个 `int` 索引，将索引和数据分离能大幅节省空间。
 
 同时，`dict` 还有不同于如上的哈希表设计，使用开放寻址法解决冲突，具体来说是线性探测（linear probing），当发生冲突或者与查询 `key` 不符时，继续向后查找下一个空位，直到找到为止，具体如何找到下一个空位可以参考以下源码。
 
@@ -1041,8 +1041,7 @@ find_empty_slot(PyDictKeysObject *keys, Py_hash_t hash)
 
 初始容量是 `PyDict_MINSIZE` 为 8。
 
-看起来这个设计改进于 [Python-Dev More compact dictionaries with faster iteration]
-(https://mail.python.org/pipermail/python-dev/2012-December/123028.html)，这里还产生了个非常有用的副作用————字典的迭代顺序和插入顺序一致了，`entries` 数组的顺序就是插入的顺序。
+看起来这个设计改进于 [Python-Dev More compact dictionaries with faster iteration](https://mail.python.org/pipermail/python-dev/2012-December/123028.html)，这里还产生了个非常有用的副作用————字典的迭代顺序和插入顺序一致了，`entries` 数组的顺序就是插入的顺序。
 
 ## Heap
 
