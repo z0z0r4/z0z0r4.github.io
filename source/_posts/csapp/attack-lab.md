@@ -826,16 +826,21 @@ $$
 
 `offset` 必须要找 `popq` 此类指令：
 
-| Instruction | Machine Code |
-| :--- | :---: |
-| `popq %rax` | `58` |
-| `popq %rcx` | `59` |
-| `popq %rdx` | `5a` |
-| `popq %rbx` | `5b` |
-| `popq %rsp` | `5c` |
-| `popq %rbp` | `5d` |
-| `popq %rsi` | `5e` |
-| `popq %rdi` | `5f` |
+$$
+\begin{array}{l|c}
+\text{Instruction} & \text{Machine Code} \\
+\hline
+\text{popq } \%rax & 58 \\
+\text{popq } \%rcx & 59 \\
+\text{popq } \%rdx & 5a \\
+\text{popq } \%rbx & 5b \\
+\text{popq } \%rsp & 5c \\
+\text{popq } \%rbp & 5d \\
+\text{popq } \%rsi & 5e \\
+\text{popq } \%rdi & 5f \\
+\end{array}
+$$
+
 
 最理想下是直接 `popq %rsi`，但是 *fram* 里没有。
 
@@ -876,6 +881,10 @@ $$
 $$
 
 手动寻找有点艰辛，让 Gemini 写个脚本来遍历。
+
+<details>
+
+<summary>Python 脚本</summary>
 
 ```python
 import re
@@ -1027,6 +1036,10 @@ if __name__ == "__main__":
             print(f"  [{step.addr}] {step.raw:<12} | {action}")
 ```
 
+</details>
+
+找到 16 种组合。
+
 <details>
 
 <summary>运行结果</summary>
@@ -1133,7 +1146,7 @@ if __name__ == "__main__":
 
 </details>
 
-找到 16 种组合，但实际上只有 `popq %rax; ret` -> `movl %eax, %edx; ret` -> `movl %edx, %ecx; ret` -> `movl %ecx, %esi; ret` 这一条路径是可行的，每个指令有两种 Gadget 可选。
+但实际上只有 `popq %rax; ret` -> `movl %eax, %edx; ret` -> `movl %edx, %ecx; ret` -> `movl %ecx, %esi; ret` 这一条路径是可行的，每个指令有两种 Gadget 可选。
 
 选择第一个解法：
 
