@@ -1,4 +1,9 @@
-- name: z0z0r4
-  url: https://z0z0r4.github.io/
-  desc: 一名学生，lazzzy。
-  image: https://z0z0r4.github.io/avatar/avatar.webp.jpg
+- name: BigCake
+  url: https://www.lihaoyu.cn
+  desc: 也许我们会分别，但我们将永远不会忘记彼此。
+  image: https://blog-api.lihaoyu.cn/images/profile/avatar-128x.webp
+
+- name: Pysio
+  url: https://www.pysio.online/
+  desc: 一个温暖的家/一只懒懒的熊猫
+  image: https://cdn.akaere.online/https://avatars.githubusercontent.com/u/71202163

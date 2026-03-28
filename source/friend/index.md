@@ -5,10 +5,18 @@ comments: true
 
 ## 本站信息
 
+```yml
+- name: z0z0r4
+  url: https://blog.z0z0r4.top/
+  desc: A Long Long Way
+  image: https://blog.z0z0r4.top/avatar/avatar.jpg
+```
+
+
 ## 申请方法
 - 添加本站后，在本页留言，格式如下
 
-~~~yml
+~~~
 ```yml
 - name: #您的名字
   url: #您的网址
@@ -17,5 +25,5 @@ comments: true
 ```
 ~~~
 
-## 小伙伴们
+## 友情链接
 {% friendsLink friend/_data.yml %}

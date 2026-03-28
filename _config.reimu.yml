@@ -15,9 +15,9 @@ menu:
   - name: about
     url: /about
     icon: e647   # circle-info，表示关于信息
-  # - name: friend
-  #   url: /friend
-  #   icon: e628   # people，表示友链
+  - name: friend
+    url: /friend
+    icon: e628   # people，表示友链
 
 banner: "/images/banner.webp" # which means themes/reimu/source/images/banner.webp
 # You can also write it in the form of the following url
@@ -301,7 +301,7 @@ comment:
     zh-TW: 說些什麼吧！
     ja: コメントを残す
     pt-BR: Deixe um comentário
-  default: waline # default comment system, when you enable multiple comment systems
+  default: giscus # default comment system, when you enable multiple comment systems
 
 # valine comment system. https://valine.js.org
 # version 1.5.1
@@ -363,13 +363,13 @@ gitalk:
 
 # https://giscus.app/zh-CN
 giscus:
-  enable: false
-  repo:
-  repoId:
-  category:
-  categoryId:
-  mapping: mapping
-  strict: 0
+  enable: true
+  repo: z0z0r4/z0z0r4.github.io
+  repoId: R_kgDOQkNgiw
+  category: Announcements
+  categoryId: DIC_kwDOQkNgi84C5ezs
+  mapping: pathname
+  strict: 1
   reactionsEnabled: 1
   emitMetadata: 0
   inputPosition: bottom
