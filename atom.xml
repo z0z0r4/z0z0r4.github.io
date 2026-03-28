@@ -6,7 +6,7 @@
   <link href="https://blog.z0z0r4.top/atom.xml" rel="self"/>
   
   <link href="https://blog.z0z0r4.top/"/>
-  <updated>2026-03-25T11:03:07.760Z</updated>
+  <updated>2026-03-28T06:28:51.294Z</updated>
   <id>https://blog.z0z0r4.top/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>CSAPP Attack Lab</title>
+    <link href="https://blog.z0z0r4.top/2026/03/28/csapp/attack-lab/"/>
+    <id>https://blog.z0z0r4.top/2026/03/28/csapp/attack-lab/</id>
+    <published>2026-03-28T06:12:00.000Z</published>
+    <updated>2026-03-28T06:28:51.294Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;这是 CSAPP LaB 记录的第三弹，两天完成 Attack Lab。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/categories/study-notes/"/>
+    
+    <category term="CS" scheme="https://blog.z0z0r4.top/categories/study-notes/CS/"/>
+    
+    <category term="CSAPP" scheme="https://blog.z0z0r4.top/categories/study-notes/CS/CSAPP/"/>
+    
+    
+    <category term="study-notes" scheme="https://blog.z0z0r4.top/tags/study-notes/"/>
+    
+    <category term="CSAPP" scheme="https://blog.z0z0r4.top/tags/CSAPP/"/>
+    
+  </entry>
+  
+  <entry>
     <title>CLRS Hash Tables</title>
     <link href="https://blog.z0z0r4.top/2026/03/21/CLRS/hash-table/"/>
     <id>https://blog.z0z0r4.top/2026/03/21/CLRS/hash-table/</id>
     <published>2026-03-21T03:42:54.000Z</published>
-    <updated>2026-03-25T11:03:07.760Z</updated>
+    <updated>2026-03-26T07:15:30.192Z</updated>
     
     
       

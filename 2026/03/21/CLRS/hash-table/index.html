@@ -22,7 +22,7 @@
 <meta property="og:description" content="以下内容参考过 Solutions to Introduction to Algorithms Third Edition 散列表是支持动态集合操作的数据结构，支持以下操作：   INSERT，将一个新的元素放入集合中。   DELETE，从集合中移除一个特定的元素。   SEARCH，在集合中查找一个特定的元素。    以下的定义和 CLRS 的定义略不同，CLRS 中的散列表就是动态集合，键是">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-03-21T03:42:54.000Z">
-<meta property="article:modified_time" content="2026-03-25T11:03:07.760Z">
+<meta property="article:modified_time" content="2026-03-26T07:15:30.192Z">
 <meta property="article:author" content="z0z0r4">
 <meta property="article:tag" content="CLRS">
 <meta property="article:tag" content="study-notes">
@@ -109,7 +109,7 @@
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">13</div>
+    <div class="sidebar-state-number">14</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
@@ -178,7 +178,7 @@
       <div class="article-date">
   <span class="article-date-link icon-calendar" data-aos="zoom-in">
     <time datetime="2026-03-21T03:42:54.000Z" itemprop="datePublished">2026-03-21</time>
-    <time style="display: none;" id="post-update-time">2026-03-25</time>
+    <time style="display: none;" id="post-update-time">2026-03-26</time>
   </span>
 </div>
 
@@ -718,34 +718,48 @@ E[X] = \sum_{i=1}^{\infty} \Pr\{X \ge i\} = \sum_{i=1}^{\infty} \Pr\{A_1 \cap A_
 <p>链表的查找时间是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>，而红黑树的查找时间是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>。但插入和删除时链表的时间复杂度是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span>，而红黑树的时间复杂度还是是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>。</p>
 <p>显然有一个临界值。对于 Java 的 HashMap 来说，当链表长度超过 8 时，就会将链表转换为红黑树。</p>
 <h2 id="hashdos"><a class="markdownIt-Anchor" href="#hashdos"></a> HashDOS</h2>
-<p>首先，考虑历史演变，有这些（但显然不完全）：</p>
+<p>首先，为了追求极致的查询性能，早期的哈希函数设计大多是<strong>确定性</strong>的：</p>
+<ul>
+<li><strong>DJBX33A</strong> (PHP 早期使用)</li>
+<li><strong>FNV</strong> (Python 早期使用变体)</li>
+<li><strong>MurmurHash</strong> (Redis, Memcached 等使用)</li>
+<li><strong>Java String hashCode</strong></li>
+</ul>
+<blockquote>
+<p>实际上是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo stretchy="false">(</mo><mi>k</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mi>h</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">(</mo><mi>k</mi><mo stretchy="false">)</mo><mtext> </mtext><mo lspace="0.22em" rspace="0.22em"><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow></mo><mtext> </mtext><mi>m</mi></mrow><annotation encoding="application/x-tex">h(k) = h&#x27;(k) \bmod m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0019em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.0556em;"></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin"><span class="mord"><span class="mord mathrm">mod</span></span></span><span class="mspace" style="margin-right:0.0556em;"></span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span>，其中 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>h</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">h&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span> 是上述的确定性哈希函数，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span> 是哈希表大小。</p>
+<p>由于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span> 会变（扩容），实际碰撞指的是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>h</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">(</mo><msub><mi>k</mi><mn>1</mn></msub><mo stretchy="false">)</mo><mo>=</mo><msup><mi>h</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">(</mo><msub><mi>k</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">h&#x27;(k_1) = h&#x27;(k_2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0019em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0019em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+</blockquote>
+<p>以上这些 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>h</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">(</mo><mi>k</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">h&#x27;(k)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0019em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span></span></span></span> 可以构建出大量碰撞的输入，例如对于 Java 的 <code>31 * h + c</code>，攻击者可以构造出 <code>&quot;Aa&quot;</code> 和 <code>&quot;BB&quot;</code> 这两个字符串，它们 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>h</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">(</mo><mi>k</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">h&#x27;(k)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0019em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span></span></span></span> 的值相同。</p>
+<blockquote>
+<p>具体来说，计算方式是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><mi>s</mi><mo stretchy="false">[</mo><mn>0</mn><mo stretchy="false">]</mo><mo>⋅</mo><msup><mn>31</mn><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>+</mo><mi>s</mi><mo stretchy="false">[</mo><mn>1</mn><mo stretchy="false">]</mo><mo>⋅</mo><msup><mn>31</mn><mrow><mi>n</mi><mo>−</mo><mn>2</mn></mrow></msup><mo>+</mo><mo>⋯</mo><mo>+</mo><mi>s</mi><mo stretchy="false">[</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">h(s) = s[0] \cdot 31^{n-1} + s[1] \cdot 31^{n-2} + \dots + s[n-1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mopen">[</span><span class="mord">0</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mord"><span class="mord">1</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mord"><span class="mord">1</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">2</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mopen">[</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span>，其中 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">s[i]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">s</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span></span></span></span> 是字符串的第 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 个字符的 ASCII 码值。</p>
+<p><code>ord(&quot;A&quot;) * 31 + ord(&quot;a&quot;)</code> 和 <code>ord(&quot;B&quot;) * 31 + ord(&quot;B&quot;)</code> 的结果都是 2112</p>
+</blockquote>
+<p>在 2011 年末，有 Web 应用的 <strong>Hash Flooding</strong> ，网页会将参数保存在哈希表中，如果哈希函数是确定的，攻击者可以离线构造大量相同的哈希值的输入，使得哈希表退化为单链表。</p>
+<p>有两类解决方案：</p>
+<p>引入随机化：</p>
 <ul>
 <li>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo stretchy="false">(</mo><mi>k</mi><mo stretchy="false">)</mo><mo>=</mo><mi>k</mi><mspace></mspace><mspace width="0.6667em"/><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow><mtext> </mtext><mtext> </mtext><mi>m</mi></mrow><annotation encoding="application/x-tex">h(k) = k \mod m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace allowbreak"></span><span class="mspace" style="margin-right:0.6667em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord"><span class="mord"><span class="mord mathrm">mod</span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">m</span></span></span></span></p>
-</li>
-<li>
-<p>FNV</p>
-</li>
-<li>
-<p>Lookup3</p>
-</li>
-<li>
-<p>MurmurHash</p>
+<p><strong>SipHash</strong>：这是现在的标准方案之一（Python 在 <a target="_blank" rel="noopener" href="https://peps.python.org/pep-0456/">PEP 456</a> 中引入；Rust 默认使用 SipHash 1-3）。</p>
+<p>SipHash 是基于 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Block_cipher#ARX_(add%E2%80%93rotate%E2%80%93XOR)">ARX</a>（加法-旋转-异或）的 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Pseudorandom_function_family">PRF</a>（伪随机函数）。攻击者即使知道部分输入输出，也无法推导出 Seed，从而无法构造碰撞。</p>
+<p>其计算开销要比 MurmurHash 慢数倍，但为了抵御 HashDOS 攻击，这种性能损失是值得的。</p>
 </li>
 </ul>
-<p>以上都是确定性哈希函数，都可以被攻击者针对性的构造输入来产生大量碰撞，导致性能下降。</p>
-<p>在 2011 末，有针对 Web 应用的 HashDOS 攻击 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Collision_attack#Hash_flooding">Hash Flooding</a>，攻击者构造大量具有相同哈希值的输入，导致服务器性能下降甚至崩溃。</p>
-<p>曾经受到影响的包括 Python（Python 之前用 FNV 的变体）、PHP（之前用 DJBX33A ）、Java（<code>31 * h + c</code> ） 等。</p>
-<p>解决方法有两类：</p>
+<p>或者既然无法避免碰撞，就保证最坏情况下的性能：</p>
+<ul>
+<li><strong>Java 8+</strong> 在当单个桶（Bucket）内的链表长度超过阈值（默认 8）时，链表会自动转换为<strong>红黑树</strong>。</li>
+</ul>
+<p>SipHash 见</p>
 <ul>
 <li>
-<p>引入随机性。或添加随机因子，或使用 SipHash 等伪随机函数</p>
+<p><a target="_blank" rel="noopener" href="https://docs.kernel.org/security/siphash.html">https://docs.kernel.org/security/siphash.html</a></p>
 </li>
 <li>
-<p>或者增加碰撞处理的复杂度，例如 Java 将链表换成红黑树</p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/SipHash">https://en.wikipedia.org/wiki/SipHash</a></p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://github.com/veorq/SipHash">https://github.com/veorq/SipHash</a></p>
 </li>
 </ul>
-<p>Python 在 <a target="_blank" rel="noopener" href="https://peps.python.org/pep-0456/">pep-0456</a> 中，将 SipHash 引入。SipHash 是现在广泛使用的一个哈希函数，经常用于哈希表。（Rust 用 SipHash 1-3）</p>
 <h2 id="birthday-attack"><a class="markdownIt-Anchor" href="#birthday-attack"></a> Birthday attack</h2>
 <p>生日攻击从信息密度的角度来分析碰撞概率。</p>
 <p>假设键是随机映射到散列表中的。</p>
@@ -806,6 +820,14 @@ E[X] = \sum_{i=1}^{\infty} \Pr\{X \ge i\} = \sum_{i=1}^{\infty} \Pr\{A_1 \cap A_
     </footer>
   </div>
     <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+      <div class="article-nav-link-wrap left">
+          <img data-src="/covers/chibi_goomba_agadyeoaao_ecuo.png" data-sizes="auto" alt="CSAPP Attack Lab" class="lazyload">
+        <a href="/2026/03/28/csapp/attack-lab/" aria-label="前一篇: CSAPP Attack Lab" title="前一篇: CSAPP Attack Lab"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">
+            CSAPP Attack Lab
+        </h3>
+      </div>
     <div class="article-nav-link-wrap right">
         <img data-src="/covers/CLRS_cover.jpg" data-sizes="auto" alt="CLRS Elementary Data Structure" class="lazyload">
       <a href="/2026/03/19/CLRS/elementary-data-structure/" aria-label="后一篇: CLRS Elementary Data Structure"  title="后一篇: CLRS Elementary Data Structure"></a>
@@ -840,10 +862,10 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
       </div>
       <div>
         <span class="icon-brush"></span>
-        65k
+        73.5k
         &nbsp;|&nbsp;
         <span class="icon-coffee"></span>
-        05:10
+        05:59
       </div>
       <div class="footer-beian">
         <a target="_blank" rel="noopener nofollow noreferrer" href="https://beian.miit.gov.cn">粤ICP备2025511811号</a>
@@ -883,7 +905,7 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">13</div>
+    <div class="sidebar-state-number">14</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
@@ -998,7 +1020,7 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
           description: "",
           stripContent: "以下内容参考过 Solutions to Introduction to Algorithms Third Edition 散列表是支持动态集合操作的数据结构，支持以下操作：   INSERT，将一个新的元素放入集合中。   DELETE，从集合中移除一个特定的元素。   SEARCH，在集合中查找一个特定的元素。    以下的定义和 CLRS 的定义略不同，CLRS 中的散列表就是动态集合，键是元素，值是卫星数据。  或者说，散列表是一种通过散列函数（Hash Function）将特定的键（K",
           date: "Sat Mar 21 2026 11:42:54 GMT+0800",
-          updated: "Wed Mar 25 2026 19:03:07 GMT+0800",
+          updated: "Thu Mar 26 2026 15:15:30 GMT+0800",
           cover: "/covers/CLRS_cover.jpg",
         };
       </script>
