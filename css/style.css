@@ -1679,6 +1679,9 @@ button {
   color: #fff;
   background-color: var(--red-1);
 }
+.giscus-comment {
+  width: auto;
+}
 .archives-outer-wrap {
   background: var(--color-wrap);
   border-radius: 12px;
