@@ -16,9 +16,13 @@ copyright:
 sponsor:
 ---
 
-*选择了哈利波特里的这张图，但可惜没找到带蛇的 haha。*
-
 没怎么用过 Python 的魔法方法，只用过几个 `__init__` 和上下文管理器的几个，今天记录一下。
+
+<!-- more -->
+
+> 选择了哈利波特里的这张图，但可惜没找到带蛇的 haha
+
+---
 
 > **magic method** 
 > An informal synonym for special method.

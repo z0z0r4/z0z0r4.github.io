@@ -14,9 +14,11 @@ copyright:
 sponsor:
 ---
 
-封面取自 [OI Wiki Alpha–Beta 剪枝](https://oi-wiki.org/search/alpha-beta/)
-
 大概花了一下午，C++ 期末作业做了个简单的 AI 五子棋，使用 minimax 算法和 alpha-beta 剪枝。
+
+<!-- more -->
+
+> 封面取自 [OI Wiki Alpha–Beta 剪枝](https://oi-wiki.org/search/alpha-beta/)
 
 记录一下如何实现：
 

@@ -16,9 +16,9 @@ copyright:
 sponsor:
 ---
 
-关于对齐的记录。
+关于内存对齐的记录。
 
-> 一开始我起的是 Memory Alignment，但是后面一想其实还有很多地方会用到对齐这个概念，于是改标题为 Data Alignment
+<!-- more -->
 
 # 定义
 

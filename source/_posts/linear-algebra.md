@@ -19,6 +19,8 @@ sponsor:
 
 此处用于记录我学习 [MIT 18.06 Linear Algebra](https://www.youtube.com/watch?v=nHlE7EgJFds) 的笔记。
 
+<!-- more -->
+
 顺便学习 Latex 排版。
 
 ~~每次看完都会忘记，比较难受，尝试记住~~

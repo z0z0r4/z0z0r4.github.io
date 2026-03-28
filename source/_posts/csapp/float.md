@@ -16,8 +16,9 @@ copyright:
 sponsor:
 ---
 
-
 关于 CSAPP - Lecture 04 Floating Point 的浮点数（float）的笔记。
+
+<!-- more -->
 
 # 定义
 

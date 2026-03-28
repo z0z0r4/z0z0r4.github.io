@@ -18,6 +18,8 @@ sponsor:
 
 2026-02-25 到 2026-02-28 完成 :|
 
+<!-- more -->
+
 ---
 
 [材料下载](https://csapp.cs.cmu.edu/3e/datalab-handout.tar)

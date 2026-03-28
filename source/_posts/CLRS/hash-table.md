@@ -16,6 +16,10 @@ copyright:
 sponsor:
 ---
 
+CLRS 第 11 章 Hash Tables 记录。
+
+<!-- more -->
+
 以下内容参考过 [Solutions to Introduction to Algorithms Third Edition](https://walkccc.me/CLRS/)
 
 散列表是支持动态集合操作的数据结构，支持以下操作：

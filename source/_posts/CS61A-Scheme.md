@@ -16,6 +16,10 @@ copyright:
 sponsor:
 ---
 
+完成 CS61A 的 Scheme 相关部分。
+
+<!-- more -->
+
 今天在补之前剩下的 CS61A 的内容，在做 Project Scheme。里面的 `Link` 让我非常坐牢，还有 Scheme 的各种奇怪的语法。
 
 但这里面的作用域 `env` 的强调确实不错，以及没有循环只有递归着实让我感到抽象，不看 Gemini 没法入手。

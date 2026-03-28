@@ -18,6 +18,9 @@ sponsor:
 
 2026-03-03 完成 :D
 
+<!-- more -->
+
+
 ```shell
 ❯ ./bomb ans.txt
 Welcome to my fiendish little bomb. You have 6 phases with

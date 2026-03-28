@@ -18,6 +18,8 @@ sponsor:
 
 数据结构部分将结合 [CS61B](/2026/01/18/CS61B-Note-Collection/) 部分补充复杂度证明。
 
+<!-- more -->
+
 以下内容参考过 [Solutions to Introduction to Algorithms Third Edition](https://walkccc.me/CLRS/)
 
 > CS61B 怎么好像没有专门的栈与队列章节...
