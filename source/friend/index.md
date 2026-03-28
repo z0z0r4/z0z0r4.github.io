@@ -6,10 +6,12 @@ comments: true
 ## 本站信息
 
 ```yml
-- name: z0z0r4
+- name: z0z0r4's Blog
+  owner: z0z0r4
   url: https://blog.z0z0r4.top/
   desc: A Long Long Way
   image: https://blog.z0z0r4.top/avatar/avatar.jpg
+  RGB: '#a16585'
 ```
 
 
@@ -18,7 +20,7 @@ comments: true
 
 ~~~
 ```yml
-- name: #您的名字
+- name: #显示的名字
   url: #您的网址
   desc: #简短描述
   image: #一张图片
