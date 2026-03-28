@@ -174,17 +174,6 @@
       <h2 class="post-title">CSAPP Float</h2>
       <article class="post-article">
           关于 CSAPP - Lecture 04 Floating Point 的浮点数（float）的笔记。
- 定义
-IEEE 754 浮点数标准定义了浮点数的表示方法。
-有分为单精度（32 位）和双精度（64 位）。
-
-浮点数分规范化数（normalized numbers）、非规范化数（denormalized numbers）和特殊值三种情况。
-对于规范化数，浮点数的表示为：
-(−1)s×(1+frac)×2exp−bias(-1)^s \times (1 + frac) \times 2^{exp - bias}
-(−1)s×(1+frac)×2exp−bias
-其中：
-
-s：符号位，0 
       </article>
     </div>
   </div>
@@ -203,20 +192,7 @@ s：符号位，0
       </div>
       <h2 class="post-title">Gobang</h2>
       <article class="post-article">
-          封面取自 OI Wiki Alpha–Beta 剪枝
-大概花了一下午，C++ 期末作业做了个简单的 AI 五子棋，使用 minimax 算法和 alpha-beta 剪枝。
-记录一下如何实现：
-
-
-需要有评估函数，评估下一步棋的好坏。
-取棋盘上所有的连续的五子组合，除去五个空的情况，然后从黑白两方，分别通过连成了哪些模式，累加双方得分，最后用黑方得分减去白方得分，作为当前棋盘的评估值。
-
-
-选择落子位置时，只考虑当前棋盘上有棋子的格子周围一定范围内的空格，避免搜索过多无意义的位置。
-
-
-实现 minimax 算法，递归地模拟双方落子，直到达到设定的搜索深度。
-双方都假定对方会在己方落子后，会选
+          大概花了一下午，C++ 期末作业做了个简单的 AI 五子棋，使用 minimax 算法和 alpha-beta 剪枝。
       </article>
     </div>
   </div>
@@ -235,17 +211,7 @@ s：符号位，0
       </div>
       <h2 class="post-title">Python Magic Method</h2>
       <article class="post-article">
-          选择了哈利波特里的这张图，但可惜没找到带蛇的 haha。
-没怎么用过 Python 的魔法方法，只用过几个 __init__ 和上下文管理器的几个，今天记录一下。
-
-magic method
-An informal synonym for special method.
-一个非正式的同义词，指的是特殊方法。
-
-官方的名称是 special method.
-
-special method
-A method that is called implicitly by Python to execute a certain operation on a type, such as addition. 
+          没怎么用过 Python 的魔法方法，只用过几个 __init__ 和上下文管理器的几个，今天记录一下。
       </article>
     </div>
   </div>
@@ -265,11 +231,6 @@ A method that is called implicitly by Python to execute a certain operation on a
       <h2 class="post-title">Linear Algebra</h2>
       <article class="post-article">
           此处用于记录我学习 MIT 18.06 Linear Algebra 的笔记。
-顺便学习 Latex 排版。
-每次看完都会忘记，比较难受，尝试记住
- 线性无关
-当一组向量 v1,v2,…,vn v_1, v_2, \ldots, v_n v1​,v2​,…,vn​ 满足以下条件时，称其为线性无关：
-c1v1+c2v2+…+cnvn=0⇒c1=c2=…=cn=0 c_1 v_1 + c_2 v_2 + \ldots + c_n v_n = 0 \Rightarrow c_1 = c_2 = \ldots = c_n = 0 c1​v1​+c2​v2​+…+cn​vn​=0⇒c1​=c2​=…=c
       </article>
     </div>
   </div>

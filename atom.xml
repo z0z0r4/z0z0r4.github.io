@@ -46,16 +46,10 @@
     <link href="https://blog.z0z0r4.top/2026/03/21/CLRS/hash-table/"/>
     <id>https://blog.z0z0r4.top/2026/03/21/CLRS/hash-table/</id>
     <published>2026-03-21T03:42:54.000Z</published>
-    <updated>2026-03-26T07:15:30.192Z</updated>
+    <updated>2026-03-28T06:31:39.360Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;以下内容参考过 &lt;a href=&quot;https://walkccc.me/CLRS/&quot;&gt;Solutions to Introduction to Algorithms Third</summary>
-        
-      
+    <summary type="html">&lt;p&gt;CLRS 第 11 章 Hash Tables 记录。&lt;/p&gt;</summary>
     
     
     
@@ -77,17 +71,10 @@
     <link href="https://blog.z0z0r4.top/2026/03/19/CLRS/elementary-data-structure/"/>
     <id>https://blog.z0z0r4.top/2026/03/19/CLRS/elementary-data-structure/</id>
     <published>2026-03-19T05:59:34.000Z</published>
-    <updated>2026-03-24T15:20:22.310Z</updated>
+    <updated>2026-03-28T06:30:50.626Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;数据结构部分将结合 &lt;a href=&quot;/2026/01/18/CS61B-Note-Collection/&quot;&gt;CS61B&lt;/a&gt; 部分补充复杂度证明。&lt;/p&gt;
-&lt;p&gt;以下内容参考过 &lt;a href=&quot;https://walkccc.me/CLRS/&quot;&gt;Solutions</summary>
-        
-      
+    <summary type="html">&lt;p&gt;数据结构部分将结合 &lt;a href=&quot;/2026/01/18/CS61B-Note-Collection/&quot;&gt;CS61B&lt;/a&gt; 部分补充复杂度证明。&lt;/p&gt;</summary>
     
     
     
@@ -109,17 +96,10 @@
     <link href="https://blog.z0z0r4.top/2026/03/03/csapp/bomb-lab/"/>
     <id>https://blog.z0z0r4.top/2026/03/03/csapp/bomb-lab/</id>
     <published>2026-03-03T07:59:34.000Z</published>
-    <updated>2026-03-21T03:41:34.472Z</updated>
+    <updated>2026-03-28T06:31:55.925Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;2026-03-03 完成 😄&lt;/p&gt;
-&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
-        
-      
+    <summary type="html">&lt;p&gt;2026-03-03 完成 😄&lt;/p&gt;</summary>
     
     
     
@@ -141,18 +121,10 @@
     <link href="https://blog.z0z0r4.top/2026/02/25/csapp/data-lab/"/>
     <id>https://blog.z0z0r4.top/2026/02/25/csapp/data-lab/</id>
     <published>2026-02-25T10:45:09.000Z</published>
-    <updated>2026-03-05T10:39:56.330Z</updated>
+    <updated>2026-03-28T06:32:33.026Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;2026-02-25 到 2026-02-28 完成 😐&lt;/p&gt;
-&lt;hr /&gt;
-&lt;p&gt;&lt;a</summary>
-        
-      
+    <summary type="html">&lt;p&gt;2026-02-25 到 2026-02-28 完成 😐&lt;/p&gt;</summary>
     
     
     
@@ -174,17 +146,10 @@
     <link href="https://blog.z0z0r4.top/2026/02/24/check-in/"/>
     <id>https://blog.z0z0r4.top/2026/02/24/check-in/</id>
     <published>2026-02-24T04:57:52.000Z</published>
-    <updated>2026-03-22T08:01:02.100Z</updated>
+    <updated>2026-03-28T06:33:53.446Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;look-back&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#look-back&quot;&gt;&lt;/a&gt; Look Back&lt;/h1&gt;
-&lt;p&gt;寒假结束前几天，回顾了一下整个大一，发现我在 12</summary>
-        
-      
+    <summary type="html">&lt;p&gt;这里是存档点。&lt;/p&gt;</summary>
     
     
     
@@ -202,17 +167,10 @@
     <link href="https://blog.z0z0r4.top/2026/02/06/CS61A-Scheme/"/>
     <id>https://blog.z0z0r4.top/2026/02/06/CS61A-Scheme/</id>
     <published>2026-02-05T17:13:48.000Z</published>
-    <updated>2026-03-05T10:39:56.322Z</updated>
+    <updated>2026-03-28T06:34:28.888Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;今天在补之前剩下的 CS61A 的内容，在做 Project Scheme。里面的 &lt;code&gt;Link&lt;/code&gt; 让我非常坐牢，还有 Scheme 的各种奇怪的语法。&lt;/p&gt;
-&lt;p&gt;但这里面的作用域 &lt;code&gt;env&lt;/code&gt;</summary>
-        
-      
+    <summary type="html">&lt;p&gt;完成 CS61A 的 Scheme 相关部分。&lt;/p&gt;</summary>
     
     
     
@@ -234,20 +192,10 @@
     <link href="https://blog.z0z0r4.top/2026/01/16/csapp/data-alignment/"/>
     <id>https://blog.z0z0r4.top/2026/01/16/csapp/data-alignment/</id>
     <published>2026-01-16T05:26:17.000Z</published>
-    <updated>2026-03-05T10:39:56.330Z</updated>
+    <updated>2026-03-28T06:32:25.650Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;关于对齐的记录。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;一开始我起的是 Memory Alignment，但是后面一想其实还有很多地方会用到对齐这个概念，于是改标题为 Data Alignment&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1 id=&quot;定义&quot;&gt;&lt;a</summary>
-        
-      
+    <summary type="html">&lt;p&gt;关于内存对齐的记录。&lt;/p&gt;</summary>
     
     
     
@@ -269,20 +217,10 @@
     <link href="https://blog.z0z0r4.top/2026/01/15/pcls-gallery/"/>
     <id>https://blog.z0z0r4.top/2026/01/15/pcls-gallery/</id>
     <published>2026-01-15T14:28:21.000Z</published>
-    <updated>2026-02-08T16:11:18.720Z</updated>
+    <updated>2026-03-28T06:35:47.395Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;2026-01-24 更新：&lt;br /&gt;
-坏消息，心碎了，对不起…&lt;br /&gt;
-发现备份的存档里面少了 &lt;code&gt;world_nether&lt;/code&gt;，我也不知道为什么会当时没备份进来。&lt;br /&gt;
-&lt;s&gt;出生点这块的几个 region</summary>
-        
-      
+    <summary type="html">&lt;p&gt;此处记录 PCLS 的一些图片和视频、和回忆。&lt;/p&gt;</summary>
     
     
     
@@ -308,18 +246,10 @@
     <link href="https://blog.z0z0r4.top/2026/01/11/csapp/float/"/>
     <id>https://blog.z0z0r4.top/2026/01/11/csapp/float/</id>
     <published>2026-01-11T08:26:43.000Z</published>
-    <updated>2026-03-05T10:39:56.330Z</updated>
+    <updated>2026-03-28T06:32:38.223Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;关于 CSAPP - Lecture 04 Floating Point 的浮点数（float）的笔记。&lt;/p&gt;
-&lt;h1 id=&quot;定义&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#定义&quot;&gt;&lt;/a&gt; 定义&lt;/h1&gt;
-&lt;p&gt;IEEE 754</summary>
-        
-      
+    <summary type="html">&lt;p&gt;关于 CSAPP - Lecture 04 Floating Point 的浮点数（float）的笔记。&lt;/p&gt;</summary>
     
     
     
@@ -341,17 +271,10 @@
     <link href="https://blog.z0z0r4.top/2025/12/25/gobang/"/>
     <id>https://blog.z0z0r4.top/2025/12/25/gobang/</id>
     <published>2025-12-24T16:26:46.000Z</published>
-    <updated>2026-03-05T10:39:56.322Z</updated>
+    <updated>2026-03-28T06:35:09.153Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;封面取自 &lt;a href=&quot;https://oi-wiki.org/search/alpha-beta/&quot;&gt;OI Wiki Alpha–Beta 剪枝&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;大概花了一下午，C++ 期末作业做了个简单的 AI 五子棋，使用 minimax 算法和</summary>
-        
-      
+    <summary type="html">&lt;p&gt;大概花了一下午，C++ 期末作业做了个简单的 AI 五子棋，使用 minimax 算法和 alpha-beta 剪枝。&lt;/p&gt;</summary>
     
     
     
@@ -369,17 +292,10 @@
     <link href="https://blog.z0z0r4.top/2025/12/14/python-magic-method/"/>
     <id>https://blog.z0z0r4.top/2025/12/14/python-magic-method/</id>
     <published>2025-12-13T17:02:08.000Z</published>
-    <updated>2026-03-05T10:39:56.322Z</updated>
+    <updated>2026-03-28T06:36:25.101Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;&lt;em&gt;选择了哈利波特里的这张图，但可惜没找到带蛇的 haha。&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;没怎么用过 Python 的魔法方法，只用过几个 &lt;code&gt;__init__&lt;/code&gt;</summary>
-        
-      
+    <summary type="html">&lt;p&gt;没怎么用过 Python 的魔法方法，只用过几个 &lt;code&gt;__init__&lt;/code&gt; 和上下文管理器的几个，今天记录一下。&lt;/p&gt;</summary>
     
     
     
@@ -401,17 +317,10 @@
     <link href="https://blog.z0z0r4.top/2025/12/08/linear-algebra/"/>
     <id>https://blog.z0z0r4.top/2025/12/08/linear-algebra/</id>
     <published>2025-12-08T15:42:30.000Z</published>
-    <updated>2026-03-05T10:39:56.322Z</updated>
+    <updated>2026-03-28T06:35:16.534Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;此处用于记录我学习 &lt;a href=&quot;https://www.youtube.com/watch?v=nHlE7EgJFds&quot;&gt;MIT 18.06 Linear Algebra&lt;/a&gt; 的笔记。&lt;/p&gt;
-&lt;p&gt;顺便学习 Latex</summary>
-        
-      
+    <summary type="html">&lt;p&gt;此处用于记录我学习 &lt;a href=&quot;https://www.youtube.com/watch?v=nHlE7EgJFds&quot;&gt;MIT 18.06 Linear Algebra&lt;/a&gt; 的笔记。&lt;/p&gt;</summary>
     
     
     

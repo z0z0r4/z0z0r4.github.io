@@ -192,24 +192,7 @@
       </div>
       <h2 class="post-title">CLRS Hash Tables</h2>
       <article class="post-article">
-          以下内容参考过 Solutions to Introduction to Algorithms Third Edition
-散列表是支持动态集合操作的数据结构，支持以下操作：
-
-
-INSERT，将一个新的元素放入集合中。
-
-
-DELETE，从集合中移除一个特定的元素。
-
-
-SEARCH，在集合中查找一个特定的元素。
-
-
-
-以下的定义和 CLRS 的定义略不同，CLRS 中的散列表就是动态集合，键是元素，值是卫星数据。
-
-或者说，散列表是一种通过散列函数（Hash Function）将特定的键（Key）映射到表中的一个位置来访问记录的数据结构。
-键值对是由一个键和一个值组成的数据项，其中键是唯一
+          CLRS 第 11 章 Hash Tables 记录。
       </article>
     </div>
   </div>
@@ -229,23 +212,6 @@ SEARCH，在集合中查找一个特定的元素。
       <h2 class="post-title">CLRS Elementary Data Structure</h2>
       <article class="post-article">
           数据结构部分将结合 CS61B 部分补充复杂度证明。
-以下内容参考过 Solutions to Introduction to Algorithms Third Edition
-
-CS61B 怎么好像没有专门的栈与队列章节…
-
- Stack
-栈（Stack）是一种后进先出（LIFO）的数据结构，支持以下基本操作：
-
-
-push(x): 将元素 x 压入栈顶。
-
-
-pop(): 移除并返回栈顶元素。
-
-
-可以用数组或链表实现栈，前者定长，后者动态长度但需要为每个节点维护 next 指针。
-试图弹出空栈会导致下溢（underflow），而试图压入满栈会导致上溢（overflow）。
-很显然，栈的 
       </article>
     </div>
   </div>
@@ -265,7 +231,6 @@ pop(): 移除并返回栈顶元素。
       <h2 class="post-title">CSAPP Bomb Lab</h2>
       <article class="post-article">
           2026-03-03 完成 😄
-123456789101112❯ ./bomb ans.txtWelcome to my fiendish little bomb. You have 6 phases withwhich to blow yourself up. Have a nice day!Phase 1 defused. How about the next one?That&amp;#x27;s number 2.  Keep going!Halfway there!So you got that one.  Try this one.Good work!  On to the next..
       </article>
     </div>
   </div>
@@ -285,14 +250,6 @@ pop(): 移除并返回栈顶元素。
       <h2 class="post-title">CSAPP Data Lab</h2>
       <article class="post-article">
           2026-02-25 到 2026-02-28 完成 😐
-
-材料下载
-其中有一些工具：
-btest 可以用来测试，btest -f func_name 可以测试指定函数，-1 value1 -2 value2 - 3 value3 可以指定测试参数
-dlc -e bits.c 可以纠正风格和统计操作符数量
-ishow 和 fshow 可以分别显示 int 和 float 的相关信息，比如
-12❯ ./ishow 127Hex = 0x0000007f,       Signed = 127,   Unsigned = 127
-12345❯ ./fshow 3.75Floating point
       </article>
     </div>
   </div>
@@ -306,18 +263,12 @@ ishow 和 fshow 可以分别显示 int 和 float 的相关信息，比如
     <div class="post-info">
       <div class="post-meta">
         <span><span class="icon-calendar"></span>2026-02-24</span>
-        <span><span class="icon-pencil"></span>676 字</span>
+        <span><span class="icon-pencil"></span>682 字</span>
         <span><span class="icon-clock"></span>3 分钟</span>
       </div>
       <h2 class="post-title">Plan and Check-in</h2>
       <article class="post-article">
-           Look Back
-寒假结束前几天，回顾了一下整个大一，发现我在 12 月之前的进度非常差，高数和线代花费了很多时间，12 月之前居然连 CS61A 都没能完成，考完试才开始推 CS61B 和补充 CS61A 的 Scheme。
-我在几天前还觉得到最后进度不错，但回想起来，实际上没放假的时候，白天的时间被学校的课程占用完了，没有决心全心投入在 CS 上还希望能够推进度，是我有点又懒又贪心了 ：（
-
-了解到全心自学的同学连 OS 都推玩了，深感愧疚
-
-虽然会有各种事项，可能是学校课程、比赛、课题，我也希望能够保持绩点，也争取读研，但我还是决定更贪心一点吧。决定将我的最大兴趣——CS 本身重新放
+          这里是存档点。
       </article>
     </div>
   </div>
@@ -336,9 +287,7 @@ ishow 和 fshow 可以分别显示 int 和 float 的相关信息，比如
       </div>
       <h2 class="post-title">CS61A Scheme</h2>
       <article class="post-article">
-          今天在补之前剩下的 CS61A 的内容，在做 Project Scheme。里面的 Link 让我非常坐牢，还有 Scheme 的各种奇怪的语法。
-但这里面的作用域 env 的强调确实不错，以及没有循环只有递归着实让我感到抽象，不看 Gemini 没法入手。
-精神状态比较差，在没有实现 EC1 do_cond_form 的情况下，一直在 Problem 14 里面用 cond 导致我写的实现一直报错，在 Scheme Online 里面测试也没问题，参考 https://github.com/eeoeqaq/cs61A_2025_fall_resource/blob/master/proj/s
+          完成 CS61A 的 Scheme 相关部分。
       </article>
     </div>
   </div>
@@ -357,17 +306,7 @@ ishow 和 fshow 可以分别显示 int 和 float 的相关信息，比如
       </div>
       <h2 class="post-title">CS61B Note Collection</h2>
       <article class="post-article">
-          
-此篇 Blog 记录了我在 CS61B 课程中了解到内容，可能在部分章节有点发散，梦到啥查啥了
-
- Project 0 2048
-在给出的框架上实现上下左右倾斜的函数，挺简单。
-官方的逻辑 好像是分步骤的，先把所有非零元素挤到一边，然后再合并相邻的相同元素，最后再把非零元素挤到一边，逻辑更清晰吧，但我看的是 Hard Mode Project，就没跟着它思路走了。
-
- Linked List
- SLList
-单链表，只有 next 没有 prev，所以只能从头结点开始往后遍历，不能反向遍历。
-1234class Node &amp;#123;    int item;    Node next;&amp;#
+          此篇 Blog 记录了我在 CS61B 课程中了解到内容，可能在部分章节有点发散，梦到啥查啥了。
       </article>
     </div>
   </div>
@@ -386,29 +325,7 @@ ishow 和 fshow 可以分别显示 int 和 float 的相关信息，比如
       </div>
       <h2 class="post-title">CSAPP Data Alignment</h2>
       <article class="post-article">
-          关于对齐的记录。
-
-一开始我起的是 Memory Alignment，但是后面一想其实还有很多地方会用到对齐这个概念，于是改标题为 Data Alignment
-
- 定义
-当内存地址 aaa 是 nnn 的倍数，其中 nnn 是 2 的幂时，称地址 aaa 是 nnn 字节对齐的。
-当被访问的数据长度是 nnn 字节且起始地址 nnn 字节对齐，那么该数据是对齐的，否则是不对齐的。
- 基本类型的对齐
-
-
-char 是 1 字节对齐
-
-
-short 是 2 字节对齐
-
-
-int 是 4 字节对齐
-
-
-long 是 4 字节对齐（32 位系统）或 8 字节对齐（64 位系统）
-
-
-long lon
+          关于内存对齐的记录。
       </article>
     </div>
   </div>
@@ -422,19 +339,12 @@ long lon
     <div class="post-info">
       <div class="post-meta">
         <span><span class="icon-calendar"></span>2026-01-15</span>
-        <span><span class="icon-pencil"></span>762 字</span>
+        <span><span class="icon-pencil"></span>778 字</span>
         <span><span class="icon-clock"></span>3 分钟</span>
       </div>
       <h2 class="post-title">PCLS Gallery</h2>
       <article class="post-article">
-          
-2026-01-24 更新：
-坏消息，心碎了，对不起…
-发现备份的存档里面少了 world_nether，我也不知道为什么会当时没备份进来。
-出生点这块的几个 region mca 文件都丢失了 主世界仅留下 region 文件夹和 level.dat，同时随机丢失了大概一半的 region，7zip 报错文件末端错误，看来很可能是没压缩完就被中止了。
-更坏的消息是，这个备份是关服前被炸成稀巴烂的…可能原来有更之前的备份被我删了，也可能当时压根就没有没炸的备份…
-2026-02-09 更新：
-Mr.yang 存了一份  6 月份的存档，虽然没有七月份的进度的。随之一起的还有一份一周目的存档 
+          此处记录 PCLS 的一些图片和视频、和回忆。
       </article>
     </div>
   </div>

@@ -14,15 +14,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=JetBrains%20Mono:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=JetBrains%20Mono:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
     <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <meta name="description" content="今天在补之前剩下的 CS61A 的内容，在做 Project Scheme。里面的 Link 让我非常坐牢，还有 Scheme 的各种奇怪的语法。 但这里面的作用域 env 的强调确实不错，以及没有循环只有递归着实让我感到抽象，不看 Gemini 没法入手。 精神状态比较差，在没有实现 EC1 do_cond_form 的情况下，一直在 Problem 14 里面用 cond 导致我写的实现一直报">
+    <meta name="description" content="完成 CS61A 的 Scheme 相关部分。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CS61A Scheme">
 <meta property="og:url" content="https://blog.z0z0r4.top/2026/02/06/CS61A-Scheme/index.html">
 <meta property="og:site_name" content="z0z0r4 Blog">
-<meta property="og:description" content="今天在补之前剩下的 CS61A 的内容，在做 Project Scheme。里面的 Link 让我非常坐牢，还有 Scheme 的各种奇怪的语法。 但这里面的作用域 env 的强调确实不错，以及没有循环只有递归着实让我感到抽象，不看 Gemini 没法入手。 精神状态比较差，在没有实现 EC1 do_cond_form 的情况下，一直在 Problem 14 里面用 cond 导致我写的实现一直报">
+<meta property="og:description" content="完成 CS61A 的 Scheme 相关部分。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-02-05T17:13:48.000Z">
-<meta property="article:modified_time" content="2026-03-05T10:39:56.322Z">
+<meta property="article:modified_time" content="2026-03-28T06:34:28.888Z">
 <meta property="article:author" content="z0z0r4">
 <meta property="article:tag" content="CS61A">
 <meta property="article:tag" content="study-notes">
@@ -178,7 +178,7 @@
       <div class="article-date">
   <span class="article-date-link icon-calendar" data-aos="zoom-in">
     <time datetime="2026-02-05T17:13:48.000Z" itemprop="datePublished">2026-02-06</time>
-    <time style="display: none;" id="post-update-time">2026-03-05</time>
+    <time style="display: none;" id="post-update-time">2026-03-28</time>
   </span>
 </div>
 
@@ -191,7 +191,9 @@
     <div class="hr-line"></div>
     
     <div class="e-content article-entry" itemprop="articleBody">
-        <p>今天在补之前剩下的 CS61A 的内容，在做 Project Scheme。里面的 <code>Link</code> 让我非常坐牢，还有 Scheme 的各种奇怪的语法。</p>
+        <p>完成 CS61A 的 Scheme 相关部分。</p>
+<span id="more"></span>
+<p>今天在补之前剩下的 CS61A 的内容，在做 Project Scheme。里面的 <code>Link</code> 让我非常坐牢，还有 Scheme 的各种奇怪的语法。</p>
 <p>但这里面的作用域 <code>env</code> 的强调确实不错，以及没有循环只有递归着实让我感到抽象，不看 Gemini 没法入手。</p>
 <p>精神状态比较差，在没有实现 EC1 <code>do_cond_form</code> 的情况下，一直在 Problem 14 里面用 <code>cond</code> 导致我写的实现一直报错，在 Scheme Online 里面测试也没问题，参考 <a target="_blank" rel="noopener" href="https://github.com/eeoeqaq/cs61A_2025_fall_resource/blob/master/proj/scheme/questions.scm">https://github.com/eeoeqaq/cs61A_2025_fall_resource/blob/master/proj/scheme/questions.scm</a> 发现他的都是 <code>if</code> 的实现，但也还是没想出原因。</p>
 <p>最后还是 Gemini 3 PRO 给我找出来了（虽然没完全猜对就是了，以为我没 <code>return</code> 结果是完全没实现）…虽然我没有给 Gemini 看完整的仓库，但它还是猜出了问题所在，不赖，瞬间感觉值了，就是我一怒之下怒了一下，释怀了…</p>
@@ -477,11 +479,11 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
           author: "z0z0r4",
           title: "CS61A Scheme",
           url: "https://blog.z0z0r4.top/2026/02/06/CS61A-Scheme/",
-          excerpt: "",
+          excerpt: "完成 CS61A 的 Scheme 相关部分。",
           description: "",
-          stripContent: "今天在补之前剩下的 CS61A 的内容，在做 Project Scheme。里面的 Link 让我非常坐牢，还有 Scheme 的各种奇怪的语法。 但这里面的作用域 env 的强调确实不错，以及没有循环只有递归着实让我感到抽象，不看 Gemini 没法入手。 精神状态比较差，在没有实现 EC1 do_cond_form 的情况下，一直在 Problem 14 里面用 cond 导致我写的实现一直报错，在 Scheme Online 里面测试也没问题，参考 https://github.com/e",
+          stripContent: "完成 CS61A 的 Scheme 相关部分。  今天在补之前剩下的 CS61A 的内容，在做 Project Scheme。里面的 Link 让我非常坐牢，还有 Scheme 的各种奇怪的语法。 但这里面的作用域 env 的强调确实不错，以及没有循环只有递归着实让我感到抽象，不看 Gemini 没法入手。 精神状态比较差，在没有实现 EC1 do_cond_form 的情况下，一直在 Problem 14 里面用 cond 导致我写的实现一直报错，在 Scheme Online 里面测试也没问",
           date: "Fri Feb 06 2026 01:13:48 GMT+0800",
-          updated: "Thu Mar 05 2026 18:39:56 GMT+0800",
+          updated: "Sat Mar 28 2026 14:34:28 GMT+0800",
           cover: "/images/CS61A_cover.png",
         };
       </script>
