@@ -183,6 +183,20 @@
   </url>
   
   <url>
+    <loc>https://blog.z0z0r4.top/tags/math/</loc>
+    <lastmod>2026-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.z0z0r4.top/tags/linear-algebra/</loc>
+    <lastmod>2026-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.z0z0r4.top/tags/games/</loc>
     <lastmod>2026-04-04</lastmod>
     <changefreq>weekly</changefreq>
@@ -205,20 +219,6 @@
   
   <url>
     <loc>https://blog.z0z0r4.top/tags/python/</loc>
-    <lastmod>2026-04-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.z0z0r4.top/tags/math/</loc>
-    <lastmod>2026-04-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.z0z0r4.top/tags/linear-algebra/</loc>
     <lastmod>2026-04-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -262,13 +262,6 @@
   </url>
   
   <url>
-    <loc>https://blog.z0z0r4.top/categories/study-notes/coding/</loc>
-    <lastmod>2026-04-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.z0z0r4.top/categories/study-notes/math/</loc>
     <lastmod>2026-04-04</lastmod>
     <changefreq>weekly</changefreq>
@@ -276,14 +269,14 @@
   </url>
   
   <url>
-    <loc>https://blog.z0z0r4.top/categories/daily-record/CS/</loc>
+    <loc>https://blog.z0z0r4.top/categories/study-notes/coding/</loc>
     <lastmod>2026-04-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://blog.z0z0r4.top/categories/study-notes/CS/CLRS/</loc>
+    <loc>https://blog.z0z0r4.top/categories/daily-record/CS/</loc>
     <lastmod>2026-04-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -304,14 +297,14 @@
   </url>
   
   <url>
-    <loc>https://blog.z0z0r4.top/categories/daily-record/games/</loc>
+    <loc>https://blog.z0z0r4.top/categories/study-notes/CS/CLRS/</loc>
     <lastmod>2026-04-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://blog.z0z0r4.top/categories/study-notes/coding/python/</loc>
+    <loc>https://blog.z0z0r4.top/categories/study-notes/math/linear-algebra/</loc>
     <lastmod>2026-04-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -325,7 +318,14 @@
   </url>
   
   <url>
-    <loc>https://blog.z0z0r4.top/categories/study-notes/math/linear-algebra/</loc>
+    <loc>https://blog.z0z0r4.top/categories/daily-record/games/</loc>
+    <lastmod>2026-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.z0z0r4.top/categories/study-notes/coding/python/</loc>
     <lastmod>2026-04-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
