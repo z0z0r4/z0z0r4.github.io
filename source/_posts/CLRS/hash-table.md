@@ -65,41 +65,24 @@ class DirectAddressTable{
 ---
 
 > 11.1-1
-> Suppose that a dynamic set S isrepresented byadirect-address table T of length m.
-> Describe a procedure that finds the maximum element of S. What is the worst-case
-> performance of your procedure?
+> Suppose that a dynamic set S isrepresented byadirect-address table T of length m. Describe a procedure that finds the maximum element of S. What is the worst-case performance of your procedure?
 
 要找到动态集合 S 中的最大元素，可以直接从后向前遍历表 T，第一个非空元素就是最大的元素，索引就是顺序
 
 > 11.1-2
-> A bit vector is simply an array of bits (0s and 1s). A bit vector of length m takes
-> much less space than an array of m pointers. Describe how to use a bit vector
-> to represent a dynamic set of distinct elements with no satellite data. Dictionary
-> operations should run in $O(1)$ time.
+> A bit vector is simply an array of bits (0s and 1s). A bit vector of length m takes much less space than an array of m pointers. Describe how to use a bit vector to represent a dynamic set of distinct elements with no satellite data. Dictionary operations should run in $O(1)$ time.
 
 因为不需要存储指向卫星数据的指针，直接用 0 表示该值为索引值的元素不存在，用 1 表示存在，其他和直接寻址法一样。
 
 > 11.1-3
-> Suggest how to implement a direct-address table in which the keys of stored el
-> ements do not need to be distinct and the elements can have satellite data. All
-> three dictionary operations (INSERT, DELETE, and SEARCH) should run in $O(1)$
-> time. (Don’t forget that DELETE takes as an argument a pointer to an object to be
-> deleted, not a key.)
+> Suggest how to implement a direct-address table in which the keys of stored elements do not need to be distinct and the elements can have satellite data. All three dictionary operations (INSERT, DELETE, and SEARCH) should run in $O(1)$ time. (Don’t forget that DELETE takes as an argument a pointer to an object to be deleted, not a key.)
 
 直接寻址法且允许键不唯一，那么可以在每个索引位置创建一个双向链表，存储具有相同键的元素。
 
 INSERT 操作将新元素添加到列表中，DELETE 操作直接删除该链表节点，SEARCH 操作返回链表中第一个匹配的元素。显然符合 O(1) 时间复杂度。
 
 > 11.1-4 ?
-> Wewish to implement a dictionary by using direct addressing on a huge array. At
-> the start, the array entries may contain garbage, and initializing the entire array
-> is impractical because of its size. Describe a scheme for implementing a direct
-> address dictionary on a huge array. Each stored object should use $O(1)$ space;
-> the operations SEARCH, INSERT, and DELETE should take $O(1)$ time each; and
-> initializing the data structure should take $O(1)$ time. (Hint: Use an additional array,
-> treated somewhat like a stack whose size is the number of keys actually stored in
-> the dictionary, to help determine whether a given entry in the huge array is valid or
-> not.)
+> We wish to implement a dictionary by using direct addressing on a huge array. At the start, the array entries may contain garbage, and initializing the entire array is impractical because of its size. Describe a scheme for implementing a direct address dictionary on a huge array. Each stored object should use $O(1)$ space; the operations SEARCH, INSERT, and DELETE should take $O(1)$ time each; and initializing the data structure should take $O(1)$ time. (Hint: Use an additional array, treated somewhat like a stack whose size is the number of keys actually stored in the dictionary, to help determine whether a given entry in the huge array is valid or not.)
 
 **TLDR: $dense[sparse[key]] = key$**
 
@@ -194,18 +177,14 @@ $$
 ---
 
 > 11.2-1
-> Suppose we use a hash function h to hash n distinct keys into an array T of
-> length m. Assuming simple uniform hashing, what is the expected number of
-> collisions? More precisely, what is the expected cardinality of $\{\{k, l\}: k \neq l, h(k) = h(l)\}$?
+> Suppose we use a hash function h to hash n distinct keys into an array T of length m. Assuming simple uniform hashing, what is the expected number of collisions? More precisely, what is the expected cardinality of $\{\{k, l\}: k \neq l, h(k) = h(l)\}$?
 
 上文提到 $E[X_ij] = P\{h(k_i) = h(k_j)\} = \frac{1}{m}$，所以：
 
 $$ E = \sum_{i=1}^n \sum_{j=i+1}^n E[X_ij] = \sum_{i=1}^n \sum_{j=i+1}^n P\{h(k_i) = h(k_j)\} = \sum_{i=1}^n \sum_{j=i+1}^n \frac{1}{m} = \frac{n(n-1)}{2m} $$
 
 > 11.2-2
-> Demonstrate what happens when we insert the keys 5,28,19,15,20,33,12,17,10
-> into a hash table with collisions resolved by chaining. Let the table have 9 slots,
-> and let the hash function be $h(k) = k \bmod 9$.
+> Demonstrate what happens when we insert the keys 5,28,19,15,20,33,12,17,10 into a hash table with collisions resolved by chaining. Let the table have 9 slots, and let the hash function be $h(k) = k \bmod 9$.
 
 $h(k) = k \bmod 9$ 的结果是：
 
@@ -248,10 +227,7 @@ $h(k) = k \bmod 9$ 的结果是：
 - 8: `17`
 
 > 11.2-3
-> Professor Marley hypothesizes that he can obtain substantial performance gains by
-> modifying the chaining scheme to keep each list in sorted order. How does the pro
-> fessor’s modification affect the running time for successful searches, unsuccessful
-> searches, insertions, and deletions?
+> Professor Marley hypothesizes that he can obtain substantial performance gains by modifying the chaining scheme to keep each list in sorted order. How does the pro fessor’s modification affect the running time for successful searches, unsuccessful searches, insertions, and deletions?
 
 - 成功搜索没有区别（链表不能二分），是 $\Theta(1 + \alpha)$
 
@@ -262,11 +238,7 @@ $h(k) = k \bmod 9$ 的结果是：
 - 删除和之前相同
 
 > 11.2-4
-> Suggest how to allocate and deallocate storage for elements within the hash table
-> itself by linking all unused slots into a free list. Assume that one slot can store
-> a flag and either one element plus a pointer or two pointers. All dictionary and
-> free-list operations should run in $O(1)$ expected time. Does the free list need to be
-> doubly linked, or does a singly linked free list suffice?
+> Suggest how to allocate and deallocate storage for elements within the hash table itself by linking all unused slots into a free list. Assume that one slot can store a flag and either one element plus a pointer or two pointers. All dictionary and free-list operations should run in $O(1)$ expected time. Does the free list need to be doubly linked, or does a singly linked free list suffice?
 
 > 注意 *one slot can store a flag **and** **either** one element plus a pointer **or** two pointers* 指的是一个槽位可以存一个标志位和 **“一个元素+一个指针”** 或者 **“两个指针”**
 
@@ -283,10 +255,7 @@ $h(k) = k \bmod 9$ 的结果是：
 ---
 
 > 11.2-5
-> Suppose that we are storing a set of $n$ keys into a hash table of size $m$. Show that if
-> the keys are drawn from a universe $U$ with $|U| \gt nm$,then $U$ hasasubset of size n
-> consisting of keys that all hash to the same slot, so that the worst-case searching
-> time for hashing with chaining is $\Theta(n)$.
+> Suppose that we are storing a set of $n$ keys into a hash table of size $m$. Show that if the keys are drawn from a universe $U$ with $|U| \gt nm$,then $U$ hasasubset of size n consisting of keys that all hash to the same slot, so that the worst-case searching time for hashing with chaining is $\Theta(n)$.
 
 设 $U_j = \{x∈U∣h(x)=j\}$，那么 $ \sum_{j=1}^{m} U_j = |U| \gt nm$
 
@@ -295,18 +264,13 @@ $h(k) = k \bmod 9$ 的结果是：
 所以确实存在大小为 $n$ 的子集，全部映射到同一个槽。
 
 > 11.2-6
-> Suppose wehave stored $n$ keys in ahash table of size $m$, with collisions resolved by
-> chaining, and that we know the length of each chain, including the length $L$ of the
-> longest chain. Describe a procedure that selects a key uniformly at random from
-> among the keys in the hash table and returns it in expected time $O(L \cdot (1 + \frac{1}{\alpha}))$.
+> Suppose wehave stored $n$ keys in ahash table of size $m$, with collisions resolved by chaining, and that we know the length of each chain, including the length $L$ of the longest chain. Describe a procedure that selects a key uniformly at random from among the keys in the hash table and returns it in expected time $O(L \cdot (1 + \frac{1}{\alpha}))$.
 
 查到是类似蒙特卡洛拒绝采样，IGNORED
 
 ## Hash functions
 
-> A good hash function satisfies (approximately) the assumption of simple uniform
-> hashing: each key is equally likely to hash to any of the m slots, independently of
-> where any other key has hashed to. 
+> A good hash function satisfies (approximately) the assumption of simple uniform hashing: each key is equally likely to hash to any of the m slots, independently of where any other key has hashed to. 
 
 > 一个好的哈希函数应（尽可能）满足简单均匀散列假设：每个键等可能映射到任意槽位，且与其他键映射到哪个槽位无关
 
@@ -621,6 +585,8 @@ $$
 
 ## Perfect hashing
 
+前面的全域哈希更多是为了后面的完美哈希铺垫的。
+
 大致为，对于固定的的键集合 $K$，$|K| = n$，先将其散列到长度为 $n$ 的表中，可能发生碰撞。然后在碰撞的槽位上，再使用一个长度为 $n_i^2$ 的表来存储冲突的元素，其中 $n_i$ 是第 $i$ 个槽位上发生碰撞的元素数量。对于每个槽位，从散列簇中随机选择一个散列函数，直到没有碰撞为止。
 
 可以证明尝试几次就能找到合适的函数。
@@ -628,3 +594,88 @@ $$
 证明 IGNORED
 
 查到还有 Minimal Perfect Hashing，可以空间做到 100% 利用率，多用于编译器。
+
+## Linked list to red-black tree
+
+对于过长的桶，可以直接将链表换成红黑树。
+
+链表的查找时间是 $O(n)$，而红黑树的查找时间是 $O(\log n)$。但插入和删除时链表的时间复杂度是 $O(1)$，而红黑树的时间复杂度还是是 $O(\log n)$。
+
+显然有一个临界值。对于 Java 的 HashMap 来说，当链表长度超过 8 时，就会将链表转换为红黑树。
+
+## HashDOS
+
+首先，为了追求极致的查询性能，早期的哈希函数设计大多是**确定性**的：
+
+* **DJBX33A** (PHP 早期使用)
+* **FNV** (Python 早期使用变体)
+* **MurmurHash** (Redis, Memcached 等使用)
+* **Java String hashCode**
+
+> 实际上是 $h(k) = h'(k) \bmod m$，其中 $h'$ 是上述的确定性哈希函数，$m$ 是哈希表大小。
+>
+> 由于 $m$ 会变（扩容），实际碰撞指的是 $h'(k_1) = h'(k_2)$
+
+以上这些 $h'(k)$ 可以构建出大量碰撞的输入，例如对于 Java 的 `31 * h + c`，攻击者可以构造出 `"Aa"` 和 `"BB"` 这两个字符串，它们 $h'(k)$ 的值相同。
+
+> 具体来说，计算方式是 $h(s) = s[0] \cdot 31^{n-1} + s[1] \cdot 31^{n-2} + \dots + s[n-1]$，其中 $s[i]$ 是字符串的第 $i$ 个字符的 ASCII 码值。
+>
+> `ord("A") * 31 + ord("a")` 和 `ord("B") * 31 + ord("B")` 的结果都是 2112
+
+在 2011 年末，有 Web 应用的 **Hash Flooding** ，网页会将参数保存在哈希表中，如果哈希函数是确定的，攻击者可以离线构造大量相同的哈希值的输入，使得哈希表退化为单链表。
+
+有两类解决方案：
+
+引入随机化：
+
+* **SipHash**：这是现在的标准方案之一（Python 在 [PEP 456](https://peps.python.org/pep-0456/) 中引入；Rust 默认使用 SipHash 1-3）。
+
+  SipHash 是基于 [ARX](https://en.wikipedia.org/wiki/Block_cipher#ARX_(add%E2%80%93rotate%E2%80%93XOR))（加法-旋转-异或）的 [PRF](https://en.wikipedia.org/wiki/Pseudorandom_function_family)（伪随机函数）。攻击者即使知道部分输入输出，也无法推导出 Seed，从而无法构造碰撞。
+
+  其计算开销要比 MurmurHash 慢数倍，但为了抵御 HashDOS 攻击，这种性能损失是值得的。
+
+或者既然无法避免碰撞，就保证最坏情况下的性能：
+
+* **Java 8+** 在当单个桶（Bucket）内的链表长度超过阈值（默认 8）时，链表会自动转换为**红黑树**。
+
+SipHash 见
+
+- <https://docs.kernel.org/security/siphash.html>
+
+- <https://en.wikipedia.org/wiki/SipHash>
+
+- <https://github.com/veorq/SipHash>
+
+## Birthday attack
+
+生日攻击从信息密度的角度来分析碰撞概率。
+
+假设键是随机映射到散列表中的。
+
+那么当表中已有 $n$ 个键，哈希函数的输出有 $m$ 个取值，那么插入一个键不发生碰撞的概率是 $(m-n)/m$
+
+那么插入 $n$ 个键都不发生碰撞的概率是
+
+$$
+\frac{m}{m} \cdot \frac{m-1}{m} \cdot \frac{m-2}{m} \cdots \frac{m-n+1}{m}
+$$
+
+用阶乘表示为
+
+$$
+\frac{m!}{m^n (m-n)!}
+$$
+
+因为 $1 -x \approx e^{-x}$，所以
+
+$$
+P(n) \approx \exp\left(-\sum_{i=0}^{n-1} \frac{i}{m}\right) = \exp\left(-\frac{n(n-1)}{2m}\right)
+$$
+
+| 哈希算法 | 输出长度 (n) | 总空间 $2^n$ | 暴力穷举难度 $2^n$ | 生日攻击难度 ($2^{n/2}$) | 安全性 |
+| --- | --- | --- | --- | --- | --- |
+| MD5 | 128 bit | 3.4 × 10^38 | 2^128 | 2^64 | 已不安全 |
+| SHA-1 | 160 bit | 1.4 × 10^48 | 2^160 | 2^80 | 已不安全 |
+| SHA-256 | 256 bit | 1.1 × 10^77 | 2^256 | 2^128 | 目前安全 |
+
+以上都是暴力攻击的难度。
