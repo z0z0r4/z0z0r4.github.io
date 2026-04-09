@@ -4,7 +4,7 @@ sticky: false
 mermaid: false
 tags:
 categories:
-cover:
+cover: images/csapp/memory_mountain.png
 comments:
 copyright:
 sponsor:
@@ -13,6 +13,41 @@ sponsor:
 这是 CSAPP Lab 记录的第五弹————CacheLab。
 
 <!-- more -->
+
+在此放一张在笔记本上跑出来的 Memory Mountain。
+
+![Memory Mountain](/images/csapp/memory_mountain.png)
+
+配置如下：
+
+```
+❯ fastfetch
+        _,met$$$$$gg.          z0z0r4@DESKTOP-TKC6ATT
+     ,g$$$$$$$$$$$$$$$P.       ----------------------
+   ,g$$P""       """Y$$.".     OS: Debian GNU/Linux 13 (trixie) x86_64
+  ,$$P'              `$$$.     Host: Windows Subsystem for Linux - Debian (2.6.3.0)
+',$$P       ,ggs.     `$$b:    Kernel: Linux 6.6.87.2-microsoft-standard-WSL2
+`d$$'     ,$P"'   .    $$$     Uptime: 10 hours, 52 mins
+ $$P      d$'     ,    $$P     Packages: 1446 (dpkg)
+ $$:      $$.   -    ,d$$'     Shell: zsh 5.9
+ $$;      Y$b._   _,d$P'       Display (rdp-0): 2560x1440 @ 60 Hz
+ Y$$.    `.`"Y$$$$P"'          WM: WSLg 1.0.71 (Wayland)
+ `$$b      "-.__               Terminal: Windows Terminal
+  `Y$$b                        CPU: Intel(R) Core(TM) i5-9300H (8) @ 2.40 GHz
+   `Y$$.                       GPU 1: NVIDIA GeForce GTX 1650 (3.84 GiB) [Discrete]
+     `$$b.                     GPU 2: Intel(R) UHD Graphics 630 (128.00 MiB) [Integrated]
+       `Y$$b.                  Memory: 1.42 GiB / 15.54 GiB (9%)
+         `"Y$b._               Swap: 0 B / 4.00 GiB (0%)
+             `""""             Disk (/): 30.70 GiB / 1006.85 GiB (3%) - ext4
+                               Disk (/mnt/c): 151.75 GiB / 169.60 GiB (89%) - 9p
+                               Disk (/mnt/d): 289.54 GiB / 305.89 GiB (95%) - 9p
+                               Disk (/mnt/e): 529.46 GiB / 931.50 GiB (57%) - 9p
+                               Local IP (eth0): 192.168.1.220/24
+                               Battery (Microsoft Hyper-V Virtual Battery): 97% [AC Connected]
+                               Locale: en_US.UTF-8
+```
+
+---
 
 PartA 参考自 [CSAPP第六章 - 存储器层次结构](https://www.caiwen.work/post/csapp-6)（Part B 他写的太玄乎看不懂）。
 
