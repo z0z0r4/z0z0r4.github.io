@@ -1,3 +1,4 @@
+https://blog.z0z0r4.top/2026/04/14/csapp/linking/
 https://blog.z0z0r4.top/2026/03/21/CLRS/hash-table/
 https://blog.z0z0r4.top/2026/03/19/CLRS/elementary-data-structure/
 https://blog.z0z0r4.top/2026/04/09/csapp/cache-lab/
