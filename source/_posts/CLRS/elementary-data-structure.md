@@ -191,8 +191,10 @@ struct Node{
 每次释放空间后，将最后一个分配的对象移动到被释放的位置，并更新 `free` 指针到最后一个分配的对象的位置。
 
 > 10.3-5 Let $L$ be a doubly linked list of length $n$ stored in arrays $key$, $prev$, and $next$ of length $m$. Suppose that these arrays are managed by $\text{ALLOCATE-OBJECT}$ and $\text{FREE-OBJECT}$ procedures that keep a doubly linked free list $F$. Suppose further that of the $m$ items, exactly $n$ are on list $L$ and $m - n$ are on the free list. Write a procedure $\text{COMPACTIFY-LIST}(L, F)$ that, given the list $L$ and the free list $F$, moves the items in $L$ so that they occupy array positions $1, 2, \ldots, n$ and adjusts the free list $F$ so that it remains correct, occupying array positions $n + 1, n + 2, \ldots, m$. The running time of your procedure should be $\Theta(n)$, and it should use only a constant amount of extra space. Argue that your procedure is correct.
+>
+> 设 $L$ 为一个长度为 $n$ 的双向链表，存储在长度为 $m$ 的数组 $key$、$prev$ 和 $next$ 中。假设这些数组由过程 $\text{ALLOCATE-OBJECT}$ 和 $\text{FREE-OBJECT}$ 进行管理，它们维持着一个双向的空闲链表 $F$。进一步假设在 $m$ 个元素中，恰好有 $n$ 个在链表 $L$ 上，而 $m - n$ 个在空闲链表上。请编写一个过程 $\text{COMPACTIFY-LIST}(L, F)$，在给定链表 $L$ 和空闲链表 $F$ 的情况下，通过移动 $L$ 中的元素，使它们占据数组的前 $1, 2, \ldots, n$ 个位置，并调整空闲链表 $F$ 以确保其依然正确，且占据数组的 $n + 1, n + 2, \ldots, m$ 个位置。你的过程运行时间应为 $\Theta(n)$，且只能使用常数级 (constant amount) 的额外空间。请证明你的过程是正确的。
 
-由于这是个数组，可以任意访问节点，且目标是将 $L$ 的元素划分到 $[1, n]$，自由表划分到 $[n + 1, m]$，所以要处理的是 $[n + 1, m]$ 中的 $L$ 的元素以及 $[1, n]$ 中的自由表元素。
+由于这是个数组，可以直接任意访问节点，且目标是将 $L$ 的元素划分到 $[1, n]$，自由表划分到 $[n + 1, m]$，所以要处理的是 $[n + 1, m]$ 中的 $L$ 的元素以及 $[1, n]$ 中的自由表元素。
 
 那么就和快速排序中的分区一样，两两交换直到 $[1, n]$ 中没有自由表元素，$[n + 1, m]$ 中没有 $L$ 的元素。
 
@@ -222,6 +224,8 @@ struct Node{
   Node *children[k];
 };
 ```
+
+但是如果 k 很大但实际子节点很少，那么就会浪费空间。
 
 ### General Tree
 
@@ -316,7 +320,7 @@ void traverse(Node *root) {
 
 ## 10-3 Searching a sorted compact list
 
-根据前文，我们可以得到一个有序紧凑数组，10-3 给出思路将其搜索时间复杂度降低到 $O(\sqrt{n})$。
+根据前文，我们可以得到一个有序紧凑链表，10-3 给出思路将其搜索时间复杂度降低到 $O(\sqrt{n})$。
 
 <!-- COMPACT-LIST-SEARCH(L, n, k)
     i = L
@@ -391,7 +395,9 @@ int COMPACT_LIST_SEARCH_PRIME(int L, int n, int k, int t) {
 }
 ```
 
-假设随机变量 $X \tag{t}$ 为经过 $t$ 次随机跳跃后，`COMPACT-LIST-SEARCH` 中 `i` 到目标 `k` 的距离。
+> 区别在于 `COMPACT-LIST-SEARCH` 中随机跳跃和线性搜索交替进行，而 `COMPACT-LIST-SEARCH'` 中先进行 $t$ 次随机跳跃，再进行线性搜索。
+
+假设随机变量 $X_t$ 为经过 $t$ 次随机跳跃后，`COMPACT-LIST-SEARCH` 中 `i` 到目标 `k` 的距离。
 
 题目给出的论证过程分为：
 

@@ -66,16 +66,22 @@ class DirectAddressTable{
 
 > 11.1-1
 > Suppose that a dynamic set S isrepresented byadirect-address table T of length m. Describe a procedure that finds the maximum element of S. What is the worst-case performance of your procedure?
+>
+> 假设动态集合 $S$ 用一个长度为 $m$ 的直接寻址表 $T$ 表示。请描述一个查找 $S$ 中最大元素的算法过程。该算法在最坏情况下的性能是多少？
 
 要找到动态集合 S 中的最大元素，可以直接从后向前遍历表 T，第一个非空元素就是最大的元素，索引就是顺序
 
 > 11.1-2
 > A bit vector is simply an array of bits (0s and 1s). A bit vector of length m takes much less space than an array of m pointers. Describe how to use a bit vector to represent a dynamic set of distinct elements with no satellite data. Dictionary operations should run in $O(1)$ time.
+>
+> 位向量 (Bit vector) 简单来说就是一个由位（0 和 1）组成的数组。长度为 $m$ 的位向量所占用的空间远小于包含 $m$ 个指针的数组。请描述如何使用位向量来表示一个不含卫星数据且元素互不相同的动态集合。其字典操作的运行时间应为 $O(1)$。
 
 因为不需要存储指向卫星数据的指针，直接用 0 表示该值为索引值的元素不存在，用 1 表示存在，其他和直接寻址法一样。
 
 > 11.1-3
 > Suggest how to implement a direct-address table in which the keys of stored elements do not need to be distinct and the elements can have satellite data. All three dictionary operations (INSERT, DELETE, and SEARCH) should run in $O(1)$ time. (Don’t forget that DELETE takes as an argument a pointer to an object to be deleted, not a key.)
+>
+> 请说明如何实现一个直接寻址表，使得其中存储的元素键值无需互不相同，且元素可以包含卫星数据。所有三种字典操作（INSERT、DELETE 和 SEARCH）均应在 $O(1)$ 时间内运行。（别忘了，DELETE 操作的参数是指向待删除对象的指针，而非键值。）
 
 直接寻址法且允许键不唯一，那么可以在每个索引位置创建一个双向链表，存储具有相同键的元素。
 
@@ -83,10 +89,18 @@ INSERT 操作将新元素添加到列表中，DELETE 操作直接删除该链表
 
 > 11.1-4 ?
 > We wish to implement a dictionary by using direct addressing on a huge array. At the start, the array entries may contain garbage, and initializing the entire array is impractical because of its size. Describe a scheme for implementing a direct address dictionary on a huge array. Each stored object should use $O(1)$ space; the operations SEARCH, INSERT, and DELETE should take $O(1)$ time each; and initializing the data structure should take $O(1)$ time. (Hint: Use an additional array, treated somewhat like a stack whose size is the number of keys actually stored in the dictionary, to help determine whether a given entry in the huge array is valid or not.)
+>
+> 我们希望通过在一个巨型数组上使用直接寻址来实现一个字典。初始时，数组条目可能包含垃圾数据，且由于数组过大，初始化整个数组并不切实际。请描述一种在巨型数组上实现直接寻址字典的方案。每个存储的对象应占用 $O(1)$ 空间；
+>
+> SEARCH、INSERT 和 DELETE 操作应各花费 $O(1)$ 时间；并且初始化该数据结构应花费 $O(1)$ 时间。
+>
+>（提示：使用一个额外的数组，其表现类似于栈，大小为字典中实际存储的键值数量，以此来帮助确定巨型数组中的给定条目是否有效。）
 
 **TLDR: $dense[sparse[key]] = key$**
 
-新建一个栈 $S$，存储实际的键值对，在大数组 $T$ 上按照直接寻址法存储指向 $S$ 的对应索引的指针。初始时，栈 $S$ 为空，大数组 $T$ 不需要处理。
+新建一个栈（一个数组实现的栈） $S$，存储实际的键值对，在大数组 $T$ 上按照直接寻址法存储指向 $S$ 的对应索引的指针。初始时，栈 $S$ 为空，大数组 $T$ 不需要处理。
+
+> 栈 $S$ 维护 `top` 变量，如果 `sparse[key] > top` 则不用再去检查 $S$ 中的键值对了，直接无效
 
 通过检查 $S$ 所存的键是否与 $T$ 上的索引匹配来判断 $T$ 上的索引是否有效。（或者简单点，不在 $S$ 中存键只存值，直接以指针有效与否来判断，但脏数据可能意外与有效的指针碰撞）
 
@@ -178,6 +192,8 @@ $$
 
 > 11.2-1
 > Suppose we use a hash function h to hash n distinct keys into an array T of length m. Assuming simple uniform hashing, what is the expected number of collisions? More precisely, what is the expected cardinality of $\{\{k, l\}: k \neq l, h(k) = h(l)\}$?
+>
+> 假设我们使用哈希函数 $h$ 将 $n$ 个互不相同的键 (Keys) 哈希到一个长度为 $m$ 的数组 $T$ 中。在简单均匀哈希的假设下，碰撞次数的期望值是多少？更准确地说，集合 $\{\{k, l\}: k \neq l, h(k) = h(l)\}$ 的基数的期望值是多少？
 
 上文提到 $E[X_ij] = P\{h(k_i) = h(k_j)\} = \frac{1}{m}$，所以：
 
@@ -185,6 +201,8 @@ $$ E = \sum_{i=1}^n \sum_{j=i+1}^n E[X_ij] = \sum_{i=1}^n \sum_{j=i+1}^n P\{h(k_
 
 > 11.2-2
 > Demonstrate what happens when we insert the keys 5,28,19,15,20,33,12,17,10 into a hash table with collisions resolved by chaining. Let the table have 9 slots, and let the hash function be $h(k) = k \bmod 9$.
+>
+> 请演示将键值 5, 28, 19, 15, 20, 33, 12, 17, 10 插入到一个通过链地址法解决冲突的哈希表中。假设哈希表有 9 个槽位 (Slots)，哈希函数为 $h(k) = k \bmod 9$。
 
 $h(k) = k \bmod 9$ 的结果是：
 
@@ -228,6 +246,8 @@ $h(k) = k \bmod 9$ 的结果是：
 
 > 11.2-3
 > Professor Marley hypothesizes that he can obtain substantial performance gains by modifying the chaining scheme to keep each list in sorted order. How does the pro fessor’s modification affect the running time for successful searches, unsuccessful searches, insertions, and deletions?
+>
+> 马利教授假设通过修改链地址法，将每个链表保持为**有序状态**，可以获得显著的性能提升。请问教授的这一修改对**成功查找**、**不成功查找**、**插入**和**删除**的运行时间有何影响？
 
 - 成功搜索没有区别（链表不能二分），是 $\Theta(1 + \alpha)$
 
@@ -239,6 +259,8 @@ $h(k) = k \bmod 9$ 的结果是：
 
 > 11.2-4
 > Suggest how to allocate and deallocate storage for elements within the hash table itself by linking all unused slots into a free list. Assume that one slot can store a flag and either one element plus a pointer or two pointers. All dictionary and free-list operations should run in $O(1)$ expected time. Does the free list need to be doubly linked, or does a singly linked free list suffice?
+>
+> 请说明如何通过将所有未使用的槽位链接成一个**自由链表**，从而在哈希表内部为元素分配和回收存储空间。假设一个槽位可以存储一个标志位（Flag），以及“一个元素加一个指针”或“两个指针”中的一种。所有字典操作和自由链表操作的期望运行时间均应为 $O(1)$。该自由链表需要使用**双向链表**吗，还是**单向链表**就足够了？
 
 > 注意 *one slot can store a flag **and** **either** one element plus a pointer **or** two pointers* 指的是一个槽位可以存一个标志位和 **“一个元素+一个指针”** 或者 **“两个指针”**
 
@@ -256,6 +278,8 @@ $h(k) = k \bmod 9$ 的结果是：
 
 > 11.2-5
 > Suppose that we are storing a set of $n$ keys into a hash table of size $m$. Show that if the keys are drawn from a universe $U$ with $|U| \gt nm$,then $U$ hasasubset of size n consisting of keys that all hash to the same slot, so that the worst-case searching time for hashing with chaining is $\Theta(n)$.
+>
+> 假设我们将一组 $n$ 个键存储在一个大小为 $m$ 的哈希表中。请证明：如果这些键是从一个全集 $U$ 中提取的，且 $|U| > nm$，那么 $U$ 中必然存在一个大小为 $n$ 的子集，其包含的键全部哈希到同一个槽位中，从而使得链地址法哈希的最坏情况查找时间为 $\Theta(n)$。
 
 设 $U_j = \{x∈U∣h(x)=j\}$，那么 $ \sum_{j=1}^{m} U_j = |U| \gt nm$
 
@@ -265,13 +289,15 @@ $h(k) = k \bmod 9$ 的结果是：
 
 > 11.2-6
 > Suppose wehave stored $n$ keys in ahash table of size $m$, with collisions resolved by chaining, and that we know the length of each chain, including the length $L$ of the longest chain. Describe a procedure that selects a key uniformly at random from among the keys in the hash table and returns it in expected time $O(L \cdot (1 + \frac{1}{\alpha}))$.
+>
+> 假设我们已将 $n$ 个键存储在一个大小为 $m$ 的哈希表中，通过链地址法解决冲突，并且已知每个链表的长度，包括最长链表的长度 $L$。请描述一个算法过程，该过程从哈希表的键中等概率随机选择一个键并返回，其期望运行时间为 $O(L \cdot (1 + \frac{1}{\alpha}))$（其中 $\alpha = \frac{n}{m}$）。
 
 查到是类似蒙特卡洛拒绝采样，IGNORED
 
 ## Hash functions
 
 > A good hash function satisfies (approximately) the assumption of simple uniform hashing: each key is equally likely to hash to any of the m slots, independently of where any other key has hashed to. 
-
+>
 > 一个好的哈希函数应（尽可能）满足简单均匀散列假设：每个键等可能映射到任意槽位，且与其他键映射到哪个槽位无关
 
 哈希表的性能主要取决于**冲突的分布情况**。在满足简单均匀散列假设的前提下，对于任意大小为 $n$ 的键子集，哈希值在槽位间均匀分布，保证**期望搜索时间**为 $O(1)$。
