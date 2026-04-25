@@ -14,18 +14,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=JetBrains%20Mono:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=JetBrains%20Mono:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
     <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <meta name="description" content="图由顶点集合和边集合组成，写成 G&#x3D;(V,E)G&#x3D;(V,E)G&#x3D;(V,E)，其中VVV是顶点集合，EEE是边集合。 其中边用两个顶点组成的二元组表示，比如 (u,v)∈E(u, v) \in E(u,v)∈E 表示图 GGG 中 uuu 和 vvv 之间有一条边，其中 uuu 指向 vvv  Graph Representation 有两种表示：  邻接表 邻接矩阵  这两种设计在各个操作的差别见">
+    <meta name="description" content="这里记录 CLRS 中的基本图算法笔记。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CLRS Basic Graph Algorithms">
 <meta property="og:url" content="https://blog.z0z0r4.top/2026/04/21/CLRS/basic-graph-algorithms/index.html">
 <meta property="og:site_name" content="z0z0r4&#39;s Blog">
-<meta property="og:description" content="图由顶点集合和边集合组成，写成 G&#x3D;(V,E)G&#x3D;(V,E)G&#x3D;(V,E)，其中VVV是顶点集合，EEE是边集合。 其中边用两个顶点组成的二元组表示，比如 (u,v)∈E(u, v) \in E(u,v)∈E 表示图 GGG 中 uuu 和 vvv 之间有一条边，其中 uuu 指向 vvv  Graph Representation 有两种表示：  邻接表 邻接矩阵  这两种设计在各个操作的差别见">
+<meta property="og:description" content="这里记录 CLRS 中的基本图算法笔记。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog.z0z0r4.top/images/CLRS/parenthesis_theorem.png">
 <meta property="og:image" content="https://blog.z0z0r4.top/images/CLRS/topological_sort_example.png">
 <meta property="og:image" content="https://blog.z0z0r4.top/images/CLRS/SCC_example.png">
 <meta property="article:published_time" content="2026-04-21T05:18:14.000Z">
-<meta property="article:modified_time" content="2026-04-24T10:26:48.885Z">
+<meta property="article:modified_time" content="2026-04-25T11:11:47.781Z">
 <meta property="article:author" content="z0z0r4">
 <meta property="article:tag" content="CLRS">
 <meta property="article:tag" content="study-notes">
@@ -195,7 +195,7 @@
       <div class="article-date">
   <span class="article-date-link icon-calendar" data-aos="zoom-in">
     <time datetime="2026-04-21T05:18:14.000Z" itemprop="datePublished">2026-04-21</time>
-    <time style="display: none;" id="post-update-time">2026-04-24</time>
+    <time style="display: none;" id="post-update-time">2026-04-25</time>
   </span>
 </div>
 
@@ -208,7 +208,9 @@
     <div class="hr-line"></div>
     
     <div class="e-content article-entry" itemprop="articleBody">
-        <p>图由顶点集合和边集合组成，写成 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>=</mo><mo stretchy="false">(</mo><mi>V</mi><mo separator="true">,</mo><mi>E</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">G=(V,E)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mclose">)</span></span></span></span>，其中<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi></mrow><annotation encoding="application/x-tex">V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span></span></span></span>是顶点集合，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi></mrow><annotation encoding="application/x-tex">E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span></span></span></span>是边集合。</p>
+        <p>这里记录 CLRS 中的基本图算法笔记。</p>
+<span id="more"></span>
+<p>图由顶点集合和边集合组成，写成 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mo>=</mo><mo stretchy="false">(</mo><mi>V</mi><mo separator="true">,</mo><mi>E</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">G=(V,E)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mclose">)</span></span></span></span>，其中<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi></mrow><annotation encoding="application/x-tex">V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span></span></span></span>是顶点集合，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi></mrow><annotation encoding="application/x-tex">E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span></span></span></span>是边集合。</p>
 <p>其中边用两个顶点组成的二元组表示，比如 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo stretchy="false">)</mo><mo>∈</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">(u, v) \in E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span></span></span></span> 表示图 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> 中 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">u</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span> 之间有一条边，其中 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">u</span></span></span></span> 指向 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span></p>
 <h2 id="graph-representation"><a class="markdownIt-Anchor" href="#graph-representation"></a> Graph Representation</h2>
 <p>有两种表示：</p>
@@ -840,11 +842,11 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
           author: "z0z0r4",
           title: "CLRS Basic Graph Algorithms",
           url: "https://blog.z0z0r4.top/2026/04/21/CLRS/basic-graph-algorithms/",
-          excerpt: "",
+          excerpt: "这里记录 CLRS 中的基本图算法笔记。",
           description: "",
-          stripContent: "图由顶点集合和边集合组成，写成 G=(V,E)G=(V,E)G=(V,E)，其中VVV是顶点集合，EEE是边集合。 其中边用两个顶点组成的二元组表示，比如 (u,v)∈E(u, v) \in E(u,v)∈E 表示图 GGG 中 uuu 和 vvv 之间有一条边，其中 uuu 指向 vvv  Graph Representation 有两种表示：  邻接表 邻接矩阵  这两种设计在各个操作的差别见 CS61B Graph Representation 其中还有 CSR（Compressed Sp",
+          stripContent: "这里记录 CLRS 中的基本图算法笔记。  图由顶点集合和边集合组成，写成 G=(V,E)G=(V,E)G=(V,E)，其中VVV是顶点集合，EEE是边集合。 其中边用两个顶点组成的二元组表示，比如 (u,v)∈E(u, v) \in E(u,v)∈E 表示图 GGG 中 uuu 和 vvv 之间有一条边，其中 uuu 指向 vvv  Graph Representation 有两种表示：  邻接表 邻接矩阵  这两种设计在各个操作的差别见 CS61B Graph Representation ",
           date: "Tue Apr 21 2026 13:18:14 GMT+0800",
-          updated: "Fri Apr 24 2026 18:26:48 GMT+0800",
+          updated: "Sat Apr 25 2026 19:11:47 GMT+0800",
           cover: "/covers/CLRS_cover.jpg",
         };
       </script>
