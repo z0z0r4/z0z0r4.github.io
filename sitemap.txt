@@ -1,3 +1,4 @@
+https://blog.z0z0r4.top/2026/02/24/check-in/
 https://blog.z0z0r4.top/2026/04/21/CLRS/basic-graph-algorithms/
 https://blog.z0z0r4.top/2026/04/20/CLRS/disjoint-set/
 https://blog.z0z0r4.top/2026/04/14/csapp/linking/
@@ -14,7 +15,6 @@ https://blog.z0z0r4.top/2025/12/08/linear-algebra/
 https://blog.z0z0r4.top/2025/12/25/gobang/
 https://blog.z0z0r4.top/2026/01/18/CS61B-Note-Collection/
 https://blog.z0z0r4.top/2026/02/06/CS61A-Scheme/
-https://blog.z0z0r4.top/2026/02/24/check-in/
 https://blog.z0z0r4.top/2026/01/11/csapp/float/
 https://blog.z0z0r4.top/2026/02/25/csapp/data-lab/
 https://blog.z0z0r4.top/2026/01/16/csapp/data-alignment/
