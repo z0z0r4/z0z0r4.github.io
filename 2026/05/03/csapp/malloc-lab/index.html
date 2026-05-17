@@ -1,0 +1,987 @@
+  <!DOCTYPE html>
+  <html lang="zh-CN"  
+      data-theme-mode="auto"
+  >
+  <head>
+  <meta charset="utf-8">
+  
+  
+  
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'https://blog.z0z0r4.top';window.REIMU_CONFIG.relative = '/';</script>
+  <title>
+    CSAPP Malloc Lab | z0z0r4&#39;s Blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=JetBrains Mono:400,400italic,700,700italic|JetBrains Mono:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=JetBrains Mono:400,400italic,700,700italic|JetBrains Mono:400,400italic,700,700italic&display=swap" media="print" onload="this.media='all'">
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <meta name="description" content="做梦都是指针和利用率&#x3D;-&#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSAPP Malloc Lab">
+<meta property="og:url" content="https://blog.z0z0r4.top/2026/05/03/csapp/malloc-lab/index.html">
+<meta property="og:site_name" content="z0z0r4&#39;s Blog">
+<meta property="og:description" content="做梦都是指针和利用率&#x3D;-&#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-03T06:14:01.000Z">
+<meta property="article:modified_time" content="2026-05-17T05:12:47.506Z">
+<meta property="article:author" content="z0z0r4">
+<meta property="article:tag" content="CSAPP">
+<meta property="article:tag" content="study-notes">
+<meta name="twitter:card" content="summary">
+    <link rel="alternate" href="/atom.xml" title="z0z0r4's Blog" type="application/atom+xml">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE" crossorigin="anonymous">
+      <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://npm.webcache.cn/katex@0.16.24/dist/katex.min.css" integrity="sha384-tTgKLjMYmJr94v8qu2PE5MUGSMbyN2xiH266JUB3gpm8vnnJywd1dWSOEfrFz+YI" crossorigin="anonymous">
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+  <body>
+    <div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+        <a class="main-nav-link-wrap" href="/">
+            <div class="main-nav-icon icon ">
+                  &#xe632;
+            </div>
+          <span class="main-nav-link">首页</span>
+        </a>
+        <a class="main-nav-link-wrap" href="/archives">
+            <div class="main-nav-icon icon ">
+                  &#xe605;
+            </div>
+          <span class="main-nav-link">归档</span>
+        </a>
+        <a class="main-nav-link-wrap" href="/about">
+            <div class="main-nav-icon icon ">
+                  &#xe647;
+            </div>
+          <span class="main-nav-link">关于</span>
+        </a>
+        <a class="main-nav-link-wrap" href="/friend">
+            <div class="main-nav-icon icon ">
+                  &#xe628;
+            </div>
+          <span class="main-nav-link">友链</span>
+        </a>
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" aria-label="RSS 订阅" target="_blank"></a>
+  </nav>
+</div>
+<header id="header" aria-label="Site header">
+    <picture></picture>
+    <img  fetchpriority="high" src="/images/csapp/chisato_doubt.png" alt="CSAPP Malloc Lab">
+  <div id="header-outer">
+    <div id="header-title">
+          <span id="logo">
+            <h1 data-aos="slide-up">CSAPP Malloc Lab</h1>
+          </span>
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+        </h2>
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content" class="sidebar-left"  >
+          <aside id="sidebar" aria-label="Sidebar">
+  <div class="sidebar-wrapper-container sticky">
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-%E7%9A%84%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0%E5%92%8C%E8%A6%81%E6%B1%82"><span class="toc-number">1.</span> <span class="toc-text"> Lab 的内置函数和要求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.</span> <span class="toc-text"> 内置函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A8%8B%E8%A6%81%E6%B1%82"><span class="toc-number">1.2.</span> <span class="toc-text"> 编程要求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text"> 具体实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%90%E5%BC%8F%E9%93%BE%E8%A1%A8"><span class="toc-number">2.1.</span> <span class="toc-text"> 隐式链表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mm_free-impl"><span class="toc-number">2.1.1.</span> <span class="toc-text"> mm_free Impl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mm_malloc-impl"><span class="toc-number">2.1.2.</span> <span class="toc-text"> mm_malloc Impl</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E5%BC%8F%E9%93%BE%E8%A1%A8"><span class="toc-number">2.2.</span> <span class="toc-text"> 显式链表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%A6%BB%E9%93%BE%E8%A1%A8"><span class="toc-number">2.3.</span> <span class="toc-text"> 分离链表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%85%E5%8A%A9%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text"> 辅助函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#glibc-malloc"><span class="toc-number">4.</span> <span class="toc-text"> glibc malloc</span></a></li></ol>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="z0z0r4" class="lazyload">
+  <div class="sidebar-author-name">z0z0r4</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">21</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social" >
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:z0z0r4@outlook.com itemprop="url" target="_blank" aria-label="email" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/z0z0r4 itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/558830935 itemprop="url" target="_blank" aria-label="bilibili" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/z0z0r4 itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-steam sidebar-social-icon">
+      <a href=https://steamcommunity.com/profiles/76561199091926896/ itemprop="url" target="_blank" aria-label="steam" rel="noopener nofollow noreferrer"></a>
+    </div>
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe632;
+          </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe605;
+          </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe647;
+          </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe628;
+          </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+</div>
+</div>
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+    </div>
+  </div>
+  <div class="sidebar-widget">
+  </div>
+  </div>
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-csapp/malloc-lab" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2026-05-03T06:14:01.000Z" itemprop="datePublished">2026-05-03</time>
+    <time style="display: none;" id="post-update-time">2026-05-17</time>
+  </span>
+</div>
+
+    </div>
+    
+    <div class="hr-line"></div>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+        <p>做梦都是指针和利用率=-=</p>
+<span id="more"></span>
+<p>封面取自莉可莉丝第一季 EP5 02:39，很符合我的精神状态。</p>
+<p>参考过以下内容：</p>
+<ul>
+<li>
+<p><a target="_blank" rel="noopener" href="https://arthals.ink/blog/malloc-lab">更适合北大宝宝体质的 Malloc Lab 踩坑记</a></p>
+<p>Amazing！很详细，但我自己实现的时候没细看，不然我吃什么 =-=</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://www.wdxtub.com/blog/csapp/thick-csapp-lab-6">小土刀 【读厚 CSAPP】VI Malloc Lab</a></p>
+<p>并没有具体的细节，但可以参考指针操作，少走点弯路</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://github.com/StuartSul/CSAPP3e_MallocLab_Implementation">Github StuartSul/CSAPP3e_MallocLab_Implementation</a></p>
+<p>高达 98/100 分的实现（这里面有些地方我个人觉得并非最优解，但是在最后走投无路时，以他的实现为参考，我终于把 <code>realloc</code> 的利用率终于拉上来了…见后文记录）</p>
+</li>
+</ul>
+<p>从 <a target="_blank" rel="noopener" href="https://csapp.cs.cmu.edu/3e/malloclab-handout.tar">Malloclab-Handout</a> 下载本实验，但是这里面缺少了 <code>traces</code> 文件夹，可以在我的仓库 <a target="_blank" rel="noopener" href="https://github.com/z0z0r4/CSAPP-LAB/tree/main/malloclab">z0z0r4/CSAPP-LAB</a> 里面下载（我也是从别的仓库下载的=-=）</p>
+<p>trace 文件，指的是 <code>traces</code> 文件夹里面的 <code>.rep</code> 文件，这些文件记录了 <code>malloc</code>、<code>free</code> 和 <code>realloc</code> 的调用序列，测试程序会按照这些序列来调用你的 <code>malloc</code> 实现。</p>
+<p>其中 <code>mdriver</code> 是评测程序：</p>
+<ul>
+<li><code>-h</code> 可以查看帮助</li>
+<li><code>-f trace.rep</code> 可以测试指定的 trace 文件</li>
+<li><code>-t &lt;dir&gt;</code> 可以指定测试文件的文件夹</li>
+<li><code>-v</code> 用于显示评测结果</li>
+<li><code>-V</code> 用于显示额外的调试信息（实际上并没有显示什么有用的信息）</li>
+<li><code>-l</code> 显示 glibc malloc 的测试结果，作为对比（但是如下可见它不显示 glibc malloc 的利用率，只有吞吐量）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">z0z0r4@DESKTOP-862S1HV:~/CSAPP-LAB/malloclab$ ./mdriver -h</span><br><span class="line">Usage: mdriver [-hvVal] [-f &lt;file&gt;] [-t &lt;dir&gt;]</span><br><span class="line">Options</span><br><span class="line">        -a         Don&#x27;t check the team structure.</span><br><span class="line">        -f &lt;file&gt;  Use &lt;file&gt; as the trace file.</span><br><span class="line">        -g         Generate summary info for autograder.</span><br><span class="line">        -h         Print this message.</span><br><span class="line">        -l         Run libc malloc as well.</span><br><span class="line">        -t &lt;dir&gt;   Directory to find default traces.</span><br><span class="line">        -v         Print per-trace performance breakdowns.</span><br><span class="line">        -V         Print additional debug info.</span><br></pre></td></tr></table></figure>
+<p>评测结果会显示每个 trace 的 <code>util</code>（利用率）和 <code>thru</code>（吞吐量）信息，以及平均利用率和总耗时。</p>
+<ul>
+<li>valid: 是否正确</li>
+<li>util: 利用率，越高越好</li>
+<li>ops: 操作数量，这是根据 trace 文件固定的</li>
+<li>secs: 耗时，越低越好</li>
+<li>Kops: 吞吐量，越高越好</li>
+</ul>
+<p>经过长达六天的折磨，终于将利用率凹到了 97%，最终得分 58 (util) + 40 (thru) = 98/100。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">Team Name:咕咕咕</span><br><span class="line">Member 1 :z0z0r4:z0z0r4@outlook.com</span><br><span class="line">Using default tracefiles in traces/</span><br><span class="line">Measuring performance with gettimeofday().</span><br><span class="line"></span><br><span class="line">Results for libc malloc:</span><br><span class="line">trace  valid  util     ops      secs  Kops</span><br><span class="line"> 0       yes    0%    5694  0.000414 13767</span><br><span class="line"> 1       yes    0%    5848  0.000265 22035</span><br><span class="line"> 2       yes    0%    6648  0.001068  6225</span><br><span class="line"> 3       yes    0%    5380  0.001067  5041</span><br><span class="line"> 4       yes    0%   14400  0.000436 32997</span><br><span class="line"> 5       yes    0%    4800  0.000936  5127</span><br><span class="line"> 6       yes    0%    4800  0.000587  8177</span><br><span class="line"> 7       yes    0%   12000  0.000311 38610</span><br><span class="line"> 8       yes    0%   24000  0.000552 43478</span><br><span class="line"> 9       yes    0%   14401  0.001392 10349</span><br><span class="line">10       yes    0%   14401  0.000205 70215</span><br><span class="line">Total           0%  112372  0.007233 15536</span><br><span class="line"></span><br><span class="line">Results for mm malloc:</span><br><span class="line">trace  valid  util     ops      secs  Kops</span><br><span class="line"> 0       yes   99%    5694  0.000453 12570</span><br><span class="line"> 1       yes   99%    5848  0.000468 12509</span><br><span class="line"> 2       yes   99%    6648  0.000575 11566</span><br><span class="line"> 3       yes   99%    5380  0.000443 12153</span><br><span class="line"> 4       yes   95%   14400  0.000638 22567</span><br><span class="line"> 5       yes   96%    4800  0.000673  7135</span><br><span class="line"> 6       yes   95%    4800  0.000634  7569</span><br><span class="line"> 7       yes   95%   12000  0.002629  4565</span><br><span class="line"> 8       yes   88%   24000  0.002540  9451</span><br><span class="line"> 9       yes   99%   14401  0.000453 31811</span><br><span class="line">10       yes   99%   14401  0.000538 26758</span><br><span class="line">Total          97%  112372  0.010042 11190</span><br><span class="line"></span><br><span class="line">Perf index = 58 (util) + 40 (thru) = 98/100</span><br></pre></td></tr></table></figure>
+<p>我使用的是 CSAPP Labs 官网提供的 Handout 自带的评分标准，不同学校的老师和助教可能自行调整了评分标准和测试样例，可能有所差异。</p>
+<blockquote>
+<p>北大的 ICS 用的是 CSAPP 欸…有点羡慕，SCNU 何时崛起 =-=</p>
+</blockquote>
+<p>下面是分数的具体计算方式：</p>
+<ul>
+<li><code>util</code>（利用率）的分数根据平均利用率计算，满分为 60 分，利用率越高分数越高。</li>
+<li><code>thru</code>（吞吐量）的分数根据平均吞吐量与 glib malloc 的平均吞吐量的比值计算，满分为 40 分，吞吐量越高分数越高。</li>
+</ul>
+<p>注意到实际上 <code>AVG_LIBC_THRUPUT</code> 写死为 600Kops/sec，而这个值可能是参考 14 年的算力取的值，在今天怕是已经过时了…</p>
+<blockquote>
+<p>难怪这么容易达成满分吞吐量…我是在写完整个 Lab 之后才发现的，就不用 glib malloc 的实时数据为基准了，否则我还得继续凹吞吐量，太累了…</p>
+</blockquote>
+<p>以下取自官网：</p>
+<blockquote>
+<p>Malloc Lab [Updated 9/2/14]</p>
+<p>Students implement their own versions of malloc, free, and realloc. This lab gives students a clear understanding of data layout and organization, and requires them to evaluate different trade-offs between space and time efficiency. One of our favorite labs. When students finish this one, they really understand pointers!</p>
+</blockquote>
+<p>以下分数计算部分的代码：</p>
+<details>
+<summary>分数计算代码</summary>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* This constant gives the estimated performance of the libc malloc</span></span><br><span class="line"><span class="comment">* package using our traces on some reference system, typically the</span></span><br><span class="line"><span class="comment">* same kind of system the students use. Its purpose is to cap the</span></span><br><span class="line"><span class="comment">* contribution of throughput to the performance index. Once the</span></span><br><span class="line"><span class="comment">* students surpass the AVG_LIBC_THRUPUT, they get no further benefit</span></span><br><span class="line"><span class="comment">* to their score.  This deters students from building extremely fast,</span></span><br><span class="line"><span class="comment">* but extremely stupid malloc packages.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> AVG_LIBC_THRUPUT      600E3  <span class="comment">/* 600 Kops/sec */</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    * Accumulate the aggregate statistics for the student&#x27;s mm package</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">secs = <span class="number">0</span>;</span><br><span class="line">ops = <span class="number">0</span>;</span><br><span class="line">util = <span class="number">0</span>;</span><br><span class="line">numcorrect = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (i=<span class="number">0</span>; i &lt; num_tracefiles; i++) &#123;</span><br><span class="line">secs += mm_stats[i].secs;</span><br><span class="line">ops += mm_stats[i].ops;</span><br><span class="line">util += mm_stats[i].util;</span><br><span class="line"><span class="keyword">if</span> (mm_stats[i].valid)</span><br><span class="line">    numcorrect++;</span><br><span class="line">&#125;</span><br><span class="line">avg_mm_util = util/num_tracefiles;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    * Compute and print the performance index</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"><span class="keyword">if</span> (errors == <span class="number">0</span>) &#123;</span><br><span class="line">avg_mm_throughput = ops/secs;</span><br><span class="line"></span><br><span class="line">p1 = UTIL_WEIGHT * avg_mm_util;</span><br><span class="line"><span class="keyword">if</span> (avg_mm_throughput &gt; AVG_LIBC_THRUPUT) &#123;</span><br><span class="line">    p2 = (<span class="type">double</span>)(<span class="number">1.0</span> - UTIL_WEIGHT);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    p2 = ((<span class="type">double</span>) (<span class="number">1.0</span> - UTIL_WEIGHT)) *</span><br><span class="line">    (avg_mm_throughput/AVG_LIBC_THRUPUT);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">perfindex = (p1 + p2)*<span class="number">100.0</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Perf index = %.0f (util) + %.0f (thru) = %.0f/100\n&quot;</span>,</span><br><span class="line">        p1*<span class="number">100</span>,</span><br><span class="line">        p2*<span class="number">100</span>,</span><br><span class="line">        perfindex);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123; <span class="comment">/* There were errors */</span></span><br><span class="line">perfindex = <span class="number">0.0</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Terminated with %d errors\n&quot;</span>, errors);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</details>
+<hr />
+<p>介于显然需要大量操作指针，位读取写入，设计一套可靠的宏/辅助函数是必要的，但是很容易走弯路。</p>
+<p>比如我一开始没封装 <code>GET(ptr)</code> 和 <code>PUT(ptr, val)</code>，这种最基础的操作，而是直接在 <code>GET_SIZE</code> 和 <code>GET_ALLOC</code> 里面操作，直接导致大量时间花在 DEBUG 上</p>
+<p>又比如在写各个函数时，显然会遇到块的指针 <code>chunk_ptr</code> 和 <code>payload_ptr</code> 的混淆问题，让一开始以 <code>payload_ptr</code> 为基准设计函数和宏，那么可有的好受了…</p>
+<p>有以下槽点/坑：</p>
+<ul>
+<li>
+<p>任何有意义的常量都应该写为 <code>#define</code></p>
+</li>
+<li>
+<p>尽可能不要在函数里直接操作指针，都应该封装为单独的函数/宏</p>
+</li>
+<li>
+<ul>
+<li>其中多过程的操作应该封装为函数，而且不应该吝啬行数，尽可能写中间变量，方便 DEBUG</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>要注意 <code>void *</code> 不能直接运算，需要先转为比如 <code>char *</code> 才能加减</li>
+</ul>
+</li>
+<li>
+<p>每修改完一点并通过测试后，都应该保存版本！</p>
+</li>
+<li>
+<p>适当将判断条件也用 <code>int xx_flag</code> 来存储，方便 DEBUG</p>
+</li>
+</ul>
+<p>在具体三个函数的实现之前，我还学到了如何配置 <code>.vscode</code> 结合 GDB 调试，记录一下：</p>
+<details>
+<summary>VSCode 调试配置</summary>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// tasks.json</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;tasks&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;label&quot;</span><span class="punctuation">:</span> <span class="string">&quot;make build&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;shell&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;make clean &amp;&amp; make mdriver&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;options&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;cwd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;group&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;kind&quot;</span><span class="punctuation">:</span> <span class="string">&quot;build&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;isDefault&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;problemMatcher&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;$gcc&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;presentation&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;echo&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;reveal&quot;</span><span class="punctuation">:</span> <span class="string">&quot;always&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;focus&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;panel&quot;</span><span class="punctuation">:</span> <span class="string">&quot;shared&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;showReuseMessage&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;clear&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// launch.json</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;(gdb) Launch Malloc Lab&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cppdbg&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;launch&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;program&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;/mdriver&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;-t&quot;</span><span class="punctuation">,</span> <span class="string">&quot;traces&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;-v&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;-l&quot;</span></span><br><span class="line">            <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;stopAtEntry&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cwd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;environment&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;externalConsole&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;MIMode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gdb&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;setupCommands&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="punctuation">&#123;</span></span><br><span class="line">                    <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;为 gdb 启用整齐打印&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;-enable-pretty-printing&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">                <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="punctuation">&#123;</span></span><br><span class="line">                    <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Disable debuginfod to prevent hanging&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;set debuginfod enabled off&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;ignoreFailures&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">                <span class="punctuation">&#125;</span></span><br><span class="line">            <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;preLaunchTask&quot;</span><span class="punctuation">:</span> <span class="string">&quot;make build&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;miDebuggerPath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/usr/bin/gdb&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</details>
+<p>其中注意 <code>set debuginfod enabled off</code> 可能对于编译成功但是 launch 后没有任何输出有帮助（在 ArchLinux 上遇到过，没细看，据说和联网下载某 DEBUG 所需文件有关）</p>
+<hr />
+<h2 id="lab-的内置函数和要求"><a class="markdownIt-Anchor" href="#lab-的内置函数和要求"></a> Lab 的内置函数和要求</h2>
+<h3 id="内置函数"><a class="markdownIt-Anchor" href="#内置函数"></a> 内置函数</h3>
+<p>Lab 中提供了以下自带函数：</p>
+<ul>
+<li>
+<p><code>mem_sbrk(int incr)</code>：向系统申请 <code>incr</code> 字节的内存，返回指向新内存块的指针，失败时返回 <code>(void *)-1</code></p>
+</li>
+<li>
+<p><code>mem_heap_lo()</code>：返回堆的起始地址</p>
+</li>
+<li>
+<p><code>mem_heap_hi()</code>：返回堆的结束地址（注意到，这个地址是堆的最后一个字节的地址，而不是最后一个字节的下一个地址）</p>
+</li>
+</ul>
+<p>其他函数没用上，忽略。</p>
+<h3 id="编程要求"><a class="markdownIt-Anchor" href="#编程要求"></a> 编程要求</h3>
+<p>参考 <a target="_blank" rel="noopener" href="https://csapp.cs.cmu.edu/3e/malloclab.pdf">PDF</a> 中的 Programming Rules,这里不再赘述.</p>
+<blockquote>
+<p>我天 2001 年的 PDF…</p>
+</blockquote>
+<h2 id="具体实现"><a class="markdownIt-Anchor" href="#具体实现"></a> 具体实现</h2>
+<p>按照我所经历的思路是先隐式链表，再显式链表，最后改进为分离链表。</p>
+<h3 id="隐式链表"><a class="markdownIt-Anchor" href="#隐式链表"></a> 隐式链表</h3>
+<p>先设计隐式链表的 Chunk 的结构，包含 Header 和 Footer。</p>
+<p>其中 Header 和 Footer 内容一样，要记录 Chunk Size 和 Allocated Flag，这样获得 Header 就可以往下遍历，获得 Footer 就可以往上遍历，用于后续的合并 Chunk。</p>
+<p>考虑到 4 字节的 size 足以记录 4GB 的内存，又注意到 Chunk Size 总是 8 字节对齐的，后三位总是 0，那么只需要四字节就可以存 Header 和 Footer，后三位无用，可以用于记录一些用于优化的 Flag，在此先第一位放入 Allocated Flag。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  4Bytes             4Bytes</span><br><span class="line">| Header | Payload | Footer |</span><br></pre></td></tr></table></figure>
+<p><code>Chunk Size = ALIGN(Payload Size) + Header Size + Footer Size</code></p>
+<p>因此构建以下宏：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* single word (4) or double word (8) alignment */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ALIGNMENT 8</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* rounds up to the nearest multiple of ALIGNMENT */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ALIGN(size) (((size) + (ALIGNMENT - 1)) &amp; ~0x7)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SIZE_T_SIZE (ALIGN(sizeof(size_t)))</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BUCKET_SIZE 24</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CHUNK_HEADER_SIZE 4</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CHUNK_FOOTER_SIZE 4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 用 unsigned int (4字节) */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> GET(p) (*(unsigned int *)(p))</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PUT(p, val) (*(unsigned int *)(p) = (unsigned int)(val))</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PACK(size, alloc, prev_alloc) ((size) | (alloc) | ((prev_alloc) &lt;&lt; 1))</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PAYLOAD_TO_CHUNK(bp) ((char *)(bp) - CHUNK_HEADER_SIZE)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CHUNK_TO_PAYLOAD(cp) ((char *)(cp) + CHUNK_HEADER_SIZE)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> GET_SIZE(p) (GET(p) &amp; ~0x7)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> GET_ALLOC(p) (GET(p) &amp; 0x1)</span></span><br></pre></td></tr></table></figure>
+<p>那么可以开始考虑三种操作：</p>
+<ul>
+<li>
+<p><code>mm_malloc</code>：要么找到空闲块，要么直接 <code>mem_sbrk</code> 申请新的内存块</p>
+</li>
+<li>
+<p><code>mm_free</code>：将块标记为未分配，并尝试与前后块合并</p>
+</li>
+<li>
+<p><code>mm_realloc</code>：先考虑最简单的做法，直接 <code>mm_malloc</code> 新的块，然后 <code>memcpy</code> 旧块的数据到新块，最后 <code>mm_free</code> 旧块</p>
+</li>
+</ul>
+<h4 id="mm_free-impl"><a class="markdownIt-Anchor" href="#mm_free-impl"></a> <code>mm_free</code> Impl</h4>
+<p>显然相邻的空闲块需要被合并，<code>mm_free</code> 应该检查前后块是否为空闲。</p>
+<p>检查前块可以通过 <code>current_chunk_ptr - CHUNK_FOOTER_SIZE</code> 获得前块的 Footer 地址，然后获取前块的大小，最后获取前块的地址。</p>
+<p>检查后块可以通过 <code>current_chunk_ptr + current_chunk_size</code> 获得后块的地址。</p>
+<p><code>mm_free</code> 的合并可以分为四种情况：</p>
+<ul>
+<li>前后块都分配：不合并，直接返回</li>
+<li>前块分配，后块空闲：与后块合并</li>
+<li>前块空闲，后块分配：与前块合并</li>
+<li>前后块都空闲：与前后块合并</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * mm_free - Freeing a block does nothing.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">mm_free</span><span class="params">(<span class="type">void</span> *ptr)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">void</span> *chunk_ptr = PAYLOAD_TO_CHUNK(ptr);</span><br><span class="line">    <span class="type">size_t</span> chunk_size = GET_SIZE(chunk_ptr);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// merge with nearby free chunks</span></span><br><span class="line">    <span class="type">void</span> *next_chunk_ptr = (<span class="type">char</span> *)chunk_ptr + chunk_size;</span><br><span class="line">    <span class="type">void</span> *prev_chunk_footer_ptr = (<span class="type">char</span> *)chunk_ptr - CHUNK_FOOTER_SIZE;</span><br><span class="line">    <span class="type">void</span> *prev_chunk_ptr = (<span class="type">char</span> *)chunk_ptr - GET_SIZE(prev_chunk_footer_ptr);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> prev_chunk_free_flag = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> next_chunk_free_flag = <span class="number">0</span>;</span><br><span class="line">    <span class="type">size_t</span> prev_chunk_size = <span class="number">0</span>;</span><br><span class="line">    <span class="type">size_t</span> next_chunk_size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">void</span> *new_free_chunk_ptr = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (prev_chunk_ptr &gt;= mem_heap_lo())</span><br><span class="line">    &#123;</span><br><span class="line">        prev_chunk_free_flag = !GET_ALLOC(prev_chunk_ptr);</span><br><span class="line">        prev_chunk_size = GET_SIZE(prev_chunk_ptr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (next_chunk_ptr &lt; mem_heap_hi())</span><br><span class="line">    &#123;</span><br><span class="line">        next_chunk_free_flag = !GET_ALLOC(next_chunk_ptr);</span><br><span class="line">        next_chunk_size = GET_SIZE(next_chunk_ptr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!prev_chunk_free_flag &amp;&amp; !next_chunk_free_flag)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// just set current chunk to free</span></span><br><span class="line">        set_chunk_meta(chunk_ptr, chunk_size, <span class="number">0</span>);</span><br><span class="line">        new_free_chunk_ptr = chunk_ptr;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (prev_chunk_free_flag &amp;&amp; !next_chunk_free_flag)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// merge with previous</span></span><br><span class="line">        <span class="type">size_t</span> merged_chunk_size = chunk_size + prev_chunk_size;</span><br><span class="line">        set_chunk_meta(prev_chunk_ptr, merged_chunk_size, <span class="number">0</span>);</span><br><span class="line">        remove_chunk_from_free_linked_list(prev_chunk_ptr);</span><br><span class="line">        new_free_chunk_ptr = prev_chunk_ptr;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (!prev_chunk_free_flag &amp;&amp; next_chunk_free_flag)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// merge with next</span></span><br><span class="line">        <span class="type">size_t</span> merged_chunk_size = chunk_size + next_chunk_size;</span><br><span class="line">        set_chunk_meta(chunk_ptr, merged_chunk_size, <span class="number">0</span>);</span><br><span class="line">        remove_chunk_from_free_linked_list(next_chunk_ptr);</span><br><span class="line">        new_free_chunk_ptr = chunk_ptr;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// merge with both</span></span><br><span class="line">        <span class="type">size_t</span> merged_chunk_size = chunk_size + prev_chunk_size + next_chunk_size;</span><br><span class="line">        set_chunk_meta(prev_chunk_ptr, merged_chunk_size, <span class="number">0</span>);</span><br><span class="line">        remove_chunk_from_free_linked_list(prev_chunk_ptr);</span><br><span class="line">        remove_chunk_from_free_linked_list(next_chunk_ptr);</span><br><span class="line">        new_free_chunk_ptr = prev_chunk_ptr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (new_free_chunk_ptr != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        insert_chunk_to_free_linked_list(new_free_chunk_ptr);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意设置 Allocated Flag。</p>
+<p>并不保证这些参考片段的正确性,都是从 Git History 里面截取的</p>
+</blockquote>
+<h4 id="mm_malloc-impl"><a class="markdownIt-Anchor" href="#mm_malloc-impl"></a> <code>mm_malloc</code> Impl</h4>
+<p><code>mm_malloc</code> 需要找出合适的空闲块，书上有三种方法：</p>
+<ul>
+<li>First Fit：从头开始遍历，找到第一个大小合适的空闲块</li>
+<li>Next Fit：从上次分配的位置开始遍历，找到第一个大小合适的空闲块</li>
+<li>Best Fit：遍历所有空闲块，找到最适合的空闲块</li>
+</ul>
+<p>其中 Next Fit 可以通过一个全局变量 <code>rover_ptr</code> 来记录上次分配的位置，避免每次都从头开始遍历。</p>
+<p>其他两种也只需要分别修改 <code>start_ptr</code> 和返回条件即可,很简单.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Next-fit search */</span></span><br><span class="line"><span class="type">void</span> *<span class="title function_">find_free_chunk</span><span class="params">(<span class="type">size_t</span> chunk_size)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (sentinel_chunk_ptr == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (rover == <span class="literal">NULL</span> || rover == sentinel_chunk_ptr)</span><br><span class="line">    &#123;</span><br><span class="line">        rover = GET_NEXT_FREE_CHUNK(sentinel_chunk_ptr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">void</span> *start_ptr = rover;</span><br><span class="line"></span><br><span class="line">    <span class="type">void</span> *ptr = rover;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">size_t</span> current_chunk_size = GET_SIZE(ptr);</span><br><span class="line">        <span class="keyword">if</span> (current_chunk_size &gt;= chunk_size &amp;&amp; !GET_ALLOC(ptr))</span><br><span class="line">        &#123;</span><br><span class="line">            rover = GET_NEXT_FREE_CHUNK(ptr);</span><br><span class="line">            <span class="keyword">return</span> ptr;</span><br><span class="line">        &#125;</span><br><span class="line">        ptr = GET_NEXT_FREE_CHUNK(ptr);</span><br><span class="line">    &#125; <span class="keyword">while</span> (ptr != start_ptr);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上代码实际上是显式链表后写的。但是无妨</p>
+</blockquote>
+<h3 id="显式链表"><a class="markdownIt-Anchor" href="#显式链表"></a> 显式链表</h3>
+<p>和链表的知识一样,可以向空闲块中的 Payload 区域内放入前后指针,不再赘述.</p>
+<p>区别在于有两种优化方法,将 8 字节的指针改为用 4 字节的 offset 存储:</p>
+<ul>
+<li>
+<p>以 <code>mem_heap_lo()</code> 为基准</p>
+</li>
+<li>
+<p>以当前当前块的位置为基准 (在 <a target="_blank" rel="noopener" href="https://github.com/StuartSul/CSAPP3e_MallocLab_Implementation">Github StuartSul/CSAPP3e_MallocLab_Implementation</a> 的实现中由 Gemini 发现)</p>
+</li>
+</ul>
+<p>我觉得显然第一种复杂度低,不考虑第二种(理论上可以但很麻烦吧,难道 Gemini 看错了?不管了)</p>
+<p>这样块的内存布局就分为:</p>
+<ul>
+<li>
+<p>占用块:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  4 bytes            4 bytes</span><br><span class="line">| Header | Payload | Footer |</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>空闲块:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">4 bytes      4 bytes             4 bytes        4 bytes</span><br><span class="line">| Header | Prev Free Offset | Next Free Offset | Footer |</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>其中 <code>Prev Free Offset</code> 和 <code>Next Free Offset</code> 分别存储前后空闲块相对于 <code>mem_heap_lo()</code> 的偏移量。</p>
+<p>注意到这样的话，最小块是 16 字节，可承载 8 字节的 Payload，4 字节的 Header 和 4 字节的 Footer， 刚好可以满足 8 字节对齐的要求。</p>
+<p>但这里还有个技巧，那就是实际上 Footer 是空闲块从链表中删除时才需要的，因此只需要在空闲块才写 Footer，占用块的 Footer 可以拿来写 Payload，又节省 4 bytes =-=</p>
+<p>与此同时将第二位 Flag 作为 <code>prev_alloc</code> 用于记录前一个块是否分配，这样在 <code>mm_free</code> 时就不需要通过 Footer 来获取前一个块的占用情况，如果未占用则说明有 Footer， 再进一步读取 size。</p>
+<p>考虑 <code>mem_sbrk</code> 时新增的块要如何填写 <code>prev_alloc</code> 的问题，就会发现需要想哨兵节点一样，在末尾 <code>mem_heap_hi()</code> 前添加一个结尾块 Epilogue Chunk，其大小为 0 且只有 Header，其 <code>prev_alloc</code> 标志位即为末尾 Chunk 的占用情况，这样新增的块可以和其他块一样的逻辑，直接按照下一个块的 <code>prev_alloc</code> 来赋值，注意每次 <code>mem_sbrk</code> 后记得要重新维护结尾块。</p>
+<blockquote>
+<p>注意，这个操作并不能将最小块限制减为 12 bytes，显然空闲块还是需要 Footer 的</p>
+</blockquote>
+<p>实现完如上几个逻辑后，接下来是提高吞吐量的分离链表优化。</p>
+<blockquote>
+<p>注意，可以运用链表的哨兵节点技巧，在 <code>mm_init</code> 时向空闲链表添加一个状态为已分配，Payload Size 为 0 的哨兵块，减少边缘情况。</p>
+</blockquote>
+<h3 id="分离链表"><a class="markdownIt-Anchor" href="#分离链表"></a> 分离链表</h3>
+<p>和哈希表类似的排布，在 <code>mem_init</code> 起始创建 <code>BUCKET_SIZE</code> 个哨兵节点，每个节点对应一个链表，链表内的块大小可以自行按照所需定义。</p>
+<p>比如可以定义为从 <code>SMALLEST_CHUNK_SIZE</code> 开始，每个桶比前一个桶大 8 直到一个阈值比如 96，之后则按每个桶大小较前一个翻倍。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> BUCKET_SIZE 24</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SMALLEST_CHUNK_SIZE 16</span></span><br><span class="line"><span class="comment">// SmallBin 与 LargeBin 的界限</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BIN_BOUNDARY 72</span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> *bucket[BUCKET_SIZE];</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 混合桶索引计算 (Smallbins + Largebins)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">get_slot_index</span><span class="params">(<span class="type">size_t</span> size)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Smallbins</span></span><br><span class="line">    <span class="comment">// 对于小块，直接按 8 字节对齐划分为 8 个桶 (16, 24, ..., 72)，每个桶内的块大小相差 8 字节</span></span><br><span class="line">    <span class="keyword">if</span> (size &lt;= BIN_BOUNDARY)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> (size - SMALLEST_CHUNK_SIZE) / <span class="number">8</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// int class_index = BOUNDARY_SIZE / 8 - 1;</span></span><br><span class="line">    <span class="comment">// size_t class_size = 128;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// // Largebins</span></span><br><span class="line">    <span class="comment">// // 对于大块，按 2 的幂次划分</span></span><br><span class="line">    <span class="comment">// while (class_index &lt; BUCKET_SIZE - 1 &amp;&amp; size &gt; class_size)</span></span><br><span class="line">    <span class="comment">// &#123;</span></span><br><span class="line">    <span class="comment">//     class_size &lt;&lt;= 1;</span></span><br><span class="line">    <span class="comment">//     class_index++;</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">    <span class="comment">// return class_index;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// __builtin_clz 返回输入的前导零的数量</span></span><br><span class="line">    <span class="type">int</span> k = <span class="number">33</span> - __builtin_clz(size - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> k &lt; BUCKET_SIZE ? k : BUCKET_SIZE - <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> *<span class="title function_">get_slot_ptr</span><span class="params">(<span class="type">size_t</span> size)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> slot_index = get_slot_index(size);</span><br><span class="line">    <span class="keyword">return</span> bucket[slot_index];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中逻辑正如注释部分所见，但是 AI 还给出了个 trick，就是利用 <code>__builtin_clz</code> 来计算大块的桶索引</p>
+<blockquote>
+<p>我本来想不采用，但我记得 Kops 高了整整 1k…就当学到了 =-=</p>
+</blockquote>
+<p>经过尝试后我记得，Best-fit 和 First-fit 在分离链表上的表现差不多，因此没做过多处理。</p>
+<p>但在直接根据 <code>get_slot_index(size)</code> 匹配到的桶里没有合适的块时，可以继续搜索下一个桶，直到找到为止。</p>
+<hr />
+<p>到此为止如果我没记错的话，会出现 trace 7~10 的利用率都很难看，甚至 OOM 的情况，因此最后的冲刺就得具体分析下测试样例了：</p>
+<blockquote>
+<p>可以较简单的做到 80 分左右，但是继续往上就头大了</p>
+</blockquote>
+<ul>
+<li>1~6 没什么印象了。好像没有什么特殊处理，应该只是考验基础的合并空闲块和分配空闲块（如果只 <code>mem_sbrk</code> 可能会 OOM）</li>
+<li>7/8 为 <code>binary-bal</code> 和 <code>binary-bal2</code>。先交替 <code>malloc</code> 16 和 112，然后 <code>free</code> 所有 112 的块，最后 <code>malloc</code> 128 这种规律，如果不加优化会产生大量蜂窝状的空闲块</li>
+<li>9/10 是专门针对 <code>realloc</code> 的 <code>realloc-bal</code> 和 <code>realloc2-bal</code>。先 <code>malloc</code> 一个大块，然后 <code>malloc</code> 小块，最后 <code>realloc</code> 大块到更略大一点的块，以此循环，如果不加以处理最后会留下很大个空块。(直接 <code>malloc+memcpy+free</code> 的实现会 <code>mem_sbrk</code> 失败)</li>
+</ul>
+<p>针对 7/8，需要在 <code>malloc</code> 时，有”重力“地切割块。具体来说是找到一个大的空闲块之后，如果 <code>size</code> 小，那么将其分配在左侧，切割右侧为新的空闲块；如果 <code>size</code> 大，那么将其分配在右侧，切割左侧为新的空闲块。</p>
+<p>针对 9/10，需要在 <code>realloc</code> 时，需要两种策略：</p>
+<ul>
+<li>
+<p>如果块位于末尾，直接 <code>mem_sbrk</code> 申请额外所需的内存，恰好满足 <code>realloc</code> 的需求</p>
+</li>
+<li>
+<p>如果块的两侧有空闲块，向前扩容或者向后扩容后再 <code>memmove</code></p>
+</li>
+</ul>
+<p>这两个策略的优先级有讲究，可以自行调换尝试，可能会出现 trace 9 达到 99% 但是 trace 10 只有 77% 的情况，反之亦然。</p>
+<p>但我发现 <a target="_blank" rel="noopener" href="https://github.com/StuartSul/CSAPP3e_MallocLab_Implementation">Github StuartSul/CSAPP3e_MallocLab_Implementation</a> 的实现可以两个都几乎 100%，它的分割策略要比我的谨慎的多，<code>mem_sbrk</code> 策略也不同：切割阈值为 4096，以及每次 <code>mem_sbrk</code> 的大小也为 4096，当作缓冲块用。而我的切割阈值是大于等于 <code>SMALLEST_CHUNK_SIZE</code>，每次 <code>mem_sbrk</code> 也是按需分配。</p>
+<p>除此之外它还有一个 <code>has_other_free</code> 的 flag 来标志是否有两个或以上的空闲块，如果只剩下最后一个则不合并，让 <code>realloc</code> 直接向上扩容。</p>
+<p>单一修改细节上的策略无法解决 trace 7~10 的问题，必须要一次性分配较大的空闲块，然后在里面进一步优化分配，不能受限于每次都 <code>mem_sbrk()</code>，操作余地太小。</p>
+<hr />
+<p>它的实现有个缺点在于切割方式过于保守，可能产生大量无效占用，解决方案是将 <code>mem_sbrk</code> 的 <code>EXTEND_SIZE</code> 和切割的阈值分离，有可能找到一对对所有操作都相对较优的取值？（还是尽量不要面向测试设计吧…）</p>
+<p>此外里面还有遍历维护 Large Bin 的缺点，看了下文 glibc Malloc 之后显然可知这是能优化的。</p>
+<p>以及还有微不足道的一点优化空间，即不需要遍历桶来确认 <code>has_other_free</code>，维护一个空闲块数量的全局计数器即可（但复杂度会更高吗？我不好说，毕竟 <code>realloc</code> 才有 <code>has_other_free</code> 的情况，但我最终补上了实现）</p>
+<h2 id="辅助函数"><a class="markdownIt-Anchor" href="#辅助函数"></a> 辅助函数</h2>
+<p>为了方便 DEBUG，可以写一个 <code>mm_checkheap</code> 和 <code>print_heap_view</code>，有助于找出错误和分析内存布局。</p>
+<p>这个就不在这里细讲了，<s>辅助函数用 AI 生成也没啥毛病，还是别折磨自己了</s>。</p>
+<blockquote>
+<p>很遗憾改的天昏地暗，我当时没能记录下来上面那些改动的内存视图，也没精力再回头重走了，只能以经验谈的角度来回顾，没法提供证据…</p>
+</blockquote>
+<h2 id="glibc-malloc"><a class="markdownIt-Anchor" href="#glibc-malloc"></a> glibc malloc</h2>
+<p>我还没来得及取看 glibc 咋实现的，看 <code>-l</code> 吞吐量明显要快得多，但没有显示利用率，暂未对比。</p>
+<p>但 glibc 的分离链表的方式非常细节，分为四种 Bin：</p>
+<ul>
+<li>Fast Bin：Fast Bin 中每个 Bin 固定大小，一般是最小的 16 字节开始步进为 8 字节，是单向链表，不支持合并</li>
+<li>Unsorted Bin：顾名思义，其中的未分类，任何大小都可以放入</li>
+<li>Small Bin：和 Fast Bin 一样但接受的 Chunk 大小更大，但是是双向链表，支持合并</li>
+<li>Large Bin：存储较大 Chunk 的 Bin，内部是有序的，且步进不一定相同</li>
+</ul>
+<p>注意到 Large Bin 是有序的，查了下 glibc 的实现，并非看到有的北大大佬的 Blog 里面手搓平衡树，而是用双重链表达成的高效插入删除：</p>
+<ul>
+<li>相同大小的块通过双向链表连接在一起，形成一个链表</li>
+<li>不同大小的块通过另外两个指针 <code>fd_nextsize</code> 和 <code>bk_nextsize</code> 连接在一起，将前面那个<em>相同大小链表</em>的头节点相连，形成一个有序的链表</li>
+</ul>
+<p>跳转流程部分不再赘述。但是仍然不如 Fast Bin 和 Small Bin 的 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> 插入删除，所以我猜测 Unsorted Bin 的存在是为了进一步减少释放的大块插入 Large Bin 的次数，让其在 Unsorted Bin 里先等待一下，看看能不能被后续的 <code>malloc</code> 直接利用掉，若不符合条件则延迟归类 Large Bin（当然其他的块也一样，归类回 F/S Bin），又能减少一部分非 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> 操作。</p>
+<p>具体细节也许可以参考：<a target="_blank" rel="noopener" href="https://sploitfun.wordpress.com/2015/02/10/understanding-glibc-malloc/">Understanding glibc malloc</a>，里面还包含多线程之类，关于实际的工程细节。（我没看）</p>
+<blockquote>
+<p>实际上我参考真的了一下之后发现，不仅有点站着说话不腰疼（都是英文），好像还有一点谬误=-=，于是找到了下面这个也许更合适细看的文章</p>
+</blockquote>
+<p>TODO：<a target="_blank" rel="noopener" href="https://jia.je/kb/software/glibc_allocator.html">glibc 内存分配器</a></p>
+<hr />
+<p>基本上以上就是我这几天的记录，具体实现可以查看 <a target="_blank" rel="noopener" href="https://github.com/z0z0r4/CSAPP-LAB">z0z0r4/CSAPP-LAB</a>，已转为公开。</p>
+<p>预计不会往下开其他的 CSAPP Lab 了，即将到来的是也许是数据库，也许是 CLRS，也许是钝角。</p>
+
+    </div>
+    <footer class="article-footer">
+        <a class="article-category-link" href="/categories/study-notes/" title="study-notes" data-aos="zoom-in">study-notes</a><a class="article-category-link" href="/categories/study-notes/CS/" title="CS" data-aos="zoom-in">CS</a><a class="article-category-link" href="/categories/study-notes/CS/CSAPP/" title="CSAPP" data-aos="zoom-in">CSAPP</a>
+
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/CSAPP/" rel="tag" title="CSAPP">CSAPP</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/study-notes/" rel="tag" title="study-notes">study-notes</a></li></ul>
+
+    </footer>
+  </div>
+    <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+      <div class="article-nav-link-wrap left">
+          <img data-src="/covers/nginx-502-bad-gateway.png" data-sizes="auto" alt="Nginx 和 Logrotate 的化学反应" class="lazyload">
+        <a href="/2026/05/17/nginx-upgrade-logrotate/" aria-label="前一篇: Nginx 和 Logrotate 的化学反应" title="前一篇: Nginx 和 Logrotate 的化学反应"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">
+            Nginx 和 Logrotate 的化学反应
+        </h3>
+      </div>
+    <div class="article-nav-link-wrap right">
+        <img data-src="/covers/CLRS_cover.jpg" data-sizes="auto" alt="CLRS Basic Graph Algorithms" class="lazyload">
+      <a href="/2026/04/21/CLRS/basic-graph-algorithms/" aria-label="后一篇: CLRS Basic Graph Algorithms"  title="后一篇: CLRS Basic Graph Algorithms"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+          CLRS Basic Graph Algorithms
+      </h3>
+    </div>
+  </nav>
+
+</article>
+
+  <section id="comments" data-aos="fade-up">
+    <div class="comment-header">
+        
+      <h2 class="comment-title">说些什么吧！</h2>
+      <div class="comment-selector">
+        <div class="comment-selector-wrap">
+            <div class="selector-item" data-selector="giscus">
+              <span>giscus</span>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="comment-content">
+          <div class="comment giscus-comment" data-aos="fade-up"
+            id="giscus-comment">
+          </div>
+    </div>
+  </section>
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+      <div style="flex-direction:column;align-items: center;"><a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a></div>
+    <div>
+      <span class="icon-copyright"></span>
+        2025-2026
+        <span class="footer-info-sep "></span>
+      z0z0r4
+    </div>
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+      <div>
+        <span class="icon-brush"></span>
+        104.7k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        08:31
+      </div>
+      <div class="footer-beian">
+        <a target="_blank" rel="noopener nofollow noreferrer" href="https://beian.miit.gov.cn">粤ICP备2025511811号</a>
+      </div>
+      <div class="footer-beian">
+        <img style="object-fit: contain;margin-right: 2px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAWCAMAAAD3n0w0AAAC4lBMVEUAAAD+/ODz6Kr//+PYrn3x167oxnyaaVzhs2ifaFXbrGLkvFnpyF7v2X/kwm3cp1nhsGfqw3rZqG3ntVzjrFPt3oDjvGnfr2fbnFGti3q0lH7ktoLep1zdqVPryXn9v1T4znr/74bnvGz034v+2I/ktoDz6ZLkwY/Dfz7buoftzYbq2IPr0pjs3bLv6KPRrnbKhFv79ND488n/+dDZr4Lx38f/+cH/95f42oL7/97s2Y3++uzw1rvTk3ABAW0AAHnqxl7ktV3/0ljksE7XPiDWHRfOAAJrdodyeIKUj4EAAIAABHfyy24GA2ftzWYAAGPpwWD/217syVuTeFrqvVnmuVnrwFfislP+xVLnwFHpuFDVkEbdmkXysETeoETpgj7ThT3XdTg5FDjdhTXWZTDaTCm7TCbSOSDUIRnJJxPQFg2Ej5kcPpdyhZSptJEACJFpfo4AG44XMInFvYfTvIejmYS9un7FrnwAEHp8enny2HjWwHjKtnhcX3jYzHeNhnfu2HWUjHX34nSsonPz5HLNwnHu1HD70m9WTm//723pym3x02ndtmn/0mbnxGa0o2ZeWWbwzWT8zGT/4mPqymLtwmJuYmLvymH/vmB5ZGC9kF4MAF3ru1zmu1zou1mnjVn4xFjYnli0mVi5i1jiqVfyyVbmtlbXkVNUOFPlvFLNrFKjfVLjwFHuvlBgHlDsuU9ONU9ODk7/2E02Gk3gpEzcpEzpsUvjqkralkqEaUr/tUnorkngjkf7n0bXikb6xERCJETemEPckUG1gD/ooD3Ulj3jkz3TZT3WjjzOeDqBWDr3pDnglTlMADnbbTf2gjbkbzaTYDZpAjbplzTtcTTEazPXXzOeXzDscS3MPi38jizJWSrVSCrrXynzfCjVdCjZRyjTQCbFUiTlYCPLPSHVNCHwXh7iRh7GPh3PLBr9LRTRDBG/ABG2ABCxDg7BDAvUAwv9KwrEGArTBAjZAAbJAAJ7jjdaAAAAPnRSTlMACEIarGn7+/n39fTw7Ozr5+bl5OTh4NvS0cvHxsbEw8G+vLqysaufnJiVk4yDfG9dXFpMSEFBNTApJyEcFLSeMvYAAAFySURBVBjTYsAHmFmlJFmZUYTMWDivn9q5mp3FGCHGOCvp4tXHN3qakxYzwrUqbAi+9zk91W1v3goVqKglx+YJtzIyXj7Iej/D/YCgFVjQvNFr/rMPT11fp3+9W2ZXbwESs5H39D78/Iuri4urm0udXaWiNVBQ/3Sp16LzbrePrtmTdaXVztNJFyioebk8f9r+tBcpief2TZ5pXxyrDhQUSvbJsUuLv/Pk2sMLx32Lqs6IAwUB4zq5K9f+7ceUR4nxr97YFUQkiAEFVeMmlRSeffcpMzP15qWKmvZwLaCg9KElvdne/v4b1832tfcIdNwuBxRkW7j8mE91sHv/qtoOj6lHYpx5gYJGK7dG318QuCki1qnTKTk6PIgJ5HpDnsiEE35znOdN7I7Z0cUHFmMwFXBwWBbmEDA9JC60rY8fIqjc1ODoGOIcEHVwS+hcvxY1SGhqc0ctXbtt/e6woMgponqwALU10JCVEBGWUdIxwR1hAKaOh2BwM3MwAAAAAElFTkSuQmCC" alt="">
+        <a target="_blank" rel="noopener nofollow noreferrer" href="https://beian.mps.gov.cn/#/query/webSearch?code=44130302100361">粤公网安备44130302100361号</a>
+      </div>
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+  </div>
+</footer>
+
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-%E7%9A%84%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0%E5%92%8C%E8%A6%81%E6%B1%82"><span class="toc-number">1.</span> <span class="toc-text"> Lab 的内置函数和要求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.</span> <span class="toc-text"> 内置函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A8%8B%E8%A6%81%E6%B1%82"><span class="toc-number">1.2.</span> <span class="toc-text"> 编程要求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text"> 具体实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%90%E5%BC%8F%E9%93%BE%E8%A1%A8"><span class="toc-number">2.1.</span> <span class="toc-text"> 隐式链表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mm_free-impl"><span class="toc-number">2.1.1.</span> <span class="toc-text"> mm_free Impl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mm_malloc-impl"><span class="toc-number">2.1.2.</span> <span class="toc-text"> mm_malloc Impl</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E5%BC%8F%E9%93%BE%E8%A1%A8"><span class="toc-number">2.2.</span> <span class="toc-text"> 显式链表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%A6%BB%E9%93%BE%E8%A1%A8"><span class="toc-number">2.3.</span> <span class="toc-text"> 分离链表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%85%E5%8A%A9%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text"> 辅助函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#glibc-malloc"><span class="toc-number">4.</span> <span class="toc-text"> glibc malloc</span></a></li></ol>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="z0z0r4" class="lazyload">
+  <div class="sidebar-author-name">z0z0r4</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">21</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social" >
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:z0z0r4@outlook.com itemprop="url" target="_blank" aria-label="email" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/z0z0r4 itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/558830935 itemprop="url" target="_blank" aria-label="bilibili" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/z0z0r4 itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-steam sidebar-social-icon">
+      <a href=https://steamcommunity.com/profiles/76561199091926896/ itemprop="url" target="_blank" aria-label="steam" rel="noopener nofollow noreferrer"></a>
+    </div>
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe632;
+          </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe605;
+          </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe647;
+          </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe628;
+          </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+</div>
+</div>
+  </div>
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+</nav>
+
+    </div>
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "z0z0r4",
+          title: "CSAPP Malloc Lab",
+          url: "https://blog.z0z0r4.top/2026/05/03/csapp/malloc-lab/",
+          excerpt: "做梦都是指针和利用率=-=",
+          description: "",
+          stripContent: "做梦都是指针和利用率=-=  封面取自莉可莉丝第一季 EP5 02:39，很符合我的精神状态。 参考过以下内容：   更适合北大宝宝体质的 Malloc Lab 踩坑记 Amazing！很详细，但我自己实现的时候没细看，不然我吃什么 =-=   小土刀 【读厚 CSAPP】VI Malloc Lab 并没有具体的细节，但可以参考指针操作，少走点弯路   Github StuartSul/CSAPP3e_MallocLab_Implementation 高达 98/100 分的实现（这里面有些地方",
+          date: "Sun May 03 2026 14:14:01 GMT+0800",
+          updated: "Sun May 17 2026 13:12:47 GMT+0800",
+          cover: "/images/csapp/chisato_doubt.png",
+        };
+      </script>
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+      
+<script src="/js/tabs.js" data-pjax defer></script>
+
+      <script type="module" data-pjax>
+        (async () => {
+          const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+          const initPswp = (gallery, children) => {
+            if (_$$(`${gallery} ${children}`).length > 0) {
+              new PhotoSwipeLightbox({
+                gallery,
+                children,
+                pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+              }).init();
+            }
+          }
+          const pswp = () => {
+            initPswp('.article-entry', 'a.article-gallery-item');
+            initPswp('.article-gallery', 'a.article-gallery-item');
+          }
+          pswp();
+        })();
+      </script>
+        
+
+<script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+
+  var commentConfigKeys = ["giscus"];
+  var commentConfig = {
+    giscus: {
+      enable: true,
+      load: async () => {
+        const container = document.querySelector('.giscus-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        // 删除可能已存在的 giscus 脚本和 iframe
+        const existingScript = container.querySelector('script[src*="giscus.app/client.js"]');
+        if (existingScript) existingScript.remove();
+        const existingFrame = document.querySelector('iframe.giscus-frame');
+        if (existingFrame) existingFrame.remove();
+
+        const giscusScript = document.createElement('script');
+        const domMode = document.documentElement.getAttribute("data-theme");
+        const defaultTheme = { dark: 'dark', light: 'light' };
+        const customTheme = {
+          dark: '' ? '' : new URL('/css/giscus_reimu_dark.css', window.location.origin).href,
+          light:'' ? '' : new URL('/css/giscus_reimu_light.css', window.location.origin).href
+        }; 
+        const hasGiscusCorsHeader = async (url) => {
+          if (!url) return false;
+          if (!url.startsWith('http')) return true; // not a url, maybe a name of built-in theme
+          try {
+            let response = await fetch(url, { method: 'HEAD', cache: 'no-store' });
+            if (response.status === 405) {
+              response = await fetch(url, { method: 'GET', cache: 'no-store' });
+            }
+            const allowOrigin = response.headers.get('access-control-allow-origin') || '';
+            return allowOrigin === '*' || allowOrigin.split(',').map(value => value.trim()).includes('https://giscus.app');
+          } catch {
+            return false;
+          }
+        };
+        let giscusTheme = defaultTheme;
+        const [darkCorsOk, lightCorsOk] = await Promise.all([
+          hasGiscusCorsHeader(customTheme.dark),
+          hasGiscusCorsHeader(customTheme.light)
+        ]);
+        if (darkCorsOk && lightCorsOk) {
+          giscusTheme = customTheme;
+        }
+
+        const docLang = document.documentElement.lang || 'en';
+        const langBase = docLang.split('-')[0];
+        const supportedLangs = ['ar', 'be', 'bg', 'ca', 'cs', 'da', 'de', 'en', 
+        'eo', 'es', 'eu', 'fa', 'fr', 'gr', 'hbs', 'he', 'hu', 'id', 'it', 'ja', 
+        'kh', 'ko', 'nl', 'pl', 'pt', 'ro', 'ru', 'th', 'tr', 'uk', 'uz', 'vi', 'zh-CN', 'zh-HK', 'zh-TW'];
+        const giscusLang = supportedLangs.includes(docLang) ? docLang : supportedLangs.includes(langBase) ? langBase : 'en';
+
+        giscusScript.src = 'https://giscus.app/client.js';
+        giscusScript.setAttribute('data-repo', 'z0z0r4/z0z0r4.github.io');
+        giscusScript.setAttribute('data-repo-id', 'R_kgDOQkNgiw');
+        giscusScript.setAttribute('data-category', 'Announcements'); 
+        giscusScript.setAttribute('data-category-id', 'DIC_kwDOQkNgi84C5ezs');
+        giscusScript.setAttribute('data-mapping', '1');
+        giscusScript.setAttribute('data-strict', '1');
+        giscusScript.setAttribute('data-reactions-enabled', '1');
+        giscusScript.setAttribute('data-emit-metadata', '0');
+        giscusScript.setAttribute('data-input-position', 'bottom');
+        giscusScript.setAttribute('data-theme', domMode === 'dark' ? giscusTheme.dark : giscusTheme.light);
+        giscusScript.setAttribute('data-lang', giscusLang);
+        giscusScript.setAttribute('crossorigin', 'anonymous');
+        giscusScript.async = true;
+        container.appendChild(giscusScript);
+        const themeHandler = (e) => {
+          const isDark = e.detail.isDark;
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe || !iframe.contentWindow) {
+            document.body.removeEventListener('reimu:theme-set', themeHandler);
+            return;
+          }
+          iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: isDark ? giscusTheme.dark : giscusTheme.light } } }, 'https://giscus.app');
+        };
+        document.body.addEventListener('reimu:theme-set', themeHandler);
+      }
+    },
+  }
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    // 1. 首先检查localStorage中是否有保存的评论类型
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    // 2. 如果localStorage中有值且对应的评论系统可用，就使用它
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    // 3. 如果localStorage无效，检查配置的默认评论系统
+    if (!defaultComment) {
+      var configDefault = 'giscus';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    // 4. 如果前两项都无效，按指定顺序找到第一个可用的评论系统
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false,
+      utterances: false,
+      beaudar: false,
+      disqus: false,
+    };
+
+    // 隐藏所有评论容器
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    // 按需加载评论系统
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        // 如果已加载，只需显示对应容器
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      // 根据类型加载对应的脚本
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    // 评论组件选择器
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      // 获取要加载的评论系统类型
+      const commentType = item.getAttribute('data-selector');
+
+      // 隐藏所有评论系统
+      hideAllComments();
+
+      // 加载选中的评论系统
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      // 评论组件选择器点击事件
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          // 保存选择器状态
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          // 切换选中状态
+          changeActiveCommentItems(item);
+        });
+      }
+
+      // 检查是否需要加载默认评论系统
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script>
+
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.12.5' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+  
+<script src="https://npm.webcache.cn/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha384-HeUHqi0nVsPUm&#x2F;E0ss7OfnIV&#x2F;yD96JWB8ehZvUuoVax9DpNHL17jj9pdfXHzqDxm" crossorigin="anonymous" defer></script>
+
+  <script data-pjax>
+    if (document.readyState === "loading") {
+      document.addEventListener('DOMContentLoaded', () => {
+        pangu?.spacingPage();
+      });
+    } else {
+      pangu?.spacingPage();
+    }
+  </script>
+
+  </body>
+  </html>

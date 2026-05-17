@@ -970,10 +970,10 @@ button {
 .article-summary {
   margin: 0 0 20px 0 !important;
 }
-.article-date-link,
-.article-category-link {
-  text-decoration: none;
-  text-transform: uppercase;
+.article-date {
+  display: flex;
+}
+.article-date-link {
   font-size: 14px;
   color: var(--red-1);
   background: var(--red-5);
@@ -983,18 +983,7 @@ button {
   box-shadow: var(--shadow-meta);
   transition: 0.3s;
 }
-.article-date {
-  display: flex;
-}
 .article-date-link:before {
-  margin-right: 8px;
-}
-.article-category {
-  display: flex;
-  flex-wrap: wrap;
-}
-.article-category-link:before {
-  font-weight: 700;
   margin-right: 8px;
 }
 .article-entry {
@@ -1019,6 +1008,23 @@ button {
 .article-entry table {
   line-height: 1.67;
   margin: 16px 0;
+}
+.article-entry .paragraph-anchor {
+  opacity: 0;
+  text-decoration: none !important;
+  transition: 0.3s;
+}
+.article-entry p:hover > .paragraph-anchor,
+.article-entry li:hover > .paragraph-anchor,
+.article-entry dd:hover > .paragraph-anchor,
+.article-entry dt:hover > .paragraph-anchor,
+.article-entry td:hover > .paragraph-anchor,
+.article-entry th:hover > .paragraph-anchor,
+.article-entry blockquote:hover > .paragraph-anchor,
+.article-entry details:hover > .paragraph-anchor,
+.article-entry figure:hover > .paragraph-anchor,
+.article-entry figcaption:hover > .paragraph-anchor {
+  opacity: 0.4;
 }
 .article-entry h1,
 .article-entry h2,
@@ -1291,16 +1297,17 @@ button {
 .article-footer a {
   text-decoration: none;
 }
+.article-category-link,
 .article-tag-list-link,
 .article-comment-link,
 .article-visitor-link {
   color: var(--red-1);
   margin-top: 20px;
 }
+.article-category-link,
 .article-tag-list-item {
   float: left;
   text-decoration: none;
-  text-transform: uppercase;
   background: var(--red-5);
   border-radius: 8px;
   padding: 8px 16px;
@@ -1308,6 +1315,7 @@ button {
   margin-right: 12px;
   box-shadow: var(--shadow-meta);
 }
+.article-category-link:before,
 .article-tag-list-link:before {
   margin-right: 8px;
 }
@@ -1858,7 +1866,6 @@ button {
 .archives-tag-list-item,
 .archives-category-list-item {
   display: flex;
-  text-transform: uppercase;
   background: var(--red-5);
   border-radius: 8px;
   padding: 8px 16px;
@@ -2025,7 +2032,7 @@ button {
 .article-entry pre,
 .article-entry code,
 .article-entry kbd {
-  font-family: 'Menlo','Monaco','Consolas','monospace';
+  font-family: Menlo, Monaco, Consolas, monospace;
   font-size: 93.75%;
   transition: 0.3s;
   word-break: break-word;
@@ -2116,7 +2123,7 @@ button {
 }
 .article-entry .gist .gist-file {
   border: none;
-  font-family: 'Menlo','Monaco','Consolas','monospace';
+  font-family: Menlo, Monaco, Consolas, monospace;
   margin: 0;
 }
 .article-entry .gist .gist-file .gist-data {
@@ -2957,7 +2964,7 @@ pre .emphasis {
 .sidebar-toc-wrapper .toc-level-1 >a {
   width: 100%;
   display: inline-block;
-  text-align: left;
+  text-align: center;
 }
 .sidebar-toc-wrapper .toc-child {
   transform: scaleY(0);

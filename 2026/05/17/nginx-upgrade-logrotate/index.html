@@ -1,0 +1,728 @@
+  <!DOCTYPE html>
+  <html lang="zh-CN"  
+      data-theme-mode="auto"
+  >
+  <head>
+  <meta charset="utf-8">
+  
+  
+  
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'https://blog.z0z0r4.top';window.REIMU_CONFIG.relative = '/';</script>
+  <title>
+    Nginx 和 Logrotate 的化学反应 | z0z0r4&#39;s Blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=JetBrains Mono:400,400italic,700,700italic|JetBrains Mono:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=JetBrains Mono:400,400italic,700,700italic|JetBrains Mono:400,400italic,700,700italic&display=swap" media="print" onload="this.media='all'">
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <meta name="description" content="TLDR: 更新后发现 Nginx 写入 access.log.1 导致 Logrotate 逻辑失效。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx 和 Logrotate 的化学反应">
+<meta property="og:url" content="https://blog.z0z0r4.top/2026/05/17/nginx-upgrade-logrotate/index.html">
+<meta property="og:site_name" content="z0z0r4&#39;s Blog">
+<meta property="og:description" content="TLDR: 更新后发现 Nginx 写入 access.log.1 导致 Logrotate 逻辑失效。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-17T03:58:33.000Z">
+<meta property="article:modified_time" content="2026-05-17T05:12:47.522Z">
+<meta property="article:author" content="z0z0r4">
+<meta property="article:tag" content="DevOps">
+<meta property="article:tag" content="Nginx">
+<meta name="twitter:card" content="summary">
+    <link rel="alternate" href="/atom.xml" title="z0z0r4's Blog" type="application/atom+xml">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE" crossorigin="anonymous">
+      <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="https://npm.webcache.cn/katex@0.16.24/dist/katex.min.css" integrity="sha384-tTgKLjMYmJr94v8qu2PE5MUGSMbyN2xiH266JUB3gpm8vnnJywd1dWSOEfrFz+YI" crossorigin="anonymous">
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+  <body>
+    <div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+        <a class="main-nav-link-wrap" href="/">
+            <div class="main-nav-icon icon ">
+                  &#xe632;
+            </div>
+          <span class="main-nav-link">首页</span>
+        </a>
+        <a class="main-nav-link-wrap" href="/archives">
+            <div class="main-nav-icon icon ">
+                  &#xe605;
+            </div>
+          <span class="main-nav-link">归档</span>
+        </a>
+        <a class="main-nav-link-wrap" href="/about">
+            <div class="main-nav-icon icon ">
+                  &#xe647;
+            </div>
+          <span class="main-nav-link">关于</span>
+        </a>
+        <a class="main-nav-link-wrap" href="/friend">
+            <div class="main-nav-icon icon ">
+                  &#xe628;
+            </div>
+          <span class="main-nav-link">友链</span>
+        </a>
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" aria-label="RSS 订阅" target="_blank"></a>
+  </nav>
+</div>
+<header id="header" aria-label="Site header">
+    <picture></picture>
+    <img  fetchpriority="high" src="/covers/nginx-502-bad-gateway.png" alt="Nginx 和 Logrotate 的化学反应">
+  <div id="header-outer">
+    <div id="header-title">
+          <span id="logo">
+            <h1 data-aos="slide-up">Nginx 和 Logrotate 的化学反应</h1>
+          </span>
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+        </h2>
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content" class="sidebar-left"  >
+          <aside id="sidebar" aria-label="Sidebar">
+  <div class="sidebar-wrapper-container sticky">
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="z0z0r4" class="lazyload">
+  <div class="sidebar-author-name">z0z0r4</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">21</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social" >
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:z0z0r4@outlook.com itemprop="url" target="_blank" aria-label="email" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/z0z0r4 itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/558830935 itemprop="url" target="_blank" aria-label="bilibili" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/z0z0r4 itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-steam sidebar-social-icon">
+      <a href=https://steamcommunity.com/profiles/76561199091926896/ itemprop="url" target="_blank" aria-label="steam" rel="noopener nofollow noreferrer"></a>
+    </div>
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe632;
+          </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe605;
+          </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe647;
+          </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe628;
+          </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+</div>
+</div>
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+    </div>
+  </div>
+  <div class="sidebar-widget">
+  </div>
+  </div>
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-nginx-upgrade-logrotate" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2026-05-17T03:58:33.000Z" itemprop="datePublished">2026-05-17</time>
+    <time style="display: none;" id="post-update-time">2026-05-17</time>
+  </span>
+</div>
+
+    </div>
+    
+    <div class="hr-line"></div>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+        <p>TLDR: 更新后发现 Nginx 写入 <code>access.log.1</code> 导致 Logrotate 逻辑失效。</p>
+<span id="more"></span>
+<p>最近由于 Nginx CVE-2026-42945 (<a target="_blank" rel="noopener" href="https://depthfirst.com/research/nginx-rift-achieving-nginx-rce-via-an-18-year-old-vulnerability">NGINX Rift</a>) 的影响，需要更新 Nginx，然后触发了一个奇怪的 corner case，导致日志挤满硬盘，在此记录推测的原因。</p>
+<p>前言：周四执行了 <code>apt update &amp;&amp; apt install --only-upgrade nginx</code> 来更新 Nginx，更新完成后确认了 <code>nginx -v</code> 显示的版本号确实更新了，之后就没处理了。</p>
+<p>表现在于每几十个小时之后就会因为 <code>/var/log/nginx</code> 目录占用过大而挤满硬盘，MongoDB Down 了。但第一次触发我没仔细看，发现 <code>/var/log/nginx/access.log.1</code> 和 <code>/var/log/nginx/error.log.1</code> 占了十多G，直接 <code>echo &quot;&quot; &gt; /var/log/nginx/access.log.1</code> 和 <code>echo &quot;&quot; &gt; /var/log/nginx/error.log.1</code> 就恢复了。</p>
+<blockquote>
+<p>其实我此时就该发现的，为什么是 <code>*.log.1</code> 而不是 <code>*.log</code></p>
+</blockquote>
+<p>第二次是周日早上 8 点，一看报警 524，再看怎么又满了，先紧急清理了，一顿捣鼓（检查 <code>/etc/logrotate.d/nginx</code> 配置、检查 <code>crontab -l</code>）后注意到 <code>/var/log/nginx/access.log</code> 和 <code>/var/log/nginx/error.log</code> 都是 0 字节的空文件，而 <code>*.log.1</code> 却占了十多G，意识到可能是更新导致的。（但此时还怀疑过是新版本的轮转日志覆盖了我之前的日志，还是不够敏锐=-=）</p>
+<p>遂试着 <code>systemctl restart nginx</code>，然后 <code>access.log</code> 和 <code>error.log</code> 终于开始正常记录了。</p>
+<hr />
+<p>参考 Logrotate 的配置文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">z0z0r4@z0z0r41:~$ cat /etc/logrotate.d/nginx</span><br><span class="line">/var/log/nginx/*.log &#123;</span><br><span class="line">        daily</span><br><span class="line">        missingok</span><br><span class="line">        rotate 14</span><br><span class="line">        compress</span><br><span class="line">        delaycompress</span><br><span class="line">        notifempty</span><br><span class="line">        create 0640 www-data adm</span><br><span class="line">        sharedscripts</span><br><span class="line">        prerotate</span><br><span class="line">                if [ -d /etc/logrotate.d/httpd-prerotate ]; then \</span><br><span class="line">                        run-parts /etc/logrotate.d/httpd-prerotate; \</span><br><span class="line">                fi \</span><br><span class="line">        endscript</span><br><span class="line">        postrotate</span><br><span class="line">                invoke-rc.d nginx rotate &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">        endscript</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>肯定是 <code>postrotate</code> 失败了，但是到底是不是因为更新导致的失败，我试了下没法复现=-=</p>
+<p>这是 Nginx 的包更新时的脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">z0z0r4@z0z0r41:~$ cat /var/lib/dpkg/info/nginx.prerm</span><br><span class="line">#!/bin/sh</span><br><span class="line">set -e</span><br><span class="line"></span><br><span class="line">case &quot;$1&quot; in</span><br><span class="line">  remove|remove-in-favour|deconfigure|deconfigure-in-favour)</span><br><span class="line">    if [ -x /etc/init.d/nginx ]; then</span><br><span class="line">      invoke-rc.d nginx stop || exit $?</span><br><span class="line">    fi</span><br><span class="line">    ;;</span><br><span class="line"></span><br><span class="line">  upgrade|failed-upgrade)</span><br><span class="line">    ;;</span><br><span class="line"></span><br><span class="line">  *)</span><br><span class="line">    echo &quot;prerm called with unknown argument \`$1&#x27;&quot; &gt;&amp;2</span><br><span class="line">    exit 1</span><br><span class="line">    ;;</span><br><span class="line">esac</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">exit 0</span><br><span class="line">z0z0r4@z0z0r41:~$ cat /var/lib/dpkg/info/nginx.postinst</span><br><span class="line">#!/bin/sh</span><br><span class="line">set -e</span><br><span class="line"></span><br><span class="line">case &quot;$1&quot; in</span><br><span class="line">  abort-upgrade|abort-remove|abort-deconfigure|configure)</span><br><span class="line">    ;;</span><br><span class="line">  triggered)</span><br><span class="line">    if invoke-rc.d --quiet nginx status &gt;/dev/null; then</span><br><span class="line">      echo &quot;Triggering nginx reload ...&quot;</span><br><span class="line">      invoke-rc.d nginx reload || true</span><br><span class="line">    fi</span><br><span class="line">    exit 0</span><br><span class="line">    ;;</span><br><span class="line">  *)</span><br><span class="line">    echo &quot;postinst called with unknown argument \`$1&#x27;&quot; &gt;&amp;2</span><br><span class="line">    exit 1</span><br><span class="line">    ;;</span><br><span class="line">esac</span><br><span class="line"></span><br><span class="line">if invoke-rc.d --quiet nginx status &gt;/dev/null; then</span><br><span class="line">  invoke-rc.d nginx upgrade || invoke-rc.d nginx restart</span><br><span class="line">  exit $?</span><br><span class="line">else</span><br><span class="line">  if ! invoke-rc.d nginx start; then</span><br><span class="line">    echo &quot;Failed to start NGINX in postinst script, please check the logs&quot; &gt;&amp;2</span><br><span class="line">    exit 0</span><br><span class="line">  fi</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+<p>里面更新后会调用 <code>invoke-rc.d nginx upgrade</code>。</p>
+<p>这是 <code>/etc/init.d/nginx</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br></pre></td><td class="code"><pre><span class="line">z0z0r4@z0z0r41:~$ cat /etc/init.d/nginx</span><br><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">### BEGIN INIT INFO</span><br><span class="line"># Provides:       nginx</span><br><span class="line"># Required-Start:    $local_fs $remote_fs $network $syslog $named</span><br><span class="line"># Required-Stop:     $local_fs $remote_fs $network $syslog $named</span><br><span class="line"># Default-Start:     2 3 4 5</span><br><span class="line"># Default-Stop:      0 1 6</span><br><span class="line"># Short-Description: starts the nginx web server</span><br><span class="line"># Description:       starts nginx using start-stop-daemon</span><br><span class="line">### END INIT INFO</span><br><span class="line"></span><br><span class="line">PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line">DAEMON=/usr/sbin/nginx</span><br><span class="line">NAME=nginx</span><br><span class="line">DESC=nginx</span><br><span class="line"></span><br><span class="line"># Include nginx defaults if available</span><br><span class="line">if [ -r /etc/default/nginx ]; then</span><br><span class="line">        . /etc/default/nginx</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">STOP_SCHEDULE=&quot;$&#123;STOP_SCHEDULE:-QUIT/5/TERM/5/KILL/5&#125;&quot;</span><br><span class="line"></span><br><span class="line">test -x $DAEMON || exit 0</span><br><span class="line"></span><br><span class="line">. /lib/init/vars.sh</span><br><span class="line">. /lib/lsb/init-functions</span><br><span class="line"></span><br><span class="line"># Try to extract nginx pidfile</span><br><span class="line">PID=$(cat /etc/nginx/nginx.conf | grep -Ev &#x27;^\s*#&#x27; | awk &#x27;BEGIN &#123; RS=&quot;[;&#123;&#125;]&quot; &#125; &#123; if ($1 == &quot;pid&quot;) print $2 &#125;&#x27; | head -n1)</span><br><span class="line">if [ -z &quot;$PID&quot; ]; then</span><br><span class="line">        PID=/run/nginx.pid</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ -n &quot;$ULIMIT&quot; ]; then</span><br><span class="line">        # Set ulimit if it is set in /etc/default/nginx</span><br><span class="line">        ulimit $ULIMIT</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">start_nginx() &#123;</span><br><span class="line">        # Start the daemon/service</span><br><span class="line">        #</span><br><span class="line">        # Returns:</span><br><span class="line">        #   0 if daemon has been started</span><br><span class="line">        #   1 if daemon was already running</span><br><span class="line">        #   2 if daemon could not be started</span><br><span class="line">        start-stop-daemon --start --quiet --pidfile $PID --exec $DAEMON --test &gt; /dev/null \</span><br><span class="line">                || return 1</span><br><span class="line">        start-stop-daemon --start --quiet --pidfile $PID --exec $DAEMON -- \</span><br><span class="line">                $DAEMON_OPTS 2&gt;/dev/null \</span><br><span class="line">                || return 2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test_config() &#123;</span><br><span class="line">        # Test the nginx configuration</span><br><span class="line">        $DAEMON -t $DAEMON_OPTS &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">stop_nginx() &#123;</span><br><span class="line">        # Stops the daemon/service</span><br><span class="line">        #</span><br><span class="line">        # Return</span><br><span class="line">        #   0 if daemon has been stopped</span><br><span class="line">        #   1 if daemon was already stopped</span><br><span class="line">        #   2 if daemon could not be stopped</span><br><span class="line">        #   other if a failure occurred</span><br><span class="line">        start-stop-daemon --stop --quiet --retry=$STOP_SCHEDULE --pidfile $PID --name $NAME</span><br><span class="line">        RETVAL=&quot;$?&quot;</span><br><span class="line">        sleep 1</span><br><span class="line">        return &quot;$RETVAL&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">reload_nginx() &#123;</span><br><span class="line">        # Function that sends a SIGHUP to the daemon/service</span><br><span class="line">        start-stop-daemon --stop --signal HUP --quiet --pidfile $PID --name $NAME</span><br><span class="line">        return 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">rotate_logs() &#123;</span><br><span class="line">        # Rotate log files</span><br><span class="line">        start-stop-daemon --stop --signal USR1 --quiet --pidfile $PID --name $NAME</span><br><span class="line">        return 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">upgrade_nginx() &#123;</span><br><span class="line">        # Online upgrade nginx executable</span><br><span class="line">        # http://nginx.org/en/docs/control.html</span><br><span class="line">        #</span><br><span class="line">        # Return</span><br><span class="line">        #   0 if nginx has been successfully upgraded</span><br><span class="line">        #   1 if nginx is not running</span><br><span class="line">        #   2 if the pid files were not created on time</span><br><span class="line">        #   3 if the old master could not be killed</span><br><span class="line">        if start-stop-daemon --stop --signal USR2 --quiet --pidfile $PID --name $NAME; then</span><br><span class="line">                # Wait for both old and new master to write their pid file</span><br><span class="line">                while [ ! -s &quot;$&#123;PID&#125;.oldbin&quot; ] || [ ! -s &quot;$&#123;PID&#125;&quot; ]; do</span><br><span class="line">                        cnt=`expr $cnt + 1`</span><br><span class="line">                        if [ $cnt -gt 10 ]; then</span><br><span class="line">                                return 2</span><br><span class="line">                        fi</span><br><span class="line">                        sleep 1</span><br><span class="line">                done</span><br><span class="line">                # Everything is ready, gracefully stop the old master</span><br><span class="line">                if start-stop-daemon --stop --signal QUIT --quiet --pidfile &quot;$&#123;PID&#125;.oldbin&quot; --name $NAME; then</span><br><span class="line">                        return 0</span><br><span class="line">                else</span><br><span class="line">                        return 3</span><br><span class="line">                fi</span><br><span class="line">        else</span><br><span class="line">                return 1</span><br><span class="line">        fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">case &quot;$1&quot; in</span><br><span class="line">        start)</span><br><span class="line">                log_daemon_msg &quot;Starting $DESC&quot; &quot;$NAME&quot;</span><br><span class="line">                start_nginx</span><br><span class="line">                case &quot;$?&quot; in</span><br><span class="line">                        0|1) log_end_msg 0 ;;</span><br><span class="line">                        2)   log_end_msg 1 ;;</span><br><span class="line">                esac</span><br><span class="line">                ;;</span><br><span class="line">        stop)</span><br><span class="line">                log_daemon_msg &quot;Stopping $DESC&quot; &quot;$NAME&quot;</span><br><span class="line">                stop_nginx</span><br><span class="line">                case &quot;$?&quot; in</span><br><span class="line">                        0|1) log_end_msg 0 ;;</span><br><span class="line">                        2)   log_end_msg 1 ;;</span><br><span class="line">                esac</span><br><span class="line">                ;;</span><br><span class="line">        restart)</span><br><span class="line">                log_daemon_msg &quot;Restarting $DESC&quot; &quot;$NAME&quot;</span><br><span class="line"></span><br><span class="line">                # Check configuration before stopping nginx</span><br><span class="line">                if ! test_config; then</span><br><span class="line">                        log_end_msg 1 # Configuration error</span><br><span class="line">                        exit $?</span><br><span class="line">                fi</span><br><span class="line"></span><br><span class="line">                stop_nginx</span><br><span class="line">                case &quot;$?&quot; in</span><br><span class="line">                        0|1)</span><br><span class="line">                                start_nginx</span><br><span class="line">                                case &quot;$?&quot; in</span><br><span class="line">                                        0) log_end_msg 0 ;;</span><br><span class="line">                                        1) log_end_msg 1 ;; # Old process is still running</span><br><span class="line">                                        *) log_end_msg 1 ;; # Failed to start</span><br><span class="line">                                esac</span><br><span class="line">                                ;;</span><br><span class="line">                        *)</span><br><span class="line">                                # Failed to stop</span><br><span class="line">                                log_end_msg 1</span><br><span class="line">                                ;;</span><br><span class="line">                esac</span><br><span class="line">                ;;</span><br><span class="line">        reload|force-reload)</span><br><span class="line">                log_daemon_msg &quot;Reloading $DESC configuration&quot; &quot;$NAME&quot;</span><br><span class="line"></span><br><span class="line">                # Check configuration before stopping nginx</span><br><span class="line">                #</span><br><span class="line">                # This is not entirely correct since the on-disk nginx binary</span><br><span class="line">                # may differ from the in-memory one, but that&#x27;s not common.</span><br><span class="line">                # We prefer to check the configuration and return an error</span><br><span class="line">                # to the administrator.</span><br><span class="line">                if ! test_config; then</span><br><span class="line">                        log_end_msg 1 # Configuration error</span><br><span class="line">                        exit $?</span><br><span class="line">                fi</span><br><span class="line"></span><br><span class="line">                reload_nginx</span><br><span class="line">                log_end_msg $?</span><br><span class="line">                ;;</span><br><span class="line">        configtest|testconfig)</span><br><span class="line">                log_daemon_msg &quot;Testing $DESC configuration&quot;</span><br><span class="line">                test_config</span><br><span class="line">                log_end_msg $?</span><br><span class="line">                ;;</span><br><span class="line">        status)</span><br><span class="line">                status_of_proc -p $PID &quot;$DAEMON&quot; &quot;$NAME&quot; &amp;&amp; exit 0 || exit $?</span><br><span class="line">                ;;</span><br><span class="line">        upgrade)</span><br><span class="line">                log_daemon_msg &quot;Upgrading binary&quot; &quot;$NAME&quot;</span><br><span class="line">                upgrade_nginx</span><br><span class="line">                log_end_msg $?</span><br><span class="line">                ;;</span><br><span class="line">        rotate)</span><br><span class="line">                log_daemon_msg &quot;Re-opening $DESC log files&quot; &quot;$NAME&quot;</span><br><span class="line">                rotate_logs</span><br><span class="line">                log_end_msg $?</span><br><span class="line">                ;;</span><br><span class="line">        *)</span><br><span class="line">                echo &quot;Usage: $NAME &#123;start|stop|restart|reload|force-reload|status|configtest|rotate|upgrade&#125;&quot; &gt;&amp;2</span><br><span class="line">                exit 3</span><br><span class="line">                ;;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+<p>里面 <code>rotate</code> 函数是通过向 Nginx 发送 <code>USR1</code> 信号来让它重新打开日志文件的，但是都是静默发生，一直返回 0 的，如果失败了确实无法得知。</p>
+<p>肯定是 <code>rotate</code> 失败了，但我没法复现出来，在此记录，下次遇到再跟踪下=-=。</p>
+
+    </div>
+    <footer class="article-footer">
+        <a class="article-category-link" href="/categories/DevOps/" title="DevOps" data-aos="zoom-in">DevOps</a>
+
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/DevOps/" rel="tag" title="DevOps">DevOps</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/Nginx/" rel="tag" title="Nginx">Nginx</a></li></ul>
+
+    </footer>
+  </div>
+    <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+    <div class="article-nav-link-wrap right">
+        <img data-src="/images/csapp/chisato_doubt.png" data-sizes="auto" alt="CSAPP Malloc Lab" class="lazyload">
+      <a href="/2026/05/03/csapp/malloc-lab/" aria-label="后一篇: CSAPP Malloc Lab"  title="后一篇: CSAPP Malloc Lab"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+          CSAPP Malloc Lab
+      </h3>
+    </div>
+  </nav>
+
+</article>
+
+  <section id="comments" data-aos="fade-up">
+    <div class="comment-header">
+        
+      <h2 class="comment-title">说些什么吧！</h2>
+      <div class="comment-selector">
+        <div class="comment-selector-wrap">
+            <div class="selector-item" data-selector="giscus">
+              <span>giscus</span>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="comment-content">
+          <div class="comment giscus-comment" data-aos="fade-up"
+            id="giscus-comment">
+          </div>
+    </div>
+  </section>
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+      <div style="flex-direction:column;align-items: center;"><a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a></div>
+    <div>
+      <span class="icon-copyright"></span>
+        2025-2026
+        <span class="footer-info-sep "></span>
+      z0z0r4
+    </div>
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+      <div>
+        <span class="icon-brush"></span>
+        104.7k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        08:31
+      </div>
+      <div class="footer-beian">
+        <a target="_blank" rel="noopener nofollow noreferrer" href="https://beian.miit.gov.cn">粤ICP备2025511811号</a>
+      </div>
+      <div class="footer-beian">
+        <img style="object-fit: contain;margin-right: 2px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAWCAMAAAD3n0w0AAAC4lBMVEUAAAD+/ODz6Kr//+PYrn3x167oxnyaaVzhs2ifaFXbrGLkvFnpyF7v2X/kwm3cp1nhsGfqw3rZqG3ntVzjrFPt3oDjvGnfr2fbnFGti3q0lH7ktoLep1zdqVPryXn9v1T4znr/74bnvGz034v+2I/ktoDz6ZLkwY/Dfz7buoftzYbq2IPr0pjs3bLv6KPRrnbKhFv79ND488n/+dDZr4Lx38f/+cH/95f42oL7/97s2Y3++uzw1rvTk3ABAW0AAHnqxl7ktV3/0ljksE7XPiDWHRfOAAJrdodyeIKUj4EAAIAABHfyy24GA2ftzWYAAGPpwWD/217syVuTeFrqvVnmuVnrwFfislP+xVLnwFHpuFDVkEbdmkXysETeoETpgj7ThT3XdTg5FDjdhTXWZTDaTCm7TCbSOSDUIRnJJxPQFg2Ej5kcPpdyhZSptJEACJFpfo4AG44XMInFvYfTvIejmYS9un7FrnwAEHp8enny2HjWwHjKtnhcX3jYzHeNhnfu2HWUjHX34nSsonPz5HLNwnHu1HD70m9WTm//723pym3x02ndtmn/0mbnxGa0o2ZeWWbwzWT8zGT/4mPqymLtwmJuYmLvymH/vmB5ZGC9kF4MAF3ru1zmu1zou1mnjVn4xFjYnli0mVi5i1jiqVfyyVbmtlbXkVNUOFPlvFLNrFKjfVLjwFHuvlBgHlDsuU9ONU9ODk7/2E02Gk3gpEzcpEzpsUvjqkralkqEaUr/tUnorkngjkf7n0bXikb6xERCJETemEPckUG1gD/ooD3Ulj3jkz3TZT3WjjzOeDqBWDr3pDnglTlMADnbbTf2gjbkbzaTYDZpAjbplzTtcTTEazPXXzOeXzDscS3MPi38jizJWSrVSCrrXynzfCjVdCjZRyjTQCbFUiTlYCPLPSHVNCHwXh7iRh7GPh3PLBr9LRTRDBG/ABG2ABCxDg7BDAvUAwv9KwrEGArTBAjZAAbJAAJ7jjdaAAAAPnRSTlMACEIarGn7+/n39fTw7Ozr5+bl5OTh4NvS0cvHxsbEw8G+vLqysaufnJiVk4yDfG9dXFpMSEFBNTApJyEcFLSeMvYAAAFySURBVBjTYsAHmFmlJFmZUYTMWDivn9q5mp3FGCHGOCvp4tXHN3qakxYzwrUqbAi+9zk91W1v3goVqKglx+YJtzIyXj7Iej/D/YCgFVjQvNFr/rMPT11fp3+9W2ZXbwESs5H39D78/Iuri4urm0udXaWiNVBQ/3Sp16LzbrePrtmTdaXVztNJFyioebk8f9r+tBcpief2TZ5pXxyrDhQUSvbJsUuLv/Pk2sMLx32Lqs6IAwUB4zq5K9f+7ceUR4nxr97YFUQkiAEFVeMmlRSeffcpMzP15qWKmvZwLaCg9KElvdne/v4b1832tfcIdNwuBxRkW7j8mE91sHv/qtoOj6lHYpx5gYJGK7dG318QuCki1qnTKTk6PIgJ5HpDnsiEE35znOdN7I7Z0cUHFmMwFXBwWBbmEDA9JC60rY8fIqjc1ODoGOIcEHVwS+hcvxY1SGhqc0ctXbtt/e6woMgponqwALU10JCVEBGWUdIxwR1hAKaOh2BwM3MwAAAAAElFTkSuQmCC" alt="">
+        <a target="_blank" rel="noopener nofollow noreferrer" href="https://beian.mps.gov.cn/#/query/webSearch?code=44130302100361">粤公网安备44130302100361号</a>
+      </div>
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+  </div>
+</footer>
+
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+    
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="z0z0r4" class="lazyload">
+  <div class="sidebar-author-name">z0z0r4</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">21</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social" >
+    <div class="icon-email sidebar-social-icon">
+      <a href=mailto:z0z0r4@outlook.com itemprop="url" target="_blank" aria-label="email" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-github sidebar-social-icon">
+      <a href=https://github.com/z0z0r4 itemprop="url" target="_blank" aria-label="github" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-bilibili sidebar-social-icon">
+      <a href=https://space.bilibili.com/558830935 itemprop="url" target="_blank" aria-label="bilibili" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-telegram sidebar-social-icon">
+      <a href=https://t.me/z0z0r4 itemprop="url" target="_blank" aria-label="telegram" rel="noopener nofollow noreferrer"></a>
+    </div>
+    <div class="icon-steam sidebar-social-icon">
+      <a href=https://steamcommunity.com/profiles/76561199091926896/ itemprop="url" target="_blank" aria-label="steam" rel="noopener nofollow noreferrer"></a>
+    </div>
+</div>
+<div class="sidebar-menu">
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe632;
+          </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe605;
+          </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe647;
+          </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+          <div class="sidebar-menu-icon icon ">
+                &#xe628;
+          </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+</div>
+</div>
+  </div>
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+</nav>
+
+    </div>
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "z0z0r4",
+          title: "Nginx 和 Logrotate 的化学反应",
+          url: "https://blog.z0z0r4.top/2026/05/17/nginx-upgrade-logrotate/",
+          excerpt: "TLDR: 更新后发现 Nginx 写入 access.log.1 导致 Logrotate 逻辑失效。",
+          description: "",
+          stripContent: "TLDR: 更新后发现 Nginx 写入 access.log.1 导致 Logrotate 逻辑失效。  最近由于 Nginx CVE-2026-42945 (NGINX Rift) 的影响，需要更新 Nginx，然后触发了一个奇怪的 corner case，导致日志挤满硬盘，在此记录推测的原因。 前言：周四执行了 apt update &amp;amp;&amp;amp; apt install --only-upgrade nginx 来更新 Nginx，更新完成后确认了 nginx -v 显示的版本号确",
+          date: "Sun May 17 2026 11:58:33 GMT+0800",
+          updated: "Sun May 17 2026 13:12:47 GMT+0800",
+          cover: "/covers/nginx-502-bad-gateway.png",
+        };
+      </script>
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+      
+<script src="/js/tabs.js" data-pjax defer></script>
+
+      <script type="module" data-pjax>
+        (async () => {
+          const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+          const initPswp = (gallery, children) => {
+            if (_$$(`${gallery} ${children}`).length > 0) {
+              new PhotoSwipeLightbox({
+                gallery,
+                children,
+                pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+              }).init();
+            }
+          }
+          const pswp = () => {
+            initPswp('.article-entry', 'a.article-gallery-item');
+            initPswp('.article-gallery', 'a.article-gallery-item');
+          }
+          pswp();
+        })();
+      </script>
+        
+
+<script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+
+  var commentConfigKeys = ["giscus"];
+  var commentConfig = {
+    giscus: {
+      enable: true,
+      load: async () => {
+        const container = document.querySelector('.giscus-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        // 删除可能已存在的 giscus 脚本和 iframe
+        const existingScript = container.querySelector('script[src*="giscus.app/client.js"]');
+        if (existingScript) existingScript.remove();
+        const existingFrame = document.querySelector('iframe.giscus-frame');
+        if (existingFrame) existingFrame.remove();
+
+        const giscusScript = document.createElement('script');
+        const domMode = document.documentElement.getAttribute("data-theme");
+        const defaultTheme = { dark: 'dark', light: 'light' };
+        const customTheme = {
+          dark: '' ? '' : new URL('/css/giscus_reimu_dark.css', window.location.origin).href,
+          light:'' ? '' : new URL('/css/giscus_reimu_light.css', window.location.origin).href
+        }; 
+        const hasGiscusCorsHeader = async (url) => {
+          if (!url) return false;
+          if (!url.startsWith('http')) return true; // not a url, maybe a name of built-in theme
+          try {
+            let response = await fetch(url, { method: 'HEAD', cache: 'no-store' });
+            if (response.status === 405) {
+              response = await fetch(url, { method: 'GET', cache: 'no-store' });
+            }
+            const allowOrigin = response.headers.get('access-control-allow-origin') || '';
+            return allowOrigin === '*' || allowOrigin.split(',').map(value => value.trim()).includes('https://giscus.app');
+          } catch {
+            return false;
+          }
+        };
+        let giscusTheme = defaultTheme;
+        const [darkCorsOk, lightCorsOk] = await Promise.all([
+          hasGiscusCorsHeader(customTheme.dark),
+          hasGiscusCorsHeader(customTheme.light)
+        ]);
+        if (darkCorsOk && lightCorsOk) {
+          giscusTheme = customTheme;
+        }
+
+        const docLang = document.documentElement.lang || 'en';
+        const langBase = docLang.split('-')[0];
+        const supportedLangs = ['ar', 'be', 'bg', 'ca', 'cs', 'da', 'de', 'en', 
+        'eo', 'es', 'eu', 'fa', 'fr', 'gr', 'hbs', 'he', 'hu', 'id', 'it', 'ja', 
+        'kh', 'ko', 'nl', 'pl', 'pt', 'ro', 'ru', 'th', 'tr', 'uk', 'uz', 'vi', 'zh-CN', 'zh-HK', 'zh-TW'];
+        const giscusLang = supportedLangs.includes(docLang) ? docLang : supportedLangs.includes(langBase) ? langBase : 'en';
+
+        giscusScript.src = 'https://giscus.app/client.js';
+        giscusScript.setAttribute('data-repo', 'z0z0r4/z0z0r4.github.io');
+        giscusScript.setAttribute('data-repo-id', 'R_kgDOQkNgiw');
+        giscusScript.setAttribute('data-category', 'Announcements'); 
+        giscusScript.setAttribute('data-category-id', 'DIC_kwDOQkNgi84C5ezs');
+        giscusScript.setAttribute('data-mapping', '1');
+        giscusScript.setAttribute('data-strict', '1');
+        giscusScript.setAttribute('data-reactions-enabled', '1');
+        giscusScript.setAttribute('data-emit-metadata', '0');
+        giscusScript.setAttribute('data-input-position', 'bottom');
+        giscusScript.setAttribute('data-theme', domMode === 'dark' ? giscusTheme.dark : giscusTheme.light);
+        giscusScript.setAttribute('data-lang', giscusLang);
+        giscusScript.setAttribute('crossorigin', 'anonymous');
+        giscusScript.async = true;
+        container.appendChild(giscusScript);
+        const themeHandler = (e) => {
+          const isDark = e.detail.isDark;
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe || !iframe.contentWindow) {
+            document.body.removeEventListener('reimu:theme-set', themeHandler);
+            return;
+          }
+          iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: isDark ? giscusTheme.dark : giscusTheme.light } } }, 'https://giscus.app');
+        };
+        document.body.addEventListener('reimu:theme-set', themeHandler);
+      }
+    },
+  }
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    // 1. 首先检查localStorage中是否有保存的评论类型
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    // 2. 如果localStorage中有值且对应的评论系统可用，就使用它
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    // 3. 如果localStorage无效，检查配置的默认评论系统
+    if (!defaultComment) {
+      var configDefault = 'giscus';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    // 4. 如果前两项都无效，按指定顺序找到第一个可用的评论系统
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false,
+      utterances: false,
+      beaudar: false,
+      disqus: false,
+    };
+
+    // 隐藏所有评论容器
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    // 按需加载评论系统
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        // 如果已加载，只需显示对应容器
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      // 根据类型加载对应的脚本
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    // 评论组件选择器
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      // 获取要加载的评论系统类型
+      const commentType = item.getAttribute('data-selector');
+
+      // 隐藏所有评论系统
+      hideAllComments();
+
+      // 加载选中的评论系统
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      // 评论组件选择器点击事件
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          // 保存选择器状态
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          // 切换选中状态
+          changeActiveCommentItems(item);
+        });
+      }
+
+      // 检查是否需要加载默认评论系统
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script>
+
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.12.5' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+  
+<script src="https://npm.webcache.cn/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha384-HeUHqi0nVsPUm&#x2F;E0ss7OfnIV&#x2F;yD96JWB8ehZvUuoVax9DpNHL17jj9pdfXHzqDxm" crossorigin="anonymous" defer></script>
+
+  <script data-pjax>
+    if (document.readyState === "loading") {
+      document.addEventListener('DOMContentLoaded', () => {
+        pangu?.spacingPage();
+      });
+    } else {
+      pangu?.spacingPage();
+    }
+  </script>
+
+  </body>
+  </html>
