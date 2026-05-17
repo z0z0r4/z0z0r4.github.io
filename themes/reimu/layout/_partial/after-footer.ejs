@@ -57,12 +57,14 @@
 <%_ } _%>
 
 <%_ if (theme.firework.enable) { _%>
-  <%- js({src: vendorCdn(theme.vendor.js.firework)[0], integrity: vendorCdnIntegrity(theme.vendor.js.firework)[0], crossorigin: "anonymous"}) %>
   <script>
-    if (!<%= theme.firework.disable_on_mobile %> || !window.matchMedia('(max-width: 768px)').matches) {
-      window.firework && window.firework(JSON.parse('<%- JSON.stringify(theme.firework.options) %>'));
+    var setupFirework = () => {
+      if (!<%= theme.firework.disable_on_mobile %> || !window.matchMedia('(max-width: 768px)').matches) {
+        window.firework && window.firework(JSON.parse('<%- JSON.stringify(theme.firework.options) %>'));
+      }
     }
   </script>
+  <%- js({src: vendorCdn(theme.vendor.js.firework)[0], integrity: vendorCdnIntegrity(theme.vendor.js.firework)[0], crossorigin: "anonymous", onload: "setupFirework()", defer: true}) %>
 <%_ } _%>
 
 <%_ if (theme.pjax.enable) { _%>
@@ -72,11 +74,11 @@
 
 <%_ if (theme.live2d.enable) { _%>
   <script>
-    function initLive2d() {
+    var setupLive2d = () => {
       live2d.init("<%- vendorCdn(theme.vendor.js.live2d.base)[0] %>", {themeTipsPath: ""});
     }
   </script>
-  <%- js({src: vendorCdn(theme.vendor.js.live2d.js)[0], onload: "initLive2d && initLive2d()", async: true})%>
+  <%- js({src: vendorCdn(theme.vendor.js.live2d.js)[0], onload: "setupLive2d()", async: true})%>
 <%_ } _%>
 
 <%_ if (theme.live2d_widgets.enable) { _%>
@@ -193,8 +195,10 @@
             }
           };
           
-          document.body.addEventListener('dark-theme-set', () => initMermaid('dark'));
-          document.body.addEventListener('light-theme-set', () => initMermaid('default'));
+          document.body.addEventListener('reimu:theme-set', (e) => {
+            const isDark = e.detail.isDark;
+            initMermaid(isDark ? 'dark' : 'default');
+          });
 
           const mode = localStorage.getItem('dark_mode');
           if (mode === 'auto') {
@@ -206,43 +210,82 @@
         }
       </script>
     <%_ } _%>
-    <%_ if (config.highlight.enable || config.syntax_highlighter === "highlight.js") { _%>
-      <%_ if (is_post() || is_page()) { _%>
-        <%- js({ src: "js/insert_highlight.js", "data-pjax": true }) %>
-        <%- js({ src: 'js/tabs.js', 'data-pjax': true }) %>
-        <%_ if (Array.isArray(theme.share) && theme.share.includes("weixin")) { _%>
-          <%- js({src: vendorCdn(theme.vendor.js.snapdom)[0], integrity: vendorCdnIntegrity(theme.vendor.js.snapdom)[0], crossorigin: "anonymous", defer: true, 'data-pjax': true}) %>
-          <%- js({src: vendorCdn(theme.vendor.js.qrcode)[0], integrity: vendorCdnIntegrity(theme.vendor.js.qrcode)[0], crossorigin: "anonymous", defer: true, 'data-pjax': true}) %>
-        <%_ } _%>
-      <%_ } _%>
-    <%_ } _%>
     <%_ if (is_post() || is_page()) { _%>
+      <%_ if (config.highlight.enable || config.syntax_highlighter === "highlight.js") { _%>
+        <%- js({ src: "js/insert_highlight.js", "data-pjax": true }) %>
+      <%_ } _%>
+      <%_ if (theme.anchor?.explicit?.enable || theme.anchor?.auto?.enable) { _%>
+        <%- js({ src: "js/anchor.js", "data-pjax": true }) %>
+      <%_ } _%>
+      <%- js({ src: 'js/tabs.js', 'data-pjax': true, defer: true }) %>
+      <%_ if (Array.isArray(theme.share) && theme.share.includes("weixin")) { _%>
+        <%- js({src: vendorCdn(theme.vendor.js.snapdom)[0], integrity: vendorCdnIntegrity(theme.vendor.js.snapdom)[0], crossorigin: "anonymous", defer: true, 'data-pjax': true}) %>
+        <%- js({src: vendorCdn(theme.vendor.js.qrcode)[0], integrity: vendorCdnIntegrity(theme.vendor.js.qrcode)[0], crossorigin: "anonymous", defer: true, 'data-pjax': true}) %>
+      <%_ } _%>
       <script type="module" data-pjax>
-        const PhotoSwipeLightbox = (await safeImport("<%- vendorCdn(theme.vendor.js.photoswipe_lightbox) %>", "<%- vendorCdnIntegrity(theme.vendor.js.photoswipe_lightbox) %>")).default;
-        const initPswp = (gallery, children) => {
-          if (_$$(`${gallery} ${children}`).length > 0) {
-            new PhotoSwipeLightbox({
-              gallery,
-              children,
-              pswpModule: () => safeImport("<%- vendorCdn(theme.vendor.js.photoswipe) %>", "<%- vendorCdnIntegrity(theme.vendor.js.photoswipe) %>")
-            }).init();
+        (async () => {
+          const PhotoSwipeLightbox = (await safeImport("<%- vendorCdn(theme.vendor.js.photoswipe_lightbox) %>", "<%- vendorCdnIntegrity(theme.vendor.js.photoswipe_lightbox) %>")).default;
+          const initPswp = (gallery, children) => {
+            if (_$$(`${gallery} ${children}`).length > 0) {
+              new PhotoSwipeLightbox({
+                gallery,
+                children,
+                pswpModule: () => safeImport("<%- vendorCdn(theme.vendor.js.photoswipe) %>", "<%- vendorCdnIntegrity(theme.vendor.js.photoswipe) %>")
+              }).init();
+            }
           }
-        }
-        const pswp = () => {
-          initPswp('.article-entry', 'a.article-gallery-item');
-          initPswp('.article-gallery', 'a.article-gallery-item');
-          window.lightboxStatus = 'done';
-          window.removeEventListener('lightbox:ready', pswp);
-        }
-        if(window.lightboxStatus === 'ready') {
-          pswp()
-        } else {
-          window.addEventListener('lightbox:ready', pswp);
-        }
+          const pswp = () => {
+            initPswp('.article-entry', 'a.article-gallery-item');
+            initPswp('.article-gallery', 'a.article-gallery-item');
+          }
+          pswp();
+        })();
       </script>
       <%_ if (page.comments !== false) { _%>
         <%- partial('post/comment', null, { cache: true }) %>
       <%_ } _%>
+    <%_ } _%>
+    <%_ if (is_home() && theme.subtitle?.typing?.enable) { _%>
+      <%- js({src: vendorCdn(theme.vendor.js.typed)[0], integrity: vendorCdnIntegrity(theme.vendor.js.typed)[0], crossorigin: "anonymous", defer: true, onload: "initSubtitleTyping()"}) %>
+      <script data-pjax>
+        window.subtitleTypingConfig = {
+          strings: <%- JSON.stringify(theme.subtitle.typing.strings || []) %>,
+          typeSpeed: <%= theme.subtitle.typing.typeSpeed || 100 %>,
+          backSpeed: <%= theme.subtitle.typing.backSpeed || 50 %>,
+          backDelay: <%= theme.subtitle.typing.backDelay || 2000 %>,
+          startDelay: <%= theme.subtitle.typing.startDelay || 300 %>,
+          loop: <%= theme.subtitle.typing.loop !== false %>,
+          shuffle: <%= theme.subtitle.typing.shuffle !== false %>,
+          showCursor: <%= JSON.stringify(theme.subtitle.typing.showCursor) %> || true,
+          cursorChar: "<%= theme.subtitle.typing.cursorChar || '|' %>",
+          smartBackspace: <%= JSON.stringify(theme.subtitle.typing.smartBackspace) %> || false,
+        };
+
+        function initSubtitleTyping() {
+          const subtitleElement = document.querySelector('#subtitle');
+          if (!subtitleElement || !window.Typed || !window.subtitleTypingConfig) {
+            return;
+          }
+
+          if (window.__typedInstance) {
+            window.__typedInstance.destroy();
+          }
+
+          window.__typedInstance = new Typed('#subtitle span', window.subtitleTypingConfig);
+        }
+        
+        if (!window.__typedInitialized) {
+          window.__typedInitialized = true;
+          
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initSubtitleTyping);
+          } else {
+            initSubtitleTyping();
+          }
+        } else {
+          initSubtitleTyping();
+        }
+      </script>
     <%_ } _%>
   </div>
 </div>
@@ -281,11 +324,12 @@
 <%_ } _%>
 
 <%_ if (theme.player.aplayer.enable) { _%>
-  <%- js({src: vendorCdn(theme.vendor.js.aplayer)[0], integrity: vendorCdnIntegrity(theme.vendor.js.aplayer)[0], crossorigin: "anonymous"}) %>
   <%_ if (!theme.player.meting.enable) { _%>
     <script>
+    var setupAPlayer = () => {
       if (!<%= theme.player.disable_on_mobile %> || !window.matchMedia('(max-width: 768px)').matches) {
-        if (window.matchMedia('(max-width: 959px)').matches) {
+        const isMobile = window.matchMedia('(max-width: 959px)').matches;
+        if (isMobile) {
           const aplayer = _$('#aplayer');
           if (aplayer) {
             const aside = aplayer.parentNode?.parentNode;
@@ -296,7 +340,7 @@
             }
           }
         }
-        const ap = new APlayer({
+        new APlayer({
           theme: "var(--color-link)",
           container: document.getElementById('aplayer'),
           audio: <%- JSON.stringify(theme.player.aplayer.options.audio) %> || [],
@@ -311,36 +355,34 @@
           lrcType: <%= JSON.stringify(theme.player.aplayer.options.lrcType) %> || 0,
         });
       }
+    }
     </script>
-  <%_ } _%>
-<%_ } _%>
-
-<%_ if (theme.player.meting.enable) { _%>
-  <%_ if (theme.player.meting.meting_api) { _%>
+  <%_ } else { _%>
     <script>
-      var meting_api = "<%- theme.player.meting.meting_api %>";
-    </script>
-  <%_ } _%>
-  <script>
-    if (!<%= theme.player.disable_on_mobile %> || !window.matchMedia('(max-width: 768px)').matches) {
-      if (window.matchMedia('(max-width: 959px)').matches) {
-        const meting = _$('meting-js');
-        if (meting) {
-          meting.setAttribute('fixed', 'true');
-          const aside = meting.parentNode?.parentNode;
-          if (aside?.tagName === 'ASIDE') {
-            meting.parentNode.removeChild(meting);
-            document.body.appendChild(meting);
+      var setupAPlayer = () => {
+        if (!<%= theme.player.disable_on_mobile %> || !window.matchMedia('(max-width: 768px)').matches) {
+          if (window.matchMedia('(max-width: 959px)').matches) {
+            const meting = _$('meting-js');
+            if (meting) {
+              meting.setAttribute('fixed', 'true');
+              const aside = meting.parentNode?.parentNode;
+              if (aside?.tagName === 'ASIDE') {
+                meting.parentNode.removeChild(meting);
+                document.body.appendChild(meting);
+              }
+            }
           }
         }
-      }
-      const script = document.createElement('script');
-      script.src = "<%- vendorCdn(theme.vendor.js.meting)[0] %>";
-      script.integrity = "<%- vendorCdnIntegrity(theme.vendor.js.meting)[0] %>";
-      script.crossOrigin = "anonymous";
-      document.body.appendChild(script);
-    }
-  </script>
+      };
+      <%_ if (theme.player.meting.meting_api) { _%>
+        var meting_api = "<%- theme.player.meting.meting_api %>";
+      <%_ } _%>
+    </script>
+  <%_ } _%>
+  <%- js({src: vendorCdn(theme.vendor.js.aplayer)[0], integrity: vendorCdnIntegrity(theme.vendor.js.aplayer)[0], crossorigin: "anonymous", defer: true, onload: "setupAPlayer()"}) %>
+  <%_ if (theme.player.meting.enable) { _%>
+    <%- js({src: vendorCdn(theme.vendor.js.meting)[0], integrity: vendorCdnIntegrity(theme.vendor.js.meting)[0], crossorigin: "anonymous", defer: true}) %>
+  <%_ } _%>
 <%_ } _%>
 
 <%_ if (theme.pangu.enable) { _%>

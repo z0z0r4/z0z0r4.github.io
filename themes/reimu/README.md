@@ -12,7 +12,7 @@
 
 简体中文 | [English](https://github.com/D-Sketon/hexo-theme-reimu/blob/main/README.en.md)
 
-<img src="https://cdn.jsdelivr.net/gh/D-Sketon/hexo-theme-reimu@main/_screenshot/Reimu_dark.png"/>
+<img src="https://cdn.jsdelivr.net/gh/D-Sketon/hexo-theme-reimu@main/_screenshot/Reimu.png"/>
 </div>
 
 ---
@@ -57,6 +57,8 @@
   - Gitalk
   - Giscus
   - Disqus
+  - Utterances
+  - Beaudar
 
 ### 统计与分析
 
@@ -133,6 +135,26 @@ theme: reimu
 
 为了保证显示正确，请参考 `_example` 在 `source` 中分别建立 `_data`、`about` 和 `friend` 文件夹 （注意：是博客根目录下的 `source` 文件夹，而不是主题中的 `source` ！）
 
+**目录结构示例：**
+
+```
+source/
+├── images/
+│   └── favicon.ico        # 网站图标
+├── _data/
+│   ├── avatar/
+│   │   └── avatar.webp    # 头像文件
+│   ├── covers.yml         # 文章封面 URL 列表
+│   └── covers/            # 文章封面文件夹
+├── about/                 # 关于页面
+│   └── index.md
+├── friend/                # 友链页面
+│   ├── index.md
+│   └── _data.yml          # 友链数据
+└── _posts/                # 文章文件夹
+    └── xxxx.md
+```
+
 #### \_data
 
 - `avatar` 文件夹中存储作者头像，默认命名 `avatar.webp`，可在内层 `_config.yml` 中做如下配置
@@ -160,37 +182,31 @@ avatar: "avatar.webp" # 默认就是在avatar文件夹内寻找，请不要包�
 
 #### 封面
 
-封面显示逻辑如下
+`banner` 和 `cover` 的显示逻辑如下：
 
-- 如果文章的 Front matter 中包含 cover 的 url，则该文章头图和首页缩略图均显示该 url
+- 文章页头图优先使用 Front-matter 的 `banner`；若未设置 `banner`，则兼容使用 `cover`
+- 当 `banner` / `cover` 均未设置时，文章页头图继续读取内层 `_config.yml` 的全局 `cover`，最终回退到全局 `banner`
+- 列表卡片封面优先使用 Front-matter 的 `cover`（仅 URL 生效）；当 `cover` 未设置、为 `false` 或 `rgb(...)` 时，会回退到 `source/_data/covers` 与 `source/_data/covers.yml` 随机图
+- 若随机封面不可用，则回退到全局 `banner`
 
-```yaml
----
-title: Hello World
-cover: https://example.com
----
-```
-
-- 如果文章的 Front matter 中包含 cover 为 `false`，则该文章不显示头图（首页上仍然是随机图片）
+推荐写法（头图与卡片封面分离）：
 
 ```yaml
 ---
 title: Hello World
-cover: false
+banner: https://example.com/post-header.webp
+cover: https://example.com/post-card.webp
 ---
 ```
 
-- 如果文章的 Front matter 中包含 cover 为 `rgb(xxx,xxx,xxx)`，则该文章头图为对应的渐变纯色（首页上仍然是随机图片）
+兼容旧写法（只写 `cover`）：
 
 ```yaml
 ---
 title: Hello World
-cover: rgb(255,117,117)
+cover: https://example.com/cover.webp
 ---
 ```
-
-- 否则查找 `covers` 文件夹和 `covers.yml`，并从中随机挑选图片
-- 若上述文件均不存在，则显示头图
 
 #### 头图
 
@@ -241,16 +257,22 @@ summary:
 默认在右边，可在内层 `_config.yml` 中修改
 
 ```yaml
-sidebar: right # left | right
+sidebar:
+  position: right # left | right | false
+  menu: true # 是否显示侧边栏菜单按钮，移动端忽略
+  article:
+    show_common: true # 文章页是否显示通用侧边栏，移动端忽略
 ```
 
-此外，也可以通过文章的 front-matter 控制，其优先级高于全局配置
+此外，也可以通过文章的 Front-matter 控制，其优先级高于全局配置
 
 ```yaml
 ---
-sidebar: left # left | right
+sidebar: left # left | right | false
 ---
 ```
+
+> 当 sidebar 设置为 false 时，侧边栏将被隐藏，此时 aplayer 播放器和 widgets 小部件将同时无法显示
 
 #### TOC
 
@@ -260,7 +282,7 @@ sidebar: left # left | right
 toc: true # true | false
 ```
 
-此外，也可以通过文章的 front-matter 控制，其优先级高于全局配置
+此外，也可以通过文章的 Front-matter 控制，其优先级高于全局配置
 
 ```yaml
 ---
@@ -283,9 +305,11 @@ toc_options:
 
 ```yaml
 social:
-  # github: https://github.com/yourname
-  # bilibili: https://space.bilibili.com/yourname
-  # ...
+  github: https://github.com/yourname
+  bilibili: https://space.bilibili.com/yourname
+  # weixin: https://example.com/your-weixin-link
+  # qq: https://example.com/your-qq-link
+  tiktok: https://www.tiktok.com/@yourname
 ```
 
 #### 侧边栏小部件
@@ -304,11 +328,14 @@ widgets:
 此外，可使用如下配置对小部件进行行为配置
 
 ```yaml
-archive_type: "monthly" # monthly | yearly
-show_count: false # 是否显示数量
+archive_type: "monthly" # monthly | yearly，归档类型
+show_count: false # 归档是否显示数量
 tag_limits:  # 标签数量限制
 recent_posts_limits: 5 # 最近文章数量限制
 tagcloud_limits:  # 标签云数量限制
+only_show_capsule_in_index: false # 仅在归档首页展示所有分类和标签胶囊，可提升大量标签/分类下的构建性能
+uppercase_capsule: true # 是否将分类和标签胶囊自动转为大写
+show_update_time: false # 是否展示文章更新时间
 ```
 
 </details>
@@ -411,7 +438,7 @@ code_block:
 
 ### 站内评论
 
-> 站内评论可以使用 Front matter 中的 `comments` 独立控制每篇文章是否显示评论。  
+> 站内评论可以使用 Front-matter 中的 `comments` 独立控制每篇文章是否显示评论。  
 > 当 `comments` 为 `false` 时不显示评论，`true` 或不填时根据 `_config.yml` 的配置决定是否显示。
 
 > 1.7.0+ 后支持多评论系统同时使用
@@ -436,6 +463,15 @@ valine:
   enable: true
   appId: "your appId"
   appKey: "your appKey"
+  pageSize: 10 # comment list page size
+  avatar: mp # gravatar style https://valine.js.org/#/avatar
+  # lang: zh-cn # deprecated, use html.lang instead
+  placeholder: Just go go # valine comment input placeholder(like: Please leave your footprints )
+  guest_info: nick,mail,link #valine comment header info
+  recordIP: true # whether to record the IP address of the commenters
+  highlight: true # whether to highlight the code blocks
+  visitor: false # whether to display the number of visitors
+  serverURLs: # leancloud server url
 ```
 
 若基于 [Waline](https://waline.js.org/)  
@@ -490,7 +526,17 @@ giscus:
   reactionsEnabled: 1
   emitMetadata: 0
   inputPosition: bottom
+  theme:
+    light: # 可选，支持 giscus 内置主题名或自定义 CSS URL
+    dark: # 可选，支持 giscus 内置主题名或自定义 CSS URL
 ```
+
+说明：
+
+- Giscus 基于 iframe 渲染，无法直接继承站点全局样式，需要通过 `data-theme` 覆盖。
+- 若 `theme.light` / `theme.dark` 使用 URL，主题会校验该地址是否允许 `https://giscus.app` 跨域访问；校验失败会自动回退到内置 `light` / `dark`。
+- 两个 `theme` 留空时，会尝试使用主题内置的 Reimu 风格 CSS（与全站保持一致的鼠标样式、字体和静态 token；`material_theme` 等动态 token 不支持）。
+- 本地 `hexo s`（HTTP 且通常无 CORS 头）与 `github.io` 默认静态资源场景通常无法直接通过 URL 主题校验，建议使用可配置 CORS 的资源域名（例如 jsDelivr 代理）。
 
 若基于 [gitalk](https://gitalk.github.io/)  
 请参考其[官方文档](https://github.com/gitalk/gitalk?tab=readme-ov-file#usage)完成仓库的配置，并在内层 `_config.yml` 中将 `gitalk.enable` 改为 `true`，并填入对应的数据
@@ -516,11 +562,40 @@ disqus:
   count: true # 是否启用评论数量统计
 ```
 
+若基于 [utterances](https://utteranc.es/)  
+请在内层 `_config.yml` 中将 `utterances.enable` 改为 `true`，并填入自己的 `repo`
+```yml
+utterances:
+  enable: true
+  repo: owner/repo # 这里需要修改为 你的 GitHub 用户名/刚刚创建的，用户保存博客评论的 GitHub 仓库名
+  issue_term: title
+  theme: github-light # 你可以使用 auto 来自动适配深色和浅色主题
+```
+
+若基于 [beaudar](https://beaudar.lipk.org/)  
+请在内层 `_config.yml` 中将 `beaudar.enable` 改为 `true`，并填入自己的 `repo` 和 `branch`。之后需要在仓库中创建一个[域白名单](https://github.com/beaudar/beaudar/blob/master/beaudar.json) (Hexo 主题请把该文件直接放在 `source` 目录下)，并[授权安装](https://github.com/apps/beaudar)即可
+```yml
+beaudar:
+  enable: true
+  repo: owner/repo # 这里需要修改为 你的 GitHub 用户名/刚刚创建的，用户保存博客评论的 GitHub 仓库名
+  branch: main # 这里修改为你的仓库分支名
+  issue_term: title # 博客文章 与 Issue 的映射
+  issue_number:
+  theme: auto # 你可以使用 auto 来自动适配深色和浅色主题
+  label:
+  input_position: top # top/bottom 评论框的位置，默认顶部 top
+  comment_order: desc # asc/desc 评论排序，默认降序 desc (新评论在顶部)
+  keep_theme: # true/false 主题设置保存到页面的 sessionStorage，默认 true
+  loading: # true/false 点击加载图标可跳转至官方页面
+```
+
 </details>
 <details>
 <summary>站内搜索</summary>
 
 ### 站内搜索
+
+> 注意不要同时开启 Algolia 和 本地搜索
 
 若选择 [Algolia](https://www.algolia.com/)，请安装 [@reimujs/hexo-algoliasearch](https://github.com/D-Sketon/hexo-algoliasearch)
 
@@ -555,6 +630,12 @@ algolia:
 ```yaml
 algolia_search:
   enable: true
+```
+
+并运行以下命令生成索引
+
+```bash
+hexo algolia
 ```
 
 > 1.5.0+ 后主题内置了 `hexo-generator-search`，所以无需再安装 `hexo-generator-search`
@@ -650,9 +731,10 @@ npm install hexo-filter-mermaid-diagrams --save
 ```yaml
 mermaid:
   enable: true
+  zoom: false # 是否启用缩放功能
 ```
 
-并在需要使用 mermaid 的文章的 front-matter 中添加 `mermaid: true`
+并在需要使用 mermaid 的文章的 Front-matter 中添加 `mermaid: true`
 
 ```yaml
 ---
@@ -735,17 +817,17 @@ icon_font: 4552607_0khxww3tj3q9
 ```yml
 fontawesome:
   high_priority:
-    - src: webcache|@fortawesome/fontawesome-free@6.5.1/css/regular.min.css
-      integrity: sha384-k5640LgghgAohDLPwSqVWa96yQwWouT6wsAL+J1g0CFJVITNKYkIh1XpPLYKQe7Y
-    - src: webcache|@fortawesome/fontawesome-free@6.5.1/css/solid.min.css
-      integrity: sha384-8yO/A/BtltnG0hDxdwmmkza8UAleyDoAD1FhXiH6rsOQQsCho1P6WZP9TpBBH3YP
+    - src: webcache|@fortawesome/fontawesome-free@7.1.0/css/regular.min.css
+      integrity: sha384-4qYppzjH8EiA+cGdaubu2vL7Rk8WGiqCSj7oRuP1uwtFWkfKNHD20lPfcrbQc8dU
+    - src: webcache|@fortawesome/fontawesome-free@7.1.0/css/solid.min.css
+      integrity: sha384-wbMWab3UDSPm2kvIgVOn/d9KPTecgPU1+Nb3zoQrm/oVu0EkPL6IaKinjbwW0rum
   low_priority:
-    - src: webcache|@fortawesome/fontawesome-free@6.5.1/css/brands.min.css
-      integrity: sha384-/BRyRRN0wxxRgh/DAXU621go9pdoMHl6LFPiX5Pp8PZYZlKBQCDXj9X9DHx6LOud
-    - src: webcache|@fortawesome/fontawesome-free@6.5.1/css/v5-font-face.min.css
-      integrity: sha384-/mBKnLlGtog8q2qQrgugURRDV+iHWHAPvM5KulYXT1C2ErKOKkBI0vbff8ZPq7rL
-    - src: webcache|@fortawesome/fontawesome-free@6.5.1/css/v4-font-face.min.css
-      integrity: sha384-d2Yn1/9Iw78r3oqwk5B+EcpRcmepXR5LyhmRF2a+WoSe9mpRGvVk0ZviFwDGDOTO
+    - src: webcache|@fortawesome/fontawesome-free@7.1.0/css/brands.min.css
+      integrity: sha384-KTGeC2hIMzpeQakhsmzB9bZfhCD5xZZCgI1iZH6f/O457SxzlkzTQg/WXFNoi3ih
+    - src: webcache|@fortawesome/fontawesome-free@7.1.0/css/v5-font-face.min.css
+      integrity: sha384-nJ1ThfldViXoLpJ6jlKcP2beas8BMbYq26SG9Hi8cH89bZi4RZ644v7helMCqJxd
+    - src: webcache|@fortawesome/fontawesome-free@7.1.0/css/v4-font-face.min.css
+      integrity: sha384-UlkrhOIvZxJFd4MElSUp7ow6/RUeYKi/orfCZIRRiOENFuQPIAA3T3HjYfmBRhNq
 ```
 
 </details>
@@ -754,6 +836,16 @@ fontawesome:
 <summary>扩展功能</summary>
 
 ### 扩展功能
+
+#### 回到顶部
+
+默认开启
+
+```yaml
+top:
+  enable: true
+  position: right # left | right
+```
 
 #### 暗黑模式
 
@@ -765,6 +857,16 @@ dark_mode:
   # false 代表暗黑模式默认关闭
   # auto 代表根据用户系统设置自动切换
   enable: auto # true | false | auto
+```
+
+#### 站点统计
+
+默认关闭，支持百度统计、谷歌统计和微软 Clarity
+
+```yaml
+baidu_analytics: false
+google_analytics: false
+clarity: false
 ```
 
 #### Pace 进度条
@@ -783,6 +885,8 @@ pace:
 ```yaml
 firework:
   enable: true
+  disable_on_mobile: false # 是否在移动端禁用，可以提高性能
+  options: # mouse-firework 配置项
 ```
 
 具体配置请查看 [mouse-firework](https://github.com/D-Sketon/mouse-firework)
@@ -795,8 +899,6 @@ firework:
 pjax:
   enable: false
 ```
-
-> PJAX 在 v0.0.10 中被引入，用于那些需要添加音乐播放器等需要 SPA 的用户。经过一段时间的迭代后已基本上稳定，但引入后仍然可能会出现诸如**脚本无法执行**、**脚本重复执行**、**页面渲染混乱**等 BUG。请慎重考虑！
 
 > PJAX 无法与 `relative_link: true` 配合使用！
 
@@ -848,14 +950,16 @@ reimu_cursor:
 
 ```yml
 banner_srcset:
-enable: false
-srcset:
-  - src: "/images/banner-600w.webp"
-    media: "(max-width: 479px)"
-  - src: "/images/banner-800w.webp"
-    media: "(max-width: 799px)"
-  - src: "/images/banner.webp"
-    media: "(min-width: 800px)"
+  enable: false
+  srcset:
+    - src: "/images/banner-600w.webp"
+      media: "(max-width: 479px)"
+    - src: "/images/banner-800w.webp"
+      media: "(max-width: 799px)"
+    - src:
+        - "/images/banner.avif"
+        - "/images/banner.webp" #  支持数组形式的 fallback
+      media: "(min-width: 800px)"
 ```
 
 #### 文章版权声明（v0.2.0+）
@@ -875,7 +979,7 @@ article_copyright:
     license_type: by-nc-sa # https://creativecommons.org/licenses
 ```
 
-此外，也可以通过文章的 front-matter 控制，其优先级高于全局配置
+此外，也可以通过文章的 Front-matter 控制，其优先级高于全局配置
 
 ```yaml
 ---
@@ -892,7 +996,7 @@ quicklink:
   enable: false
   timeout: 3000 # 预加载超时时间
   priority: true # 是否优先加载
-  ignores: [] # 忽略的链接，仅支持字符串
+  ignores: [] # 忽略的链接，仅支持字符串数组
 ```
 
 #### 文章过期提醒（v0.2.4+）
@@ -931,7 +1035,7 @@ sponsor:
       src: "/sponsor/alipay.jpg" # 二维码路径，请自行填写
 ```
 
-此外，也可以通过文章的 front-matter 控制，其优先级高于全局配置
+此外，也可以通过文章的 Front-matter 控制，其优先级高于全局配置
 
 ```yaml
 ---
@@ -947,7 +1051,7 @@ sponsor: true # 是否展示赞助二维码？
 home_categories:
   enable: false # 是否展示首页目录卡片？
   content:
-    - categories: # 目录名称，格式和 front-matter 中的 categories 一致，可以为字符串（单级分类）或数组（多级分类）
+    - categories: # 目录名称，格式和 Front-matter 中的 categories 一致，可以为字符串（单级分类）或数组（多级分类）
       cover: # 卡片封面，不填则使用随机封面
     - categories:
       cover:
@@ -955,7 +1059,7 @@ home_categories:
 
 #### 音乐播放器（v1.2.0+）
 
-> 使用前建议先打开 Pjax，否则会出现播放器自动暂停的问题
+> 使用前建议先打开 PJAX，否则会出现播放器自动暂停的问题
 
 使用 Aplayer + Meting（可选）默认关闭
 
@@ -965,6 +1069,7 @@ home_categories:
 
 ```yml
 player:
+  disable_on_mobile: false # 是否在移动端禁用播放器，可以提高性能
   position: before_sidebar # before_sidebar / after_sidebar / after_widget
 ```
 
@@ -1020,12 +1125,13 @@ player:
 
 #### 分享链接/卡片（v1.3.0+）
 
-默认关闭，目前支持 `facebook`、`twitter`、`linkedin`、`reddit`、`weibo`、`qq`、`weixin`。
+默认关闭，目前支持 `facebook`、`twitter`、`bluesky`、`linkedin`、`reddit`、`weibo`、`qq`、`weixin`。
 
 ```yml
 share:
   # - facebook
   # - twitter
+  # - bluesky
   # - linkedin
   # - reddit
   # - weibo
@@ -1068,6 +1174,45 @@ triangle_badge:
   icon: github # 与 social 配置里的 icon 相同
   link: https://github.com/D-Sketon/hexo-theme-reimu
 ```
+
+#### 段落锚点 (v1.12.5+)
+
+默认关闭
+
+为文章正文的段落、列表项等块级元素注入可跳转的锚点链接，支持显式锚点与自动锚点两种模式。
+
+##### 显式锚点
+
+在 Markdown 中写 `{#anchor-xxx}`，对应块级元素会获得 `id="anchor-xxx"` 并在末尾追加一个可点击的锚点图标。
+
+```yaml
+anchor:
+  explicit:
+    enable: false # 是否启用显式锚点
+    marker: "{#anchor-" # 锚点占位符前缀，通常无需修改
+    prefix: "anchor-" # 生成的 id 前缀，实际 id = prefix + xxx
+```
+
+示例：
+
+```markdown
+- [参考文献1](https://example.com) {#anchor-ref1}
+```
+
+渲染后，该 `<li>` 会获得 `id="anchor-ref1"`，URL 中加上 `#anchor-ref1` 即可直接跳转。
+
+##### 自动锚点
+
+无需手动标注，自动为文章中的直接子段落（`.article-entry > p`）从文本内容派生 `id`：全小写、特殊字符替换为连字符，并按 `length` 截断。
+
+```yaml
+anchor:
+  auto:
+    enable: false # 是否启用自动锚点
+    length: 60    # 自动生成的 id 最大长度
+```
+
+> 若某段落已通过显式锚点注入了 `id`，自动锚点会跳过该段落，不会重复注入。
 
 </details>
 
@@ -1118,12 +1263,12 @@ triangle_badge:
 #### tagRoulette 标签轮盘 (v1.9.0+)
 
 ```markdown
-{% heatMapCard tags icon %}
+{% tagRoulette tags icon %}
 ```
 
 tagRoulette 是一个互动元素，提供随机标签展示功能，点击按钮后会从预定义的标签池中随机抽取并展示一个标签。
 
-- tags：可选参数，指定标签池，多个标签用英文逗号(,)分隔；未提供时默认使用几个示例标签，例如：tags="记忆衰退,表达欲丧失,更加怠惰,无感,好想睡觉"
+- tags：可选参数，指定标签池，多个标签用英文逗号(,)分隔；未提供时默认使用几个示例标签，例如："记忆衰退,表达欲丧失,更加怠惰,无感,好想睡觉"
 - icon：可选参数，自定义触发按钮的图标，默认使用： 🕹️（游戏手柄 emoji），可替换为任何 emoji 或文字，如 🎲、🎯、🔄 等
 
 #### link 链接卡片 (v1.11.0+)
@@ -1219,7 +1364,7 @@ Tab content
 
 ### 自定义容器
 
-本主题提供了类似 vitepress 的自定义容器功能，使用前需要安装 [@reimujs/hexo-renderer-markdown-it-plus](https://github.com/D-Sketon/hexo-renderer-markdown-it-plus)
+本主题提供了类似 VitePress 的自定义容器功能，使用前需要安装 [@reimujs/hexo-renderer-markdown-it-plus](https://github.com/D-Sketon/hexo-renderer-markdown-it-plus)
 
 使用方法如下：
 
@@ -1275,8 +1420,6 @@ material_theme:
 #### 手动定制主题颜色
 
 hexo-theme-reimu 主题支持通过 CSS 变量定制主题颜色，你可以通过修改 `:root` 伪类下的 CSS 变量来定制你的主题颜色。
-
-~~变量文件位于 `assets/css/_variables.scss`，你可以在这个文件中找到所有的 CSS 变量，但其实只需要修改以下伪类下的变量即可~~
 
 v1.8.0 对外暴露了 `internal_theme` 配置用于定制主题颜色 token
 
@@ -1386,7 +1529,7 @@ v1.0.0 经过大量重构，向用户暴露了许多配置用于改变原有的�
 
 ##### 头部 / 侧边栏图标
 
-v1.0.0 的 `menu` 配置的结构发生了变化，允许用户自定义 icon。icon 为空时默认使用太极图标，你可以填写一个十六进制的数字来自定义 icon，同时支持 fontawesome 和 icon font。
+v1.0.0 的 `menu` 配置的结构发生了变化，允许用户自定义 icon。icon 为空时默认使用太极图标，你可以填写一个十六进制的数字来自定义 icon，同时支持 fontawesome, icon font 和 `false`。
 
 v1.8.4 icon 支持图片路径，如 `/avatar/avatar.webp`。
 
@@ -1397,7 +1540,7 @@ menu:
     icon: # 不填默认使用太极图标
   - name: archives
     url: /archives
-    icon: f0c1 # 你可以填写一个十六进制的数字来自定义 icon，支持 fontawesome 和 icon font
+    icon: f0c1 # 你可以填写一个十六进制的数字来自定义 icon，支持 fontawesome 和 icon font，如果填写 false 则不显示图标
   - name: about
     url: /about
     icon:
@@ -1417,7 +1560,7 @@ v1.0.0 的 `footer`、`top`、`sponsor` 配置均增加了 `icon` 配置用于�
 ```yaml
 footer:
   icon:
-    url: "../images/taichi.png" # 相对于 css/style.css 的路径，所以需要向上一级才能找到 images 文件夹
+    url: "../images/taichi.png" # 相对于 css/style.css 的路径，所以需要向上一级才能找到 images 文件夹，支持 false 以隐藏图标
     rotate: true
     mask: true
 
@@ -1429,7 +1572,7 @@ top:
 
 sponsor:
   icon:
-    url: "../images/taichi.png"
+    url: "../images/taichi.png" # 支持 false 以隐藏图标
     rotate: true
     mask: true
 ```
@@ -1443,8 +1586,13 @@ v1.0.0 的 `preloader` 配置增加了 `icon` 配置用于自定义图标。icon
 ```yaml
 preloader:
   enable: true
-  text: 少女祈祷中...
+  text:
+    zh-CN: 少女祈祷中...
+    zh-TW: 少女祈禱中...
+    en: Loading...
+    ja: 少女祈祷中...
   icon: # 不填默认使用内链的svg（保证首屏加载速度），你可以填入一个链接来自定义加载图标，如 '/images/taichi.png'
+  rotate: true
 ```
 
 ##### 锚点图标
@@ -1468,6 +1616,36 @@ reimu_cursor:
     default: ../images/cursor/reimu-cursor-default.png
     pointer: ../images/cursor/reimu-cursor-pointer.png
     text: ../images/cursor/reimu-cursor-text.png
+```
+
+#### 自定义滚动动画
+
+基于 [AOS.js](https://github.com/D-Sketon/aos.js) 实现的滚动动画效果，默认为 `true`，可以通过以下配置开启或关闭，并为不同页面设置不同的动画效果。
+
+```yaml
+animation:
+  enable: true
+  options:
+    header:
+    home:
+    article:
+    archive:
+```
+
+**可用动画效果：**
+
+- **Fade**: fade, fade-up, fade-down, fade-left, fade-right, fade-up-right, fade-up-left, fade-down-right, fade-down-left
+- **Flip**: flip-up, flip-down, flip-left, flip-right
+- **Slide**: slide-up, slide-down, slide-left, slide-right
+- **Zoom**: zoom-in, zoom-in-up, zoom-in-down, zoom-in-left, zoom-in-right, zoom-out, zoom-out-up, zoom-out-down, zoom-out-left, zoom-out-right
+
+#### 自定义样式
+
+可以通过修改 `layout.max_width` 来定制主要内容区域的最大宽度，默认为 `1350px`。
+
+```yaml
+layout:
+  max_width: 1350px # 主要内容区域的最大宽度
 ```
 
 </details>
@@ -1526,17 +1704,18 @@ js:
 | link        | 用于文章直接指向外部链接                        | `string`                                           | -                  | 0.0.1     |
 | sticky      | 是否置顶文章                                    | `boolean`                                          | `false`            | 0.0.1     |
 | photos      | 文章照片墙                                      | `string[]`                                         | -                  | 0.0.1     |
+| cover       | 文章封面                                        | `https://example.com \| false \| rgb(255,117,117)` | 不传默认走全局配置 | 0.0.7     |
 | mermaid     | 是否开启 mermaid，需配合 `mermaid` 配置一起使用 | `boolean`                                          | `false`            | 0.2.0     |
 | copyright   | 是否开启文章版权声明                            | `boolean`                                          | 不传默认走全局配置 | 0.3.1     |
 | sponsor     | 是否开启文章赞助                                | `boolean`                                          | 不传默认走全局配置 | 0.3.2     |
 | comments    | 是否开启文章评论                                | `boolean`                                          | 不传默认走全局配置 | 0.3.2     |
-| cover       | 文章封面                                        | `https://example.com \| false \| rgb(255,117,117)` | 不传默认走全局配置 | 0.0.7     |
 | sidebar     | 文章侧边栏位置                                  | `false \| 'left' \| 'right'`                       | 不传默认走全局配置 | 1.3.0     |
 | lang        | 文章语言，需配合 `i18n` 配置一起使用            | `string`                                           | -                  | 1.4.0     |
 | toc         | 是否开启文章目录                                | `boolean`                                          | 不传默认走全局配置 | 1.6.0     |
 | outdated    | 文章是否过期                                    | `boolean`                                          | 不传默认走全局配置 | 1.10.1    |
 | author      | 文章作者，用于文章版权和分享卡片                | `string`                                           | 不传默认走全局配置 | 1.10.2    |
 | keywords    | 文章关键词                                      | `string[] \| string`                               | 不传默认走全局配置 | 1.10.4    |
+| banner      | 文章头图                                        | `https://example.com \| false \| rgb(255,117,117)` | -                  | 1.12.2    |
 </details>
 
 ## 贡献者
@@ -1545,7 +1724,7 @@ js:
 
 ## 赞助 💘
 
-[爱发电-afdian](https://afdian.tv/a/dsketon)
+[爱发电-afdian](https://afdian.com/a/dsketon)
 
 ## 相关项目
 

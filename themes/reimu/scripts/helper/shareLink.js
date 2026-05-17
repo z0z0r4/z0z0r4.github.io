@@ -4,12 +4,14 @@ const shareMap = {
   facebook: (url) => `https://www.facebook.com/sharer/sharer.php?u=${url}`,
   twitter: (url, title, desc, source) =>
     `https://twitter.com/intent/tweet?url=${url}&text=${title}&via=${source}`,
+  bluesky: (url, title) =>
+    `https://bsky.app/intent/compose?text=${encodeURIComponent(`${decodeURIComponent(title)} ${decodeURIComponent(url)}`)}`,
   linkedin: (url, title, desc) =>
     `https://www.linkedin.com/shareArticle?url=${url}&title=${title}&summary=${desc}&mini=true&ro=true`,
   reddit: (url, title) =>
     `https://www.reddit.com/submit?url=${url}&title=${title}`,
   qq: (url, title, desc, source) =>
-    `https://connect.qq.com/widget/shareqq/index.html?url=${"www.baidu.com"}&title=${title}&desc=${desc}&source=${source}`,
+    `https://connect.qq.com/widget/shareqq/index.html?url=${url}&title=${title}&desc=${desc}&source=${source}`,
   weixin: () => `javascript:;`,
 };
 

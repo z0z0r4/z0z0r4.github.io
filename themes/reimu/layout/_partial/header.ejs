@@ -5,24 +5,26 @@
         <a class="main-nav-link-wrap" href="<%- url_for_lang(theme.menu[i]) %>">
           <div class="main-nav-icon icon-taichi"></div>
           <span class="main-nav-link"><%= __(i) %></span>
-        </span>
+        </a>
       <%_ } _%>
     <%_ } else { _%>
       <%_ for (let item of theme.menu) { _%>
         <a class="main-nav-link-wrap" href="<%- url_for_lang(item.url) %>">
-          <div class="main-nav-icon icon <%= (item.icon === 'e62b' && theme.icon_font) || (item.icon === 'f6ad' && !theme.icon_font) || !item.icon ? 'rotate' : '' %>">
-             <%_ if (item.icon) { _%>
-              <%_ if (item.icon.includes('/') && item.icon.includes('.')) { _%>
-                <img src="<%- url_for(item.icon, {relative: false}) %>" alt="<%= item.name %> icon" style="height: 1em;">
+          <%_ if (item.icon !== false) { _%>
+            <div class="main-nav-icon icon <%= (item.icon === 'e62b' && theme.icon_font) || (item.icon === 'f6ad' && !theme.icon_font) || !item.icon ? 'rotate' : '' %>">
+              <%_ if (item.icon) { _%>
+                <%_ if (item.icon.includes('/') && item.icon.includes('.')) { _%>
+                  <img src="<%- url_for(item.icon, {relative: false}) %>" alt="<%= item.name %> icon" style="height: 1em;">
+                <%_ } else { _%>
+                  <%- `&#x${item.icon};` %>
+                <%_ } _%>
               <%_ } else { _%>
-                <%- `&#x${item.icon};` %>
+                <%- theme.icon_font ? '&#xe62b;' : '&#xf6ad;' %>
               <%_ } _%>
-             <%_ } else { _%>
-              <%- theme.icon_font ? '&#xe62b;' : '&#xf6ad;' %>
-             <%_ } _%>
-          </div>
+            </div>
+          <%_ } _%>
           <span class="main-nav-link"><%= __(item.name) %></span>
-        </span>
+        </a>
       <%_ } _%>
     <%_ } _%>
     <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
@@ -99,13 +101,14 @@
   <%_ } _%>
 </div>
 <header id="header" aria-label="Site header">
-  <%_ if (post.cover && post.cover.startsWith("rgb")) { _%>
+  <%_ let headerImage = post.banner ?? post.cover; _%>
+  <%_ if (headerImage && headerImage.startsWith("rgb")) { _%>
     <picture></picture>
-    <img style="position: absolute;top: 0;left: 0;width: 100%;height: 180%;z-index: -2;display: block;background: <%- post.cover %>;mask: linear-gradient(to top, transparent, #fff 50%);"></img>
-  <%_ } else if (post.cover) { _%>
+    <img style="position: absolute;top: 0;left: 0;width: 100%;height: 180%;z-index: -2;display: block;background: <%- headerImage %>;mask: linear-gradient(to top, transparent, #fff 50%);"></img>
+  <%_ } else if (headerImage) { _%>
     <picture></picture>
-    <img <% if (theme.material_theme.enable) { %>crossorigin="anonymous"<% } %> fetchpriority="high" src="<%- url_for(post.cover, {relative: false}) %>" alt="<%= post.title %>">
-  <%_ } else if (post.cover == false) { _%>
+    <img <% if (theme.material_theme.enable) { %>crossorigin="anonymous"<% } %> fetchpriority="high" src="<%- url_for(headerImage, {relative: false}) %>" alt="<%= post.title %>">
+  <%_ } else if (headerImage == false) { _%>
     <picture></picture>
     <img style="visibility:hidden"></img>
   <%_ } else { _%>
@@ -211,12 +214,18 @@
               } else {
                 subtitle = null;
               }
-            } else if (theme.subtitle || config.subtitle) {
-              subtitle = theme.subtitle || config.subtitle;
+            } else if (theme.subtitle && typeof theme.subtitle === 'string') {
+              subtitle = theme.subtitle;
+            } else if (config.subtitle) {
+              subtitle = config.subtitle;
             } _%>
         <h2 id="subtitle-wrap" data-aos="<%= theme.animation.options.header.subTitle %>">
           <%_ if (subtitle) { _%>
-            <span id="subtitle"><%= subtitle %></span>
+            <%_ if (is_home() && theme.subtitle?.typing?.enable) { _%>
+              <span id="subtitle"><span></span></span>
+            <%_ } else { _%>
+              <span id="subtitle"><%= subtitle %></span>
+            <%_ } _%>
           <%_ } _%>
         </h2>
       <%_ } _%>

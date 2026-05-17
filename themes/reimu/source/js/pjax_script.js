@@ -26,6 +26,36 @@ var scrollIntoViewAndWait = (element) => {
   });
 };
 
+var scrollToHashTarget = (hash = window.location.hash) => {
+  if (!hash || hash === "#") return;
+
+  let targetId = hash.slice(1);
+  try {
+    targetId = decodeURIComponent(targetId);
+  } catch (error) {
+    console.warn(`[anchor] invalid hash "${hash}"`, error);
+  }
+
+  if (!targetId) return;
+
+  const target = document.getElementById(targetId);
+  if (!target) return;
+
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  target.scrollIntoView({
+    behavior: reduceMotion ? "auto" : "smooth",
+    block: "center",
+  });
+};
+
+requestAnimationFrame(() => {
+  scrollToHashTarget();
+});
+
+
 // anchor
 _$$(
   ".article-entry h1>a:first-of-type, .article-entry h2>a:first-of-type, .article-entry h3>a:first-of-type, .article-entry h4>a:first-of-type, .article-entry h5>a:first-of-type, .article-entry h6>a:first-of-type"
@@ -75,8 +105,6 @@ _$$(".article-entry img").forEach((element) => {
   element.parentNode.removeChild(element);
   a.appendChild(element);
 });
-window.lightboxStatus = "ready";
-window.dispatchEvent(new Event("lightbox:ready"));
 
 // table wrap
 _$$(".article-entry table").forEach((element) => {
@@ -95,12 +123,12 @@ _$$(".article-entry details.custom-block").forEach((element) => {
   if (!summary) return;
   const detailContent = document.createElement("div");
   detailContent.classList.add("detail-content");
-  
+
   const range = document.createRange();
   range.setStartAfter(summary);
   range.setEndAfter(element.lastChild);
   detailContent.appendChild(range.extractContents());
-  
+
   element.appendChild(detailContent);
 });
 
@@ -384,7 +412,7 @@ shareWeixinHandler = (e) => {
         sw.style.display = "none";
         sw.removeEventListener("transitionend", handler);
       },
-      { once: true },
+      { once: true }
     );
   }
 };

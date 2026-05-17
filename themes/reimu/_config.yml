@@ -8,18 +8,36 @@ theme_config_check: true
 menu:
   - name: home
     url: /
-    icon: e632   # house-chimney，对应主页
+    icon: # default use taichi icon, you can use a hexadecimal representation of fontawesome or icon_font, like 'f0c1'
   - name: archives
     url: /archives
-    icon: e605   # calendar，表示归档
+    icon:
   - name: about
     url: /about
-    icon: e647   # circle-info，表示关于信息
+    icon:
   - name: friend
     url: /friend
-    icon: e628   # people，表示友链
+    icon:
 
-banner: "/images/banner.jpg" # which means themes/reimu/source/images/banner.webp
+subtitle:
+  typing:
+    enable: false
+    strings:
+      # - Sentence 1
+      # - Sentence 2
+      # - Sentence 3
+      # - Sentence 4
+    typeSpeed: 100              # typing speed (milliseconds/character)
+    backSpeed: 50               # backspacing speed (milliseconds/character)
+    backDelay: 2000             # time before backspacing (milliseconds)
+    startDelay: 300             # time before typing starts (milliseconds)
+    loop: true                  # loop through the strings
+    shuffle: true               # randomize the order of strings
+    showCursor: true            # show the typing cursor
+    cursorChar: "|"             # character for cursor
+    smartBackspace: false       # only backspace what doesn't match the previous string
+
+banner: "/images/banner.webp" # which means themes/reimu/source/images/banner.webp
 # You can also write it in the form of the following url
 # banner: "https://example.com"
 
@@ -38,12 +56,12 @@ favicon: "/images/favicon.ico" # which means themes/reimu/source/images/favicon.
 # You can also write it in the form of the following url
 # favicon: "https://example.com"
 
-avatar: "avatar.jpg" # which means source/_data/avatar/avatar.webp
+avatar: "avatar.webp" # which means source/_data/avatar/avatar.webp
 
 # Control the display of the post cover
 # If not set, the banner image will be displayed by default
 # Its priority is lower than the cover in the Front-matter
-cover: rgb(87, 150, 243) # https://example.com / false / rgb(255,117,117)
+cover: # https://example.com / false / rgb(255,117,117)
 
 # Control the display of the post toc
 # Its priority is lower than the toc in the Front-matter
@@ -74,42 +92,39 @@ excerpt_link: Read More
 # need https://github.com/hexojs/hexo-generator-feed
 rss: atom.xml
 
-# a very simple alternative for https://hexo.io/api/injector
-injector:
-  head_begin: # Inject code snippet right after <head>
-  head_end: # Inject code snippet right before </head>
-  body_begin: # Inject code snippet right after <body>
-  body_end: # Inject code snippet right before </body>
-  sidebar_begin: # Inject code snippet right after <aside>
-  sidebar_end: # Inject code snippet right before </aside>
-
 # Footer copyright
-# copyright: # Inject code snippet right in the footer copyright
+copyright: # Inject code snippet right in the footer copyright
 # Need help choosing? Please see...
 # https://creativecommons.org/choose/
 # https://choosealicense.com/
-copyright: |-
-  <div style="flex-direction:column;align-items: center;"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
-  All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a></div>
+# copyright: |-
+#   <div style="flex-direction:column;align-items: center;"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+#   All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a></div>
 
 footer:
-  since: 2025 # 2020-current year
+  since: 2020 # 2020-current year
   powered: true
   count: true # show word count and reading time
   busuanzi: true
   icon:
     url: "../images/taichi.png" # this path is relative to the css/style.css, so it needs to go up one level to reach the images folder
-    rotate: false
+    rotate: true
     mask: true # whether to use the images as a mask
 
 # Sidebar
-sidebar: left
+# sidebar: right # deprecated, use sidebar.position instead
+sidebar:
+  position: right
+  menu: true  # whether to show the sidebar menu button, ignored on mobile devices
+  article:
+    show_common: true # whether to show common sidebar, ignored on mobile devices
 
 social:
-  email: mailto:z0z0r4@outlook.com
-  github: https://github.com/z0z0r4
+  # email: mailto:xxx@gmail.com
+  # github: https://github.com/yourname
   # google: https://plus.google.com/yourname
   # twitter: https://twitter.com/yourname
+  # bluesky: https://bsky.app/profile/yourname
   # facebook: https://www.facebook.com/yourname
   # instagram: https://www.instagram.com/yourname
   # linkedin: https://www.linkedin.com/in/yourname
@@ -119,7 +134,7 @@ social:
   # flickr: https://www.flickr.com/photos/yourname
   # dribbble: https://dribbble.com/yourname
   # behance: https://www.behance.net/yourname
-  bilibili: https://space.bilibili.com/558830935
+  # bilibili: https://space.bilibili.com/yourname
   # weibo: https://weibo.com/yourname
   # zhihu: https://www.zhihu.com/people/yourname
   # reddit: https://www.reddit.com/user/yourname
@@ -128,9 +143,12 @@ social:
   # deviantart: https://yourname.deviantart.com
   # stackoverflow: https://stackoverflow.com/users/yourname
   # keybase: https://keybase.io/yourname
-  telegram: https://t.me/z0z0r4
+  # telegram: https://t.me/yourname
   # discord: https://discordapp.com/users/yourname
-  steam: https://steamcommunity.com/profiles/76561199091926896/
+  # steam: https://steamcommunity.com/id/yourname
+  # weixin:
+  # qq:
+  # tiktok:
 
 widgets:
   # - category
@@ -148,6 +166,7 @@ tagcloud_limits:
 
 # Archive behavior
 only_show_capsule_in_index: false # If you have hugo amounts of tags and categories, you can set this to true to only show the capsule in the index page for better performance
+uppercase_capsule: true # If you want to keep taxonomic capsule unchanged, please set this to false
 
 show_update_time: false # If you want to show the update time, please set this to true
 
@@ -163,29 +182,29 @@ i18n:
   generator: [archive, category, tag, index]
   languages: [zh-CN, en]
 
-triangle_badge:
-  enable: false
-  icon: github # same as the icon in the social config
-  link: https://github.com/z0z0r4/z0z0r4.github.io
-
-layout:
-  max_width: 1500px # the max width of the main content area
-
 ########################################
 # CSS
 ########################################
 
+triangle_badge:
+  enable: false
+  icon: github # same as the icon in the social config
+  link: https://github.com/D-Sketon/hexo-theme-reimu
+
+layout:
+  max_width: 1350px # the max width of the main content area
+
 anchor_icon: # default use '#' icon, you can use a hexadecimal representation of fontawesome or icon_font, like 'f0c1', or you can use false to hide anchor icon
 
 reimu_cursor:
-  enable: false
+  enable: true
   cursor:
     default: ../images/cursor/reimu-cursor-default.png # this path is relative to the css/style.css, so it needs to go up one level to reach the images folder
     pointer: ../images/cursor/reimu-cursor-pointer.png
     text: ../images/cursor/reimu-cursor-text.png
 
 # set to false to enable fontawesome
-icon_font: 4552607_4k4bc36ef96
+icon_font: 4552607_ex15nbittbh
 
 # Font loading strategy
 # Custom Font -> Google Fonts -> Local FallBack Font
@@ -194,22 +213,21 @@ icon_font: 4552607_4k4bc36ef96
 custom_font:
   enable: false
   article:
-    - css: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap
-      name: JetBrains Mono
+    # - css: https://fontsapi.zeoseven.com/292/main/result.css
+      # name: LXGW WenKai
   code:
-    - css: https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap
-      name: JetBrains Mono
 
 # https://fonts.google.com/
 # Google Fonts, higher priority than local_font
 font:
   enable: true
   article:
-    - JetBrains Mono
+    # - Mulish
+    # - Noto Serif SC
   code:
     # - Ubuntu Mono
     # - Source Code Pro
-    - JetBrains Mono
+    # - JetBrains Mono
 
 # Local FallBack Font
 local_font:
@@ -236,7 +254,7 @@ dark_mode:
 
 # need https://github.com/D-Sketon/hexo-renderer-markdown-it-plus
 math:
-  enable: true
+  enable: false
   # If you don't want to use it, please set `autoRender` to true to enable browser rendering
   katex:
     enable: true
@@ -269,7 +287,7 @@ math:
 # mermaid url https://github.com/mermaid-js/mermaid
 # need https://github.com/webappdevelp/hexo-filter-mermaid-diagrams
 mermaid:
-  enable: true
+  enable: false
   zoom: false # whether to enable zoom for mermaid diagrams
 
 code_block:
@@ -278,6 +296,44 @@ code_block:
   # false means collapse all code blocks by default
   # number means collapse the code block by default when the number of lines exceeds the specified value
   expand: true
+
+# Clipboard configuration
+clipboard:
+  success:
+    en: Copy successfully (*^▽^*)
+    zh-CN: 复制成功 (*^▽^*)
+    zh-TW: 複製成功 (*^▽^*)
+    ja: コピー成功 (*^▽^*)
+    pt-BR: Copiado com sucesso (*^▽^*)
+  fail:
+    en: Copy failed (ﾟ⊿ﾟ)ﾂ
+    zh-CN: 复制失败 (ﾟ⊿ﾟ)ﾂ
+    zh-TW: 複製失敗 (ﾟ⊿ﾟ)ﾂ
+    ja: コピー失敗 (ﾟ⊿ﾟ)ﾂ
+    pt-BR: Falha ao copiar (ﾟ⊿ﾟ)ﾂ
+  copyright: # whether to add a copyright for the clipped content
+    enable: false
+    count: 50 # The number of characters when the copyright is displayed
+    license_type: by-nc-sa # https://creativecommons.org/licenses
+
+# Paragraph anchor
+# Injects linkable anchor icons into paragraphs and list items in article body
+# Usage: write {#anchor-xxx} in Markdown; the matching element gets id="anchor-xxx" and an anchor icon
+anchor:
+  # Explicit anchors
+  explicit:
+    # Whether to enable explicit anchors: parse {#anchor-xxx} syntax in Markdown (default false)
+    enable: false
+    # Anchor placeholder: the pattern used to match explicit anchors (no need to change unless it conflicts with article content)
+    marker: "{#anchor-"
+    # Anchor id prefix: generated id = prefix + the xxx part inside the marker (default "anchor-")
+    prefix: "anchor-"
+  # Auto anchors
+  auto:
+    # Whether to enable auto anchors: automatically generate ids for direct child paragraphs, derived from text content (default false)
+    enable: false
+    # Maximum length of auto-generated anchor ids; longer ids will be truncated (only effective when auto.enable = true)
+    length: 60
 
 ########################################
 # Analytics
@@ -294,7 +350,7 @@ clarity: false
 # global control of the comment system
 # you can use multiple comment systems at the same time
 # load order: localStorage(user manually selects) -> default
-# -> valine -> waline -> twikoo -> gitalk -> giscus -> disqus
+# -> valine -> waline -> twikoo -> gitalk -> giscus -> utterances -> beaudar -> disqus
 comment:
   # comment system title
   title:
@@ -303,7 +359,7 @@ comment:
     zh-TW: 說些什麼吧！
     ja: コメントを残す
     pt-BR: Deixe um comentário
-  default: giscus # default comment system, when you enable multiple comment systems
+  default: waline # default comment system, when you enable multiple comment systems
 
 # valine comment system. https://valine.js.org
 # version 1.5.1
@@ -365,18 +421,40 @@ gitalk:
 
 # https://giscus.app/zh-CN
 giscus:
-  enable: true
-  repo: z0z0r4/z0z0r4.github.io
-  repoId: R_kgDOQkNgiw
-  category: Announcements
-  categoryId: DIC_kwDOQkNgi84C5ezs
-  mapping: pathname
-  strict: 1
+  enable: false
+  repo:
+  repoId:
+  category:
+  categoryId:
+  mapping: mapping
+  strict: 0
   reactionsEnabled: 1
   emitMetadata: 0
   inputPosition: bottom
-  # commentTheme: light # deprecated, because the theme is set by the theme itself
-  # lang: zh-CN # deprecated, use html.lang instead
+  theme:
+    light:
+    dark:
+
+# https://utteranc.es
+utterances:
+  enable: false
+  repo: owner/repo # Change this to "Your GitHub Username/The Repository Name" used for storing blog comments
+  issue_term: title
+  theme: auto # auto means to automatically adapt to dark and light themes, you can also use specific themes like github-light, github-dark, preferred-color-scheme, etc.
+
+# https://beaudar.lipk.org/
+beaudar:
+  enable: false
+  repo: owner/repo # Change this to "Your GitHub Username/The Repository Name" used for storing blog comments
+  branch: main # The branch name, default is main
+  issue_term: title # The term to be used to create issues for comments, support pathname, url, title, og:title
+  issue_number:
+  theme: auto # auto means to automatically adapt to dark and light themes, you can also use specific themes like github-light, github-dark, preferred-color-scheme, etc.
+  label:
+  input_position: top # top/bottom, comment input position, default is top
+  comment_order: desc # asc/desc, comment order, asc displays the oldest comments first, while desc displays the newest comments first. The default is desc
+  keep_theme: # true/false, save the theme settings to sessionStorage, default is true
+  loading: # true/false, jump to official website when clicking the loading icon, default is true
 
 # https://disqus.com
 disqus:
@@ -421,7 +499,7 @@ generator_search:
 
 # Loader animation
 preloader:
-  enable: false
+  enable: true
   text:
     zh-CN: 少女祈祷中...
     zh-TW: 少女祈禱中...
@@ -429,7 +507,7 @@ preloader:
     ja: 少女祈祷中...
     pt-BR: Carregando...
   icon: # default use inline svg for fast speed, you can use a image url, like '/images/taichi.png'
-  rotate: false # whether to rotate the icon
+  rotate: true # whether to rotate the icon
 
 # see https://github.com/D-Sketon/aos.js
 animation:
@@ -459,7 +537,7 @@ animation:
 
 # see https://github.com/D-Sketon/mouse-firework
 firework:
-  enable: false
+  enable: true
   disable_on_mobile: false
   options:
     excludeElements: ["a", "button"]
@@ -487,25 +565,6 @@ firework:
 ########################################
 # Extended features
 ########################################
-
-# Clipboard configuration
-clipboard:
-  success:
-    en: Copy successfully (*^▽^*)
-    zh-CN: 复制成功 (*^▽^*)
-    zh-TW: 複製成功 (*^▽^*)
-    ja: コピー成功 (*^▽^*)
-    pt-BR: Copiado com sucesso (*^▽^*)
-  fail:
-    en: Copy failed (ﾟ⊿ﾟ)ﾂ
-    zh-CN: 复制失败 (ﾟ⊿ﾟ)ﾂ
-    zh-TW: 複製失敗 (ﾟ⊿ﾟ)ﾂ
-    ja: コピー失敗 (ﾟ⊿ﾟ)ﾂ
-    pt-BR: Falha ao copiar (ﾟ⊿ﾟ)ﾂ
-  copyright: # whether to add a copyright for the clipped content
-    enable: false
-    count: 50 # The number of characters when the copyright is displayed
-    license_type: by-nc-sa # https://creativecommons.org/licenses
 
 # show categories card on home page
 home_categories:
@@ -548,9 +607,9 @@ sponsor:
 
 # ICP 备案
 icp:
-  icpnumber: "粤ICP备2025511811号"
-  beian: "粤公网安备44130302100361号" # 网安备案号
-  recordcode: 44130302100361 # 网安备案链接中的recordcode参数
+  icpnumber: # ICP备案号
+  beian: # 网安备案号
+  recordcode: # 网安备案链接中的recordcode参数
 
 # 萌国 ICP 备案
 moe_icp:
@@ -580,6 +639,7 @@ top:
 share:
   # - facebook
   # - twitter
+  # - bluesky
   # - linkedin
   # - reddit
   # - weibo
@@ -590,11 +650,18 @@ share:
 # Experimental features
 ########################################
 
-# Experimental, may have a lot of bugs, open with caution!
+# a very simple alternative for https://hexo.io/api/injector
+injector:
+  head_begin: # Inject code snippet right after <head>
+  head_end: # Inject code snippet right before </head>
+  body_begin: # Inject code snippet right after <body>
+  body_end: # Inject code snippet right before </body>
+  sidebar_begin: # Inject code snippet right after <aside>
+  sidebar_end: # Inject code snippet right before </aside>
+
 pjax:
   enable: false
 
-# Experimental
 # https://github.com/GoogleChromeLabs/quicklink
 quicklink:
   enable: false
@@ -625,7 +692,6 @@ live2d_widgets:
   enable: false
   position: left # left or right
 
-# Experimental
 # Please turn on pjax to use this feature
 player:
   disable_on_mobile: false
@@ -662,7 +728,7 @@ player:
 
 pangu:
   # more information: https://github.com/vinta/pangu.js
-  enable: true # enable pangu.js to add space between Chinese and English
+  enable: false # enable pangu.js to add space between Chinese and English
 
 ########################################
 # Theme
@@ -676,72 +742,18 @@ material_theme:
   # so make sure your custom covers will not be blocked by the browser's CORS policy
   enable: false # enable material_theme to generate dynamic color schemes based on the banner image
 
-# internal_theme:
-#   light:
-#     --red-0: "#ff0000"
-#     --red-1: "#ff5252"
-#     --red-2: "#ff7c7c"
-#     --red-3: "#ffafaf"
-#     --red-4: "#ffd0d0"
-#     --red-5: "#ffecec"
-#     --red-5-5: "#fff3f3"
-#     --red-6: "#fff7f7"
-#     --color-red-6-shadow: "rgba(255, 78, 78, 0.6)"
-#     --color-red-3-shadow: "rgba(255, 78, 78, 0.3)"
-
-#     --highlight-nav: "#f5f5f5"
-#     --highlight-scrollbar: "#d6d6d6"
-#     --highlight-background: "#fdfdfd"
-#     --highlight-selection: "#e9e9e988"
-#     --highlight-foreground: "#24292e"
-#     --highlight-comment: "#7d7d7d"
-#     --highlight-red: "#d73a49"
-#     --highlight-orange: "#e36209"
-#     --highlight-yellow: "#cb911d"
-#     --highlight-green: "#22863a"
-#     --highlight-aqua: "#005cc5"
-#     --highlight-blue: "#032f62"
-#     --highlight-purple: "#6f42c1"
-#     --highlight-deletion: "#b31d28"
-#     --highlight-deletion-bg: "#ffeef0"
-#     --highlight-addition: "#22863a"
-#     --highlight-addition-bg: "#f0fff4"
-#   dark:
-#     --red-4: "rgba(255, 208, 208, 0.5)"
-#     --red-5: "rgba(255,228,228,0.15)"
-#     --red-5-5: "rgba(255,236,236,0.05)"
-#     --red-6: "rgba(255, 243, 243, 0.2)"
-
-#     --highlight-nav: "#222830"
-#     --highlight-scrollbar: "#454d59"
-#     --highlight-background: "#1e2027"
-#     --highlight-selection: "#51515155"
-#     --highlight-foreground: "#c9d1d9"
-#     --highlight-comment: "#8b949e"
-#     --highlight-red: "#ff7b72"
-#     --highlight-orange: "#ffa657"
-#     --highlight-yellow: "#ffcc66"
-#     --highlight-green: "#7ee787"
-#     --highlight-aqua: "#a5d6ff"
-#     --highlight-blue: "#79c0ff"
-#     --highlight-purple: "#d2a8ff"
-#     --highlight-deletion: "#ffa198"
-#     --highlight-deletion-bg: "#490202"
-#     --highlight-addition: "#7ee787"
-#     --highlight-addition-bg: "#04260f"
-
 internal_theme:
   light:
-    --red-0: "#0066ff"
-    --red-1: "#3399ff"
-    --red-2: "#66b2ff"
-    --red-3: "#99ccff"
-    --red-4: "#cce6ff"
-    --red-5: "#e6f2ff"
-    --red-5-5: "#f2f8ff"
-    --red-6: "#f7fbff"
-    --color-red-6-shadow: "rgba(78, 156, 255, 0.6)"
-    --color-red-3-shadow: "rgba(78, 156, 255, 0.3)"
+    --red-0: "#ff0000"
+    --red-1: "#ff5252"
+    --red-2: "#ff7c7c"
+    --red-3: "#ffafaf"
+    --red-4: "#ffd0d0"
+    --red-5: "#ffecec"
+    --red-5-5: "#fff3f3"
+    --red-6: "#fff7f7"
+    --color-red-6-shadow: "rgba(255, 78, 78, 0.6)"
+    --color-red-3-shadow: "rgba(255, 78, 78, 0.3)"
 
     --highlight-nav: "#f5f5f5"
     --highlight-scrollbar: "#d6d6d6"
@@ -760,12 +772,11 @@ internal_theme:
     --highlight-deletion-bg: "#ffeef0"
     --highlight-addition: "#22863a"
     --highlight-addition-bg: "#f0fff4"
-
   dark:
-    --red-4: "rgba(208, 228, 255, 0.5)"
-    --red-5: "rgba(228,238,255,0.15)"
-    --red-5-5: "rgba(236,243,255,0.05)"
-    --red-6: "rgba(243,247,255,0.2)"
+    --red-4: "rgba(255, 208, 208, 0.5)"
+    --red-5: "rgba(255,228,228,0.15)"
+    --red-5-5: "rgba(255,236,236,0.05)"
+    --red-6: "rgba(255, 243, 243, 0.2)"
 
     --highlight-nav: "#222830"
     --highlight-scrollbar: "#454d59"
@@ -842,8 +853,8 @@ vendor:
       src: webcache|svg-pan-zoom@3.6.2/dist/svg-pan-zoom.min.js
       integrity: sha384-GGX4llYprEPGp9w5caepn95YWAEflHnsA5ewt+Y+cBEb95og5cXKllnWKSELlzbx
     firework:
-      src: webcache|mouse-firework@0.1.1/dist/index.umd.js
-      integrity: sha384-8LyaidD9GPxQQgLJO/WRw/O2h3BoNq/ApI/ecpvM6RsrCz2qP2ppBXUKihP4V/2d
+      src: webcache|mouse-firework@0.2.0/dist/index.umd.js
+      integrity: sha384-qi9WggRt19tv8Vc7pCHW3ulMNLwrn515zaLEWZjl1px07vz8+pUoWX8n1rgq282T
     pjax:
       src: webcache|theme-shokax-pjax@0.0.3/dist/index.umd.js
       integrity: sha384-xneY1WY8hOfUzswrE4CrYq35N4BdVcxqxwHPr9zawE/jMSCxD+jAPU55x/jj3wlf
@@ -889,6 +900,9 @@ vendor:
     snapdom:
       src: webcache|@zumer/snapdom@1.9.14/dist/snapdom.min.js
       integrity: sha384-OEQ+fJp/Mvi2uzBREXybtxryJvLytWapuHu4EE6LPwTKUwATYcc55tPPcZTzVcmx
+    typed:
+      src: webcache|typed.js@2.1.0/dist/typed.umd.js
+      integrity: sha384-cMrTlShXEGSdSFA359p+3aVUxK/R+0TAfbRZMcTlAn8yqzxEDj05QsS65nTFMMj4
   css:
     photoswipe:
       src: webcache|photoswipe@5.4.4/dist/photoswipe.css
