@@ -1308,6 +1308,7 @@ button {
 .article-tag-list-item {
   float: left;
   text-decoration: none;
+  text-transform: uppercase;
   background: var(--red-5);
   border-radius: 8px;
   padding: 8px 16px;
@@ -1866,6 +1867,7 @@ button {
 .archives-tag-list-item,
 .archives-category-list-item {
   display: flex;
+  text-transform: uppercase;
   background: var(--red-5);
   border-radius: 8px;
   padding: 8px 16px;
@@ -2032,7 +2034,7 @@ button {
 .article-entry pre,
 .article-entry code,
 .article-entry kbd {
-  font-family: Menlo, Monaco, Consolas, monospace;
+  font-family: 'JetBrains Mono', Menlo, Monaco, Consolas, monospace;
   font-size: 93.75%;
   transition: 0.3s;
   word-break: break-word;
@@ -2123,7 +2125,7 @@ button {
 }
 .article-entry .gist .gist-file {
   border: none;
-  font-family: Menlo, Monaco, Consolas, monospace;
+  font-family: 'JetBrains Mono', Menlo, Monaco, Consolas, monospace;
   margin: 0;
 }
 .article-entry .gist .gist-file .gist-data {

@@ -2,7 +2,7 @@
  * Copyright (c) 2018 GitHub Inc.
  * https://github.com/primer/primitives/blob/main/LICENSE
  */
-@import url("https://fonts.googleapis.com/css?family=JetBrains Mono:400,400italic,700,700italic&display=swap");
+@import url("https://fonts.googleapis.com/css?family=JetBrains Mono:400,400italic,700,700italic|JetBrains Mono:400,400italic,700,700italic&display=swap");
 main {
   --red-0: #0066ff;
   --red-1: #3399ff;
@@ -116,7 +116,7 @@ button {
 }
 pre,
 code {
-  font-family: Menlo, Monaco, Consolas, monospace !important;
+  font-family: 'JetBrains Mono', Menlo, Monaco, Consolas, monospace !important;
 }
 main span:not(button span),
 main p:not(button p),
