@@ -14,9 +14,52 @@ copyright:
 sponsor:
 ---
 
-TLDR: 更新后发现 Nginx 写入 `access.log.1` 导致 Logrotate 逻辑失效。
+记录 Nginx 日志因为 Logrotate 失效而爆盘
 
 <!-- more -->
+
+TLDR: 更新后发现 Nginx 写入 `access.log.1` 而 Logrotate 逻辑只覆盖 `/var/log/nginx/*.log` 导致轮转失效。
+
+> Warning: 
+> 
+> 本篇文章不完整，仅记录，无验证、诊断
+>
+> 本篇记录于 2026-05-21 更新，之前推断已废弃，事实性描述保留作为参考
+
+将 `cron` 执行 `logrotate` 的频率降低到半小时一次后（之前为五分钟），不再出现写入 `access.log.1`，同时 `journalctl -u logrotate` 也没有报错了（之前观察到会和写入 `access.log.1` 同时出现 `logrotate` 的报错，但没有存留日志，但时间上应该一致）
+
+后续 3 天再未触发，也许是过于频繁的 `logrotate` 导致，并非 Nginx 更新。
+
+此外重新安装后发现官方的 Logrotate 配置和我之前~~不知道从哪抄来/旧版本~~的配置不同，如下
+
+```
+❯ cat /etc/logrotate.d/nginx.dpkg-dist
+/var/log/nginx/*.log {
+        daily
+        missingok
+        rotate 52
+        compress
+        delaycompress
+        notifempty
+        create 640 nginx adm
+        sharedscripts
+        postrotate
+                if [ -f /run/nginx.pid ]; then
+                        kill -USR1 `cat /run/nginx.pid`
+                fi
+        endscript
+}
+```
+
+其中直接 ```kill -USR1 `cat /run/nginx.pid` ```，而不是 ```invoke-rc.d nginx rotate```，也可能是不再出错的变量之一。
+
+> 仍未为 `*\.log\.[0-9]+$` 的情况做处理...先观望 :|
+
+
+**以下推断内容已废弃，事实性描述保留作为参考**
+---
+
+
 
 最近由于 Nginx CVE-2026-42945 ([NGINX Rift](https://depthfirst.com/research/nginx-rift-achieving-nginx-rce-via-an-18-year-old-vulnerability)) 的影响，需要更新 Nginx，然后触发了一个奇怪的 corner case，导致日志挤满硬盘，在此记录推测的原因。
 
