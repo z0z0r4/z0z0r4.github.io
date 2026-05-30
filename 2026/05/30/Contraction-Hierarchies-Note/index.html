@@ -23,7 +23,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog.z0z0r4.top/images/bidirectional-dijkstra.png">
 <meta property="article:published_time" content="2026-05-29T16:12:04.000Z">
-<meta property="article:modified_time" content="2026-05-29T19:57:05.759Z">
+<meta property="article:modified_time" content="2026-05-30T03:29:44.935Z">
 <meta property="article:author" content="z0z0r4">
 <meta property="article:tag" content="study-notes">
 <meta name="twitter:card" content="summary">
@@ -255,7 +255,7 @@
 </blockquote>
 <p>此外还需要 Lazy Updating 懒更新，避免在每次添加捷径后都更新启发式函数值，成本太高。</p>
 <h4 id="添加捷径witness-search"><a class="markdownIt-Anchor" href="#添加捷径witness-search"></a> 添加捷径（Witness Search）</h4>
-<p>由于搜索时搜索的是由捷径组成的图，所以要保证是和原图等价的。</p>
+<p>需要保证有捷径的图和原图等价的。</p>
 <p>首先考虑添加捷径的时候，不会影响最短路径的正确性:</p>
 <p>对于处理 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>→</mo><mi>u</mi><mo>→</mo><mi>v</mi></mrow><annotation encoding="application/x-tex">s \rightarrow u \rightarrow v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">u</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span>，分两种情况：</p>
 <ul>
@@ -278,12 +278,15 @@
 </blockquote>
 <p>我想当时现场讨论和 Blog 内容（对每对入邻 u（u→v）和出邻 w（v→w）执行一次“witness search”），就是缺少了这个要求。并不是无条件对每对都处理，这样在后续查询要求递增/递减时会变成断路（我猜想）。</p>
 <h4 id="记录绕过的中间节点"><a class="markdownIt-Anchor" href="#记录绕过的中间节点"></a> 记录绕过的中间节点</h4>
-<p>虽然查询时走的是捷径，但实际上输出结果时，显然需要复原通过的中间节点。</p>
+<p>走过捷径后，输出结果时，显然需要复原通过的中间节点。</p>
 <p>应该为每一条捷径记录被绕过的中间节点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi></mrow><annotation encoding="application/x-tex">u</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">u</span></span></span></span>（长捷径是通过短捷径加上绕过的中间节点构成的）。</p>
 <h4 id="构建正向图和反向图"><a class="markdownIt-Anchor" href="#构建正向图和反向图"></a> 构建正向图和反向图</h4>
 <p>正向图必须严格升序，反向图必须严格降序。</p>
 <h3 id="查询"><a class="markdownIt-Anchor" href="#查询"></a> 查询</h3>
 <p>查询时很简单，直接从 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span> 同时进行双向 Dijkstra 搜索，但是双向都必须是升序（即用正向图和反向图），直到两者相遇。</p>
+<blockquote>
+<p>注意这里并不是只搜索捷径组成的图，而是搜索包含原边和捷径的向上图。（比如对于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>a</mi><mi>n</mi><mi>k</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>&lt;</mo><mi>r</mi><mi>a</mi><mi>n</mi><mi>k</mi><mo stretchy="false">(</mo><mi>u</mi><mo stretchy="false">)</mo><mo>&lt;</mo><mi>r</mi><mi>a</mi><mi>n</mi><mi>k</mi><mo stretchy="false">(</mo><mi>v</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">rank(s) &lt; rank(u) &lt; rank(v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal" style="margin-right:0.03148em;">ank</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal" style="margin-right:0.03148em;">ank</span><span class="mopen">(</span><span class="mord mathnormal">u</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal" style="margin-right:0.03148em;">ank</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span> 的情况，其不会构造捷径，但是查询时就应该走 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>→</mo><mi>u</mi><mo>→</mo><mi>v</mi></mrow><annotation encoding="application/x-tex">s \to u \to v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">u</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span>）</p>
+</blockquote>
 <hr />
 <p>在此粘贴一份 Gemini 的总结：</p>
 <details>
@@ -471,7 +474,7 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
       </div>
       <div>
         <span class="icon-brush"></span>
-        108.4k
+        108.5k
         &nbsp;|&nbsp;
         <span class="icon-coffee"></span>
         08:46
@@ -636,7 +639,7 @@ All website licensed under <a href="https://creativecommons.org/licenses/by/4.0/
           description: "",
           stripContent: "记录关于 Contraction Hierarchies 算法的记录。   封面取自 https://jlazarsfeld.github.io/ch.150.project/  今晚（其实已经是到第二天凌晨了=-=）看同学的 多源最短路径 算法导论第25章 里面拓展的 Contraction Hierarchies 始终觉得很奇怪，于是回到宿舍和 Gemini 讨论了一下，在此记录。  双向 Dijkstra 在此之前需要补充双向 Dijkstra（Bidirectional Dijkstra",
           date: "Sat May 30 2026 00:12:04 GMT+0800",
-          updated: "Sat May 30 2026 03:57:05 GMT+0800",
+          updated: "Sat May 30 2026 11:29:44 GMT+0800",
           cover: "/covers/CH_cover.png",
         };
       </script>
