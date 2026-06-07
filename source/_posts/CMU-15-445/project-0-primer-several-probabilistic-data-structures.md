@@ -566,3 +566,11 @@ Estimated cardinality: 1.11156e+08
 > 哈希函数的质量很重要，用之前 Bloom Filter 的那个 [D. E. Knuth 的简单 Hash](https://github.com/greenplum-db/gpos/blob/b53c1acd6285de94044ff91fbee91589543feba1/libgpos/src/utils.cpp#L126) 比 `std::hash` 的误差会大不小。但不想花时间在处理哈希上，之前的就没改。
 
 此外，如果考虑时间窗口，比如通过时间段内的访问用户数量（日活、月活），可以维护多个 HyperLogLog 实例来实现时间窗口的滑动，每个实例对应一个时间段。当时间窗口滑动时，旧的实例被丢弃，新的实例被创建。
+
+---
+
+TODO: Cuckoo Filter，或者 Cuckoo Hashing。相较于 Bloom Filter，Cuckoo Filter 支持删除元素
+
+https://www.cs.cmu.edu/~dga/papers/cuckoo-conext2014.pdf
+
+https://redis.ac.cn/docs/latest/develop/data-types/probabilistic/cuckoo-filter/
