@@ -567,10 +567,255 @@ Estimated cardinality: 1.11156e+08
 
 此外，如果考虑时间窗口，比如通过时间段内的访问用户数量（日活、月活），可以维护多个 HyperLogLog 实例来实现时间窗口的滑动，每个实例对应一个时间段。当时间窗口滑动时，旧的实例被丢弃，新的实例被创建。
 
+## Cuckoo Filter
+
+Cuckoo Filter 和 Bloom Filter 类似，但是支持删除元素，其空间占用效率应该高于 Bloom Filter。
+
+Cuckoo 是布谷鸟的意思（出生的幼鸟踢开其他鸟蛋），其思想和 Cuckoo Hashing 类似，处理冲突的方式是“踢出”与插入项冲突的项，直到找到一个空位或者达到最大尝试次数。
+
+> 为了支持删除，就需要存元素的信息。但同样，存完整信息就变成哈希表了，所以是部分信息。
+
+与 Cuckoo Hashing 不同的是，Cuckoo Filter 不是存储元素的完整信息，而是存储元素的指纹，或者叫标签 Tag，都可以，以节省空间。
+
+此外，Cuckoo Filter 的一个 *index* 对应的是一个较小的 *bucket*，例如四个 Slot 存储 Tag。
+
+Cuckoo Hashing 利用两个哈希函数和两个子表来存储元素，而 Cuckoo Filter 的每个元素对应的是根据元素的 Hash 值计算的一个 Tag，以及两个 index。Cuckoo Hashing 确认 index 的时候是直接计算 $h_1(x)$ 和 $h_2(x)$，而 Cuckoo Filter 没有存储完整的元素，只能根据 Tag 和一个 index，来计算出 alt_index。
+
+注意：*index* 和 *alt_index* 的 ***alt*** 只是相对与 *index* 而言的，它们之间是一个异或计算，有自反性。可以从任意一个 index 和 Tag 计算出另一个 index。
+
+其中 $Tag$ 是元素的 Tag，$M$ 是桶的数量（总是二次幂），$i$ 是 index，那么 $i_{alt}$ 的计算方式是：
+
+$$i_{alt} = (i \oplus Tag) \ \& \ (M - 1)$$
+
+Tag 的计算公式通常是取元素的 Hash 值的某些位，例如：
+
+$$Tag = H(x) \ \& \ (2^b - 1)$$
+
+> 注意这里和一般哈希表不同，不通过取模而是位与来取 *index*，原因是需要自反性，而取模会破坏自反性。
+>（From Gemini，我最开始实现的时候取模了，然后一直没领会到和 Cuckoo Hashing 不同，要利用异或的 $A \oplus A \oplus B = B$ 的性质来计算 *alt_index*）
+
 ---
 
-TODO: Cuckoo Filter，或者 Cuckoo Hashing。相较于 Bloom Filter，Cuckoo Filter 支持删除元素
+查询时，应该检查 *index* 和 *alt_index* 对应的桶中是否有 Tag 匹配。
 
-https://www.cs.cmu.edu/~dga/papers/cuckoo-conext2014.pdf
+插入时，首先计算 *index* 和 *alt_index*，如果其中一个桶有空位，就直接插入；如果两个桶都满了，则开始循环：随机选择一个桶中的随机一个 Tag 踢出，然后将被踢出的 Tag 试着插入到其对应的另一个桶中，若成功则结束，若失败则继续循环这个过程，直到找到一个空位或者达到最大尝试次数。
 
-https://redis.ac.cn/docs/latest/develop/data-types/probabilistic/cuckoo-filter/
+删除时，计算 *index* 和 *alt_index*，检查两个桶中是否有匹配的 Tag，如果找到则删除**其一**。
+
+> 必须是其一，不能都删掉。假设有相同 Tag 和 index 的两个元素 A 和 B，则其应该位于于 index 和 alt_index 不同桶中，如果删除了 A 的 Tag 之后还去找 alt_index 的桶去删除 B 的 Tag，则会误删 B。
+>
+> 反之，如果删除了 A 但是没有删除 B 的 Tag，当然查看 alt_index 时看到了相同 Tag 的 B，A 仍然会被误判为存在，符合预期。
+
+---
+
+考虑上面 A 和 B 的极端情况，如果没有 bucket，此时有 C 也符合情况，那么插入就会失败，因为只有 index 和 alt_index 两个 Slot，互相踢出直到达到最大尝试次数，仍然无法找到空位。这就是需要 bucket 的原因，通过增加常数时间的开销（遍历较小的 bucket），避免在 Filter 明明还要很多空余空间的情况下，因为布谷鸟的机制被迫无法 Add。
+
+---
+
+此外，更极限一点，还可以增加一个 `Victim`，临时记录添加失败的元素的信息。在有删除时，最后检查是否有 `Victim`，如果有则尝试重新插入 `Victim`，如果成功则清空 `Victim`，如果失败则继续保留 `Victim`。也就是从 $2B$ 变成 $2B + 1$，多了一次机会。
+
+> 记得在添加和查找操作都要额外检查 `Victim`
+
+---
+
+Bucket 的大小为 4 是论文中实践出来的最优解，详情见论文 [Cuckoo Filter: Practically Better Than Bloom](https://www.cs.cmu.edu/~dga/papers/cuckoo-conext2014.pdf
+) 或者 [doi:10.1145/2674005.2674994](https://dl.acm.org/doi/epdf/10.1145/2674005.2674994) 的 Optimal Bucket Size 的部分，作者有尝试过 1、2、4、8，最终推荐 4。
+
+---
+
+Redis 提供有 `CF` 命令，见 [DocsDocs → Develop with Redis → Redis data types → Probabilistic → Cuckoo filter](https://redis.io/docs/latest/develop/data-types/probabilistic/cuckoo-filter/)
+
+---
+
+官方实现见：[efficient/cuckoofilter](https://github.com/efficient/cuckoofilter)
+
+一份我觉得正确的实现：[z0z0r4 - Cuckoo Filter](https://gist.github.com/z0z0r4/b5481642736cf4f4c656b45f3bfedc81)
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <random>
+#include <chrono>
+
+using hash_t = std::size_t;
+using TagType = uint16_t;
+
+size_t UpperPower2(size_t x) {
+    x--;
+    x |= x >> 1;
+    x |= x >> 2;
+    x |= x >> 4;
+    x |= x >> 8;
+    x |= x >> 16;
+    x |= x >> 32;
+    x++;
+    return x == 0 ? 1 : x;
+}
+
+struct Victim {
+    size_t index;
+    TagType tag;
+    bool used;
+};
+
+template<typename KeyType>
+class CuckooFilter {
+public:
+    explicit CuckooFilter(const size_t capacity) : capacity_(capacity), size_(0), table_(0), victim_({0, 0, false}) {
+        capacity_ = UpperPower2(capacity_);
+        table_.assign(capacity_, std::vector<TagType>());
+    }
+
+    [[nodiscard]] auto TagHash(const hash_t &hash) const -> TagType {
+        const auto tag = hash & ((1ULL << bits_per_item_) - 1);
+        return tag == 0 ? 1 : tag; // avoid zero tag
+    }
+
+    auto GenerateIndexAndTag(const KeyType &key) -> std::pair<size_t, TagType> {
+        hash_t hash_val = std::hash<KeyType>{}(key);
+        auto index = (hash_val >> 32) & (capacity_ - 1);
+        auto tag = TagHash(hash_val);
+        return std::make_pair(index, tag);
+    }
+
+    [[nodiscard]] auto GenerateAltIndex(const TagType &tag, const size_t index) const -> size_t {
+        return (index ^ (tag * 0x5bd1e995)) & (capacity_ - 1);
+    }
+
+    bool Add(const KeyType &key) {
+        if (victim_.used) {
+            return false; // 过滤器已满
+        }
+
+        if (Contain(key)) {
+            return true; // already exists
+        }
+
+        auto [curr_index, curr_tag] = GenerateIndexAndTag(key);
+        return AddImpl(curr_index, curr_tag);
+    }
+
+    bool Contain(const KeyType &key) {
+        auto [index, tag] = GenerateIndexAndTag(key);
+        if (auto &bucket = table_[index]; std::find(bucket.begin(), bucket.end(), tag) != bucket.end()) {
+            return true;
+        }
+
+        // alt bucket
+        auto alt_index = GenerateAltIndex(tag, index);
+        if (auto &alt_bucket = table_[alt_index];
+            std::find(alt_bucket.begin(), alt_bucket.end(), tag) != alt_bucket.end()) {
+            return true;
+        }
+
+
+        auto victim_index = victim_.index;
+        auto victim_alt_index = GenerateAltIndex(victim_.tag, victim_index);
+        if (victim_.used && (victim_.index == index || victim_.index == victim_alt_index) && victim_.tag == tag) {
+            return true;
+        }
+
+        return false;
+    }
+
+    auto Delete(const KeyType &key) -> bool {
+        auto [index, tag] = GenerateIndexAndTag(key);
+        auto alt_index = GenerateAltIndex(tag, index);
+        auto &bucket = table_[index];
+        auto &alt_bucket = table_[alt_index];
+        auto it = std::find(bucket.begin(), bucket.end(), tag);
+
+        if (it != bucket.end()) {
+            bucket.erase(it);
+            size_--;
+            AddVictim();
+            return true;
+        }
+
+            // alt bucket
+            it = std::find(alt_bucket.begin(), alt_bucket.end(), tag);
+            if (it != alt_bucket.end()) {
+                alt_bucket.erase(it);
+                size_--;
+                AddVictim();
+                return true;
+            }
+
+
+        if (victim_.used && (victim_.index == index || victim_.index == alt_index) && victim_.tag == tag) {
+            victim_.used = false;
+            return true;
+        }
+
+        return false;;
+    }
+
+private:
+    auto AddVictim() -> bool {
+        if (!victim_.used) {
+            return true;
+        }
+
+        const auto index = victim_.index;
+        const auto tag = victim_.tag;
+
+        victim_.used = false; // clear victim before reinsertion
+        return AddImpl(index, tag);
+    }
+
+    auto AddImpl(const size_t curr_index, TagType curr_tag) -> bool {
+        if (auto &bucket = table_[curr_index]; bucket.size() < bucket_size_) {
+            bucket.push_back(curr_tag);
+            size_++;
+            return true;
+        }
+
+        // try alt bucket
+        auto alt_index = GenerateAltIndex(curr_tag, curr_index);
+        if (auto &alt_bucket = table_[alt_index]; alt_bucket.size() < bucket_size_) {
+            alt_bucket.push_back(curr_tag);
+            size_++;
+            return true;
+        }
+
+        size_t kick_index = curr_index;
+
+        for (auto i = 0; i < max_kicks_; ++i) {
+            // max 10 evictions
+            auto &kick_bucket = table_[kick_index];
+
+            const size_t rand_pos = rng_() % kick_bucket.size();
+            std::swap(curr_tag, kick_bucket[rand_pos]);
+
+            kick_index = GenerateAltIndex(curr_tag, kick_index);
+
+            if (auto &next_bucket = table_[kick_index]; next_bucket.size() < bucket_size_) {
+                next_bucket.push_back(curr_tag);
+                size_++;
+                return true;
+            }
+        }
+
+        if (!victim_.used) {
+            victim_ = {kick_index, curr_tag, true};
+            return true;
+        }
+
+        return false;
+    }
+
+
+    size_t capacity_;
+    size_t size_;
+    size_t max_kicks_ = 500;
+    size_t bits_per_item_ = 16;
+    size_t bucket_size_ = 4;
+    std::vector<std::vector<TagType> > table_;
+    Victim victim_;
+    std::mt19937 rng_{std::random_device{}()};
+};
+```
+
+
+TODO: Cuckoo Hashing
