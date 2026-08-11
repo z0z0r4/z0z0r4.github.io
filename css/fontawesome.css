@@ -190,3 +190,7 @@
 .icon {
   font-family: var(--font-icon);
 }
+.main-nav-icon {
+  font-family: var(--font-icon) !important;
+  font-weight: 900 !important;
+}
