@@ -1,22 +1,16 @@
 ---
-title: Plan and Check-in
-sticky: false
-mermaid: false
-date: 2026-02-24 12:57:52
-tags:
-- daily-record
-categories:
-- daily-record
-- CS
-cover: covers/lilith_sad.png
-comments:
-copyright:
-sponsor:
+title: 存档点
+date: 2026-08-11 17:06:31
+comments: false
+cover: /covers/lilith_sad.png
 ---
 
-这里是存档点。
+TL;DR：这里是从 2026-02-27 开始的存档点，定期更新。
 
-<!-- more -->
+<details>
+<summary>你知道的太多了</summary>
+
+![Lilith Sad](/covers/lilith_sad.png)
 
 # Look Back
 
@@ -63,9 +57,9 @@ sponsor:
 
 ---
 
-接下来会在这里打卡，从 2.27 回到学校开始
+接下来会在这里打卡，从 2026-02-27 回到学校开始
 
-# Check-In
+</details>
 
 ## 2026-02-28
 
@@ -109,3 +103,9 @@ CLRS 我负责分享的下一章是 B 树，也许可以配合着试着开 15-44
 完成 CS300 Project 5 KVstore。
 
 - [x] CS300 Project 5
+
+## 2026-08-11
+
+完成 MIT 6.1810 和 OSTEP
+- [x] OSTEP
+- [x] MIT 6.1810

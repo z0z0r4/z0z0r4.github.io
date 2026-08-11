@@ -8,16 +8,19 @@ theme_config_check: true
 menu:
   - name: home
     url: /
-    icon: e632   # house-chimney，对应主页
+    icon: f015   # 🏠
   - name: archives
     url: /archives
-    icon: e605   # calendar，表示归档
+    icon: f073   # 📅
   - name: about
     url: /about
-    icon: e647   # circle-info，表示关于信息
+    icon: f05a   # ℹ️
   - name: friend
     url: /friend
-    icon: e628   # people，表示友链
+    icon: f007   # 👤 
+  - name: checkpoint
+    url: /checkpoint
+    icon: f0c7   # 💾
 
 banner: "/images/banner.jpg" # which means themes/reimu/source/images/banner.webp
 # You can also write it in the form of the following url
@@ -185,7 +188,7 @@ reimu_cursor:
     text: ../images/cursor/reimu-cursor-text.png
 
 # set to false to enable fontawesome
-icon_font: 4552607_4k4bc36ef96
+icon_font: false # 4552607_4k4bc36ef96
 
 # Font loading strategy
 # Custom Font -> Google Fonts -> Local FallBack Font
