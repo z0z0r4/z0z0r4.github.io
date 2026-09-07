@@ -41,7 +41,7 @@ CS144 详见 [CS自学指南 Stanford CS144: Computer Network](https://csdiy.wik
 
 `webget` 基本上就是试着调用 socket，要写入的内容可以参考 `talent` 输入的内容。注意提示即可！
 
-其中测试的时候会发现 `cs144.keithw.org` 已经失效了，无法访问，你应该自己修改一下 `tests/webget_t.sh`，试着用别的网站替代，比如 <www.msftconnecttest.com/connecttest.txt> 或者 Apple、Google 它们的连接测试网站。
+其中测试的时候会发现 `cs144.keithw.org` 已经失效了，无法访问，你应该自己修改一下 `tests/webget_t.sh`，试着用别的网站替代，比如 <https://www.msftconnecttest.com/connecttest.txt> 或者 Apple、Google 它们的连接测试网站。
 
 > 或者干脆删掉这个测试。
 
