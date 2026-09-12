@@ -68,7 +68,7 @@
 ### 媒体与交互功能
 
 - 🎵 音乐播放器支持：
-  - Aplayer
+  - APlayer
   - Meting
 - 🖼️ 图片懒加载
 - ⚡ 加载动画
@@ -81,14 +81,14 @@
 
 - 📑 目录导航
 - 🔄 PJAX 支持
-- 🔧 ServiceWorker 实现
+- 🔧 Service Worker 实现
 - 📰 RSS 订阅
 
 ### 设计与自定义
 
 - 🎨 图标支持：
   - Iconfont
-  - FontAwesome7
+  - Font Awesome
 - 🔗 内置标签插件：
   - 内部链接
   - 外部链接
@@ -97,6 +97,8 @@
   - 标签轮盘
   - 标签页
   - 照片墙
+  - 网格布局
+  - 折叠面板
 - 🎨 动态适配主题色
 - 🎨 自定义容器
 - ©️ 文章版权声明
@@ -184,9 +186,9 @@ avatar: "avatar.webp" # 默认就是在avatar文件夹内寻找，请不要包�
 
 `banner` 和 `cover` 的显示逻辑如下：
 
-- 文章页头图优先使用 Front-matter 的 `banner`；若未设置 `banner`，则兼容使用 `cover`
+- 文章页头图优先使用 front matter 的 `banner`；若未设置 `banner`，则兼容使用 `cover`
 - 当 `banner` / `cover` 均未设置时，文章页头图继续读取内层 `_config.yml` 的全局 `cover`，最终回退到全局 `banner`
-- 列表卡片封面优先使用 Front-matter 的 `cover`（仅 URL 生效）；当 `cover` 未设置、为 `false` 或 `rgb(...)` 时，会回退到 `source/_data/covers` 与 `source/_data/covers.yml` 随机图
+- 列表卡片封面优先使用 front matter 的 `cover`（仅 URL 生效）；当 `cover` 未设置、为 `false` 或 `rgb(...)` 时，会回退到 `source/_data/covers` 与 `source/_data/covers.yml` 随机图
 - 若随机封面不可用，则回退到全局 `banner`
 
 推荐写法（头图与卡片封面分离）：
@@ -226,7 +228,7 @@ favicon: "/images/favicon.ico"
 
 #### 置顶
 
-在文章的 Front-matter 中添加 `sticky: true`
+在文章的 front matter 中添加 `sticky: true`
 
 ```yaml
 ---
@@ -264,7 +266,7 @@ sidebar:
     show_common: true # 文章页是否显示通用侧边栏，移动端忽略
 ```
 
-此外，也可以通过文章的 Front-matter 控制，其优先级高于全局配置
+此外，也可以通过文章的 front matter 控制，其优先级高于全局配置
 
 ```yaml
 ---
@@ -282,7 +284,7 @@ sidebar: left # left | right | false
 toc: true # true | false
 ```
 
-此外，也可以通过文章的 Front-matter 控制，其优先级高于全局配置
+此外，也可以通过文章的 front matter 控制，其优先级高于全局配置
 
 ```yaml
 ---
@@ -438,7 +440,7 @@ code_block:
 
 ### 站内评论
 
-> 站内评论可以使用 Front-matter 中的 `comments` 独立控制每篇文章是否显示评论。  
+> 站内评论可以使用 front matter 中的 `comments` 独立控制每篇文章是否显示评论。  
 > 当 `comments` 为 `false` 时不显示评论，`true` 或不填时根据 `_config.yml` 的配置决定是否显示。
 
 > 1.7.0+ 后支持多评论系统同时使用
@@ -549,7 +551,7 @@ gitalk:
   repo: "your repo"
   owner: "repo owner"
   admin: "repo owner and collaborators"
-  md5: false # 是否使用 md5 加密路径
+  md5: false # 是否使用 MD5 加密路径
 ```
 
 若基于 [Disqus](https://disqus.com/)  
@@ -734,7 +736,7 @@ mermaid:
   zoom: false # 是否启用缩放功能
 ```
 
-并在需要使用 mermaid 的文章的 Front-matter 中添加 `mermaid: true`
+并在需要使用 mermaid 的文章的 front matter 中添加 `mermaid: true`
 
 ```yaml
 ---
@@ -787,7 +789,7 @@ i18n:
   languages: [zh-CN, en] # 语言列表，第一个为默认语言
 ```
 
-对于 post 的多语言支持，可以在 Front-matter 中添加 `lang` 来指定**除默认语言外的**其他语言（默认语言不需要添加）
+对于 post 的多语言支持，可以在 front matter 中添加 `lang` 来指定**除默认语言外的**其他语言（默认语言不需要添加）
 
 ```yaml
 lang: en
@@ -809,25 +811,27 @@ lang: en
 Icon 默认使用本主题提供的 iconfont（v0.1.3+）
 
 ```yml
-icon_font: 4552607_0khxww3tj3q9
+icon_font: 4552607_ex15nbittbh
 ```
 
 如果想要继续使用 fontawesome 图标，请将 `icon_font` 设置为 `false`，此时会使用 `vendor` 中对应的 fontawesome
 
 ```yml
-fontawesome:
-  high_priority:
-    - src: webcache|@fortawesome/fontawesome-free@7.1.0/css/regular.min.css
-      integrity: sha384-4qYppzjH8EiA+cGdaubu2vL7Rk8WGiqCSj7oRuP1uwtFWkfKNHD20lPfcrbQc8dU
-    - src: webcache|@fortawesome/fontawesome-free@7.1.0/css/solid.min.css
-      integrity: sha384-wbMWab3UDSPm2kvIgVOn/d9KPTecgPU1+Nb3zoQrm/oVu0EkPL6IaKinjbwW0rum
-  low_priority:
-    - src: webcache|@fortawesome/fontawesome-free@7.1.0/css/brands.min.css
-      integrity: sha384-KTGeC2hIMzpeQakhsmzB9bZfhCD5xZZCgI1iZH6f/O457SxzlkzTQg/WXFNoi3ih
-    - src: webcache|@fortawesome/fontawesome-free@7.1.0/css/v5-font-face.min.css
-      integrity: sha384-nJ1ThfldViXoLpJ6jlKcP2beas8BMbYq26SG9Hi8cH89bZi4RZ644v7helMCqJxd
-    - src: webcache|@fortawesome/fontawesome-free@7.1.0/css/v4-font-face.min.css
-      integrity: sha384-UlkrhOIvZxJFd4MElSUp7ow6/RUeYKi/orfCZIRRiOENFuQPIAA3T3HjYfmBRhNq
+vendor:
+  css:
+    fontawesome:
+      high_priority:
+        - src: webcache|@fortawesome/fontawesome-free@7.3.1/css/regular.min.css
+          integrity: sha384-2RNNQHI9yrjVDjr8zReHCzBa25B4jlokRSel4Cnp9s+PCUDvwxBq8ZbIODO51CZL
+        - src: webcache|@fortawesome/fontawesome-free@7.3.1/css/solid.min.css
+          integrity: sha384-p/nJzgOJxEnSeUkMQ0nk5oPsUT5x8eOWi6pxU2ls9qcO9B78dCvZk0JSAOXWXUQN
+      low_priority:
+        - src: webcache|@fortawesome/fontawesome-free@7.3.1/css/brands.min.css
+          integrity: sha384-pIEnzgIAdkjnrjeHT4EuN7Kq2yGdMr3Vk0e3gLOkA7/e07sPVkOqclXo09iTJVEo
+        - src: webcache|@fortawesome/fontawesome-free@7.3.1/css/v5-font-face.min.css
+          integrity: sha384-bgty3ASw/rWgPqaNmdRW2QRzOUN359e1lysD9FJvOi5vcnpF0zw7X3w3SzQ8eXg3
+        - src: webcache|@fortawesome/fontawesome-free@7.3.1/css/v4-font-face.min.css
+          integrity: sha384-PR7IRkzcQVYE18+Qzo+jvCpk7aBZUsKQtpDyImfQ92ONj5u3VwMmMCIi7VMoGCCS
 ```
 
 </details>
@@ -853,11 +857,16 @@ top:
 
 ```yaml
 dark_mode:
+  # true 代表显示切换按钮
+  # false 代表隐藏切换按钮
+  button: true # true | false
   # true 代表暗黑模式默认开启
   # false 代表暗黑模式默认关闭
   # auto 代表根据用户系统设置自动切换
-  enable: auto # true | false | auto
+  type: auto # true | false | auto
 ```
+
+旧格式 `dark_mode: {enable: true|false|auto}` 仍然兼容
 
 #### 站点统计
 
@@ -902,7 +911,7 @@ pjax:
 
 > PJAX 无法与 `relative_link: true` 配合使用！
 
-#### ServiceWorker
+#### Service Worker
 
 默认关闭
 
@@ -979,7 +988,7 @@ article_copyright:
     license_type: by-nc-sa # https://creativecommons.org/licenses
 ```
 
-此外，也可以通过文章的 Front-matter 控制，其优先级高于全局配置
+此外，也可以通过文章的 front matter 控制，其优先级高于全局配置
 
 ```yaml
 ---
@@ -1035,7 +1044,7 @@ sponsor:
       src: "/sponsor/alipay.jpg" # 二维码路径，请自行填写
 ```
 
-此外，也可以通过文章的 Front-matter 控制，其优先级高于全局配置
+此外，也可以通过文章的 front matter 控制，其优先级高于全局配置
 
 ```yaml
 ---
@@ -1051,7 +1060,7 @@ sponsor: true # 是否展示赞助二维码？
 home_categories:
   enable: false # 是否展示首页目录卡片？
   content:
-    - categories: # 目录名称，格式和 Front-matter 中的 categories 一致，可以为字符串（单级分类）或数组（多级分类）
+    - categories: # 目录名称，格式和 front matter 中的 categories 一致，可以为字符串（单级分类）或数组（多级分类）
       cover: # 卡片封面，不填则使用随机封面
     - categories:
       cover:
@@ -1061,11 +1070,11 @@ home_categories:
 
 > 使用前建议先打开 PJAX，否则会出现播放器自动暂停的问题
 
-使用 Aplayer + Meting（可选）默认关闭
+使用 APlayer + Meting（可选）默认关闭
 
 ##### 音乐播放器位置（v1.9.1+）
 
-默认在 sidebar 之后
+默认在 sidebar 之前
 
 ```yml
 player:
@@ -1073,9 +1082,9 @@ player:
   position: before_sidebar # before_sidebar / after_sidebar / after_widget
 ```
 
-##### 纯 Aplayer
+##### 纯 APlayer
 
-将 `player.aplayer.enable` 设置为 `true`，并在 `player.aplayer.options` 中参考 [Aplayer Docs](https://aplayer.js.org/#/home?id=options) 进行配置
+将 `player.aplayer.enable` 设置为 `true`，并在 `player.aplayer.options` 中参考 [APlayer Docs](https://aplayer.js.org/#/home?id=options) 进行配置
 
 ```yml
 player:
@@ -1094,9 +1103,9 @@ player:
       lrcType:
 ```
 
-##### Aplayer + Meting
+##### APlayer + Meting
 
-同时将 `player.aplayer.enable` 和 `player.meting.enable` 设置为 `true`，并在 `player.meting.options` 中参考 [Meting Docs](https://github.com/metowolf/MetingJS?tab=readme-ov-file#option) 进行配置，`player.aplayer.options` 为 Aplayer 配置
+同时将 `player.aplayer.enable` 和 `player.meting.enable` 设置为 `true`，并在 `player.meting.options` 中参考 [Meting Docs](https://github.com/metowolf/MetingJS?tab=readme-ov-file#option) 进行配置，`player.aplayer.options` 为 APlayer 配置
 
 ```yml
 player:
@@ -1225,9 +1234,22 @@ anchor:
 
 ```markdown
 {% friendsLink path %}
+{% friendsLink path compact %}
+{% friendsLink path detailed %}
 ```
 
-第一个参数 `path` 表示友链 yaml 的路径
+第一个参数 `path` 表示友链 yaml 的路径。第二个参数 `style`（可选）控制展示风格，支持 `standard`（默认）、`compact`（紧凑）、`detailed`（详细）。直接读取 YAML 文件。可通过 `_config.yml` 中的 `friends.shuffle` 控制是否随机排列友链顺序。
+
+友链数据格式（YAML 文件）：
+
+```yaml
+- name: D-Sketon
+  url: https://d-sketon.github.io/
+  desc: 东方人的日常
+  image: https://d-sketon.github.io/avatar/avatar.webp
+  badge: 朋友 # 可选，卡片上的徽标
+  remark: 通过 GitHub 认识 # 可选，备注行
+```
 
 #### postLinkCard 内链卡片 (不推荐，建议使用 link)
 
@@ -1285,10 +1307,10 @@ externalLinkCard 和 postLinkCard 的升级版，推荐使用该标签。
 
 ```markdown
 {% tabs [activeTab] ["center"] %}
-<!-- tabName -->
-Tab content
-<!-- tabName -->
-Tab content
+<!-- tab 标签页1 -->
+内容1
+<!-- tab 标签页2 -->
+内容2
 {% endtabs %}
 ```
 
@@ -1296,10 +1318,10 @@ Tab content
 
 - activeTab：可选参数，指定默认激活的标签页下标，从 1 开始计数，默认为 1
 - "center"：可选参数，指定标签页标题居中显示，默认左对齐
-- tabName：每个标签页的标题，必须用 `<!-- tabName -->` 包裹，支持使用 `@` + 图标十六进制代码 展示图标，例：
-  - 标题 `<!-- 标题 -->`
-  - 图标 `<!-- @e60c -->`
-  - 图标+标题 `<!-- 标题@e60c -->` 
+- tabName：每个标签页的标题，必须用 `<!-- tab tabName -->` 包裹，支持使用 `@` + 图标十六进制代码 展示图标，例：
+  - 标题 `<!-- tab 标题 -->`
+  - 图标 `<!-- tab @e60c -->`
+  - 图标+标题 `<!-- tab 标题@e60c -->` 
 
 #### gallery 照片墙 (v1.11.0+)
 
@@ -1687,9 +1709,9 @@ js:
 </details>
 
 <details>
-<summary>Front-matter 字段</summary>
+<summary>front matter 字段</summary>
 
-### Front-matter 字段
+### front matter 字段
 
 | meta        | 描述                                            | 类型                                               | 取值逻辑           | 版本      |
 | ----------- | ----------------------------------------------- | -------------------------------------------------- | ------------------ | --------- |
@@ -1739,10 +1761,6 @@ js:
 | [@reimujs/hexo-renderer-markdown-it-plus](https://github.com/D-Sketon/hexo-renderer-markdown-it-plus) | ![NPM Version](https://img.shields.io/npm/v/@reimujs/hexo-renderer-markdown-it-plus) | ![NPM Downloads](https://img.shields.io/npm/dm/@reimujs/hexo-renderer-markdown-it-plus) | ![jsDelivr Hits](https://img.shields.io/jsdelivr/npm/hm/@reimujs/hexo-renderer-markdown-it-plus) |
 | [@reimujs/instantsearch.js](https://github.com/D-Sketon/instantsearch)                                | ![NPM Version](https://img.shields.io/npm/v/@reimujs/instantsearch.js)               | ![NPM Downloads](https://img.shields.io/npm/dm/@reimujs/instantsearch.js)               | ![jsDelivr Hits](https://img.shields.io/jsdelivr/npm/hm/@reimujs/instantsearch.js)               |
 | [plugin-live2d](https://github.com/D-Sketon/plugin-live2d)                                            | -                                                                                    | -                                                                                       | ![jsDelivr hits (GitHub)](https://img.shields.io/jsdelivr/gh/hm/D-Sketon/plugin-live2d)          |
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=D-Sketon/hexo-theme-reimu&type=date&legend=top-left)](https://www.star-history.com/#D-Sketon/hexo-theme-reimu&type=date&legend=top-left)
 
 ## 许可
 

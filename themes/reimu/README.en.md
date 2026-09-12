@@ -9,7 +9,7 @@
 
 💘 Hakurei Reimu 💘
 
-[Demo](https://d-sketon.github.io)
+[Demo](https://d-sketon.github.io) | [Development Log](https://d-sketon.github.io/en/20240601/hexo-theme-reimu-log/)
 
 [简体中文](https://github.com/D-Sketon/hexo-theme-reimu/blob/main/README.md) | English
 
@@ -22,7 +22,7 @@
 > Versions below v1.0.0 have been deprecated. Please upgrade to version v1.0.0 or above as soon as possible.
 
 A Hakurei Reimu style Hexo theme.  
-A combination of [landscape](https://github.com/hexojs/hexo-theme-landscape)、[Tangyuxian](https://github.com/tangyuxian/hexo-theme-tangyuxian) and [Shoka](https://github.com/amehime/hexo-theme-shoka) themes.
+A combination of [landscape](https://github.com/hexojs/hexo-theme-landscape), [Tangyuxian](https://github.com/tangyuxian/hexo-theme-tangyuxian) and [Shoka](https://github.com/amehime/hexo-theme-shoka) themes.
 
 | framework                    | repository                                                         | version                                                                                                                                                                                     | stars                                                                                              |
 | ---------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
@@ -65,7 +65,7 @@ A combination of [landscape](https://github.com/hexojs/hexo-theme-landscape)、[
 
 ### Media & Interactive Features
 - 🎵 Music player support:
-  - Aplayer
+  - APlayer
   - Meting
 - 🖼️ Lazy loading for images
 - ⚡ Loading animations
@@ -77,13 +77,13 @@ A combination of [landscape](https://github.com/hexojs/hexo-theme-landscape)、[
 ### Navigation & Structure
 - 📑 Table of Contents
 - 🔄 PJAX support
-- 🔧 ServiceWorker implementation
+- 🔧 Service Worker implementation
 - 📰 RSS feed
 
 ### Design & Customization
 - 🎨 Icon support:
   - Iconfont
-  - FontAwesome7
+  - Font Awesome
 - 🔗 Built-in tag plugins:
   - Internal links
   - External links
@@ -92,6 +92,8 @@ A combination of [landscape](https://github.com/hexojs/hexo-theme-landscape)、[
   - Tag Roulette
   - Tabs
   - Gallery
+  - Grid Layout
+  - Foldable Panel
 - 🎨 Dynamic theme color adaptation
 - 🎨 Custom Containers
 - ©️ Article copyright declaration
@@ -179,9 +181,9 @@ avatar: "avatar.webp" # By default, it looks for the avatar in the avatar folder
 
 The display logic of `banner` and `cover` is as follows:
 
-- The post header image prefers Front-matter `banner`; if `banner` is not set, it falls back to `cover` for compatibility.
+- The post header image prefers front matter `banner`; if `banner` is not set, it falls back to `cover` for compatibility.
 - When both `banner` and `cover` are not set, the post header image uses global `cover` in the inner `_config.yml`, then falls back to global `banner`.
-- The list card cover prefers Front-matter `cover` (URL only). If `cover` is not set, `false`, or `rgb(...)`, it falls back to random images from `source/_data/covers` and `source/_data/covers.yml`.
+- The list card cover prefers front matter `cover` (URL only). If `cover` is not set, `false`, or `rgb(...)`, it falls back to random images from `source/_data/covers` and `source/_data/covers.yml`.
 - If random covers are unavailable, it falls back to global `banner`.
 
 Recommended usage (separate header image and card cover):
@@ -221,7 +223,7 @@ favicon: "/images/favicon.ico"
 
 #### Pinned Posts
 
-Add `sticky: true` to the article's Front-matter to pin it:
+Add `sticky: true` to the article's front matter to pin it:
 
 ```yaml
 ---
@@ -260,7 +262,7 @@ sidebar:
     show_common: true # whether to show common sidebar on article pages, ignored on mobile devices
 ```
 
-Additionally, you can control it through the article's Front-matter, which takes precedence over the global configuration.
+Additionally, you can control it through the article's front matter, which takes precedence over the global configuration.
 
 ```yaml
 ---
@@ -278,7 +280,7 @@ Default enabled. You can modify it in the inner `_config.yml`.
 toc: true # true | false
 ```
 
-Additionally, you can control it through the article's Front-matter, which takes precedence over the global configuration.
+Additionally, you can control it through the article's front matter, which takes precedence over the global configuration.
 
 ```yaml
 ---
@@ -436,7 +438,7 @@ code_block:
 
 ### Site comments
 
-> Site comments can be individually controlled for each article using `comments` in the Front-matter.  
+> Site comments can be individually controlled for each article using `comments` in the front matter.  
 > When `comments` is `false`, comments won't be displayed. When it's `true` or not specified, the display will be determined by the `_config.yml` configuration.
 
 > Support for multiple comment systems simultaneously after version 1.7.0+
@@ -445,7 +447,11 @@ Global comment system configuration:
 
 ```yaml
 comment:
-  title: Say something! # Title of the comment box  
+  title:
+    en: Leave a comment
+    zh-CN: 说些什么吧！
+    zh-TW: 說些什麼吧！
+    ja: コメントを残す
   default: waline # Default comment system used when multiple are enabled
 ```
 
@@ -543,7 +549,7 @@ gitalk:
   repo: "your repo"
   owner: "repo owner"
   admin: "repo owner and collaborators"
-  md5: false # Whether to use md5 to encrypt the path
+  md5: false # Whether to use MD5 to encrypt the path
 ```
 
 If using [Disqus](https://disqus.com/)  
@@ -728,7 +734,7 @@ mermaid:
   zoom: false # whether to enable zoom
 ```
 
-And add `mermaid: true` to the Front-matter of any article where you want to use mermaid diagrams
+And add `mermaid: true` to the front matter of any article where you want to use mermaid diagrams
 
 ```yaml
 ---
@@ -782,7 +788,7 @@ i18n:
   languages: [zh-CN, en] # List of languages, the first one is the default language
 ```
 
-For multilingual support in posts, you can add `lang` in the Front-matter to specify languages **other than the default language** (the default language does not need to be added).
+For multilingual support in posts, you can add `lang` in the front matter to specify languages **other than the default language** (the default language does not need to be added).
 
 ```yaml
 lang: en
@@ -804,25 +810,27 @@ For more information, please refer to [How to add multi-language support to Hexo
 By default, this theme uses its own provided iconfont (v0.1.3+)
 
 ```yml
-icon_font: 4552607_0khxww3tj3q9
+icon_font: 4552607_ex15nbittbh
 ```
 
 If you want to continue using fontawesome icons, set `icon_font` to `false`. This will use the corresponding fontawesome from the `vendor`
 
 ```yml
-fontawesome:
-  high_priority:
-    - src: webcache|@fortawesome/fontawesome-free@7.1.0/css/regular.min.css
-      integrity: sha384-4qYppzjH8EiA+cGdaubu2vL7Rk8WGiqCSj7oRuP1uwtFWkfKNHD20lPfcrbQc8dU
-    - src: webcache|@fortawesome/fontawesome-free@7.1.0/css/solid.min.css
-      integrity: sha384-wbMWab3UDSPm2kvIgVOn/d9KPTecgPU1+Nb3zoQrm/oVu0EkPL6IaKinjbwW0rum
-  low_priority:
-    - src: webcache|@fortawesome/fontawesome-free@7.1.0/css/brands.min.css
-      integrity: sha384-KTGeC2hIMzpeQakhsmzB9bZfhCD5xZZCgI1iZH6f/O457SxzlkzTQg/WXFNoi3ih
-    - src: webcache|@fortawesome/fontawesome-free@7.1.0/css/v5-font-face.min.css
-      integrity: sha384-nJ1ThfldViXoLpJ6jlKcP2beas8BMbYq26SG9Hi8cH89bZi4RZ644v7helMCqJxd
-    - src: webcache|@fortawesome/fontawesome-free@7.1.0/css/v4-font-face.min.css
-      integrity: sha384-UlkrhOIvZxJFd4MElSUp7ow6/RUeYKi/orfCZIRRiOENFuQPIAA3T3HjYfmBRhNq
+vendor:
+  css:
+    fontawesome:
+      high_priority:
+        - src: webcache|@fortawesome/fontawesome-free@7.3.1/css/regular.min.css
+          integrity: sha384-2RNNQHI9yrjVDjr8zReHCzBa25B4jlokRSel4Cnp9s+PCUDvwxBq8ZbIODO51CZL
+        - src: webcache|@fortawesome/fontawesome-free@7.3.1/css/solid.min.css
+          integrity: sha384-p/nJzgOJxEnSeUkMQ0nk5oPsUT5x8eOWi6pxU2ls9qcO9B78dCvZk0JSAOXWXUQN
+      low_priority:
+        - src: webcache|@fortawesome/fontawesome-free@7.3.1/css/brands.min.css
+          integrity: sha384-pIEnzgIAdkjnrjeHT4EuN7Kq2yGdMr3Vk0e3gLOkA7/e07sPVkOqclXo09iTJVEo
+        - src: webcache|@fortawesome/fontawesome-free@7.3.1/css/v5-font-face.min.css
+          integrity: sha384-bgty3ASw/rWgPqaNmdRW2QRzOUN359e1lysD9FJvOi5vcnpF0zw7X3w3SzQ8eXg3
+        - src: webcache|@fortawesome/fontawesome-free@7.3.1/css/v4-font-face.min.css
+          integrity: sha384-PR7IRkzcQVYE18+Qzo+jvCpk7aBZUsKQtpDyImfQ92ONj5u3VwMmMCIi7VMoGCCS
 ```
 
 </details>
@@ -848,11 +856,16 @@ The default setting is `auto`, which automatically switches based on the user's 
 
 ```yaml
 dark_mode:
+  # true means the toggle button is shown
+  # false means the toggle button is hidden
+  button: true # true | false
   # true means that the dark mode is enabled by default
   # false means that the dark mode is disabled by default
   # auto means that the dark mode is automatically switched according to the system settings
-  enable: auto # true | false | auto
+  type: auto # true | false | auto
 ```
+
+The legacy format `dark_mode: {enable: true|false|auto}` is still supported.
 
 #### Analytics
 
@@ -897,7 +910,7 @@ pjax:
 
 > PJAX cannot be used with `relative_link: true`!
 
-#### ServiceWorker
+#### Service Worker
 
 Disabled by default
 
@@ -974,7 +987,7 @@ article_copyright:
     license_type: by-nc-sa # https://creativecommons.org/licenses
 ```
 
-Additionally, this can be controlled through article Front-matter, which takes precedence over global configuration
+Additionally, this can be controlled through article front matter, which takes precedence over global configuration
 
 ```yaml
 ---
@@ -1030,7 +1043,7 @@ sponsor:
       src: "/sponsor/alipay.jpg" # QR code path, please fill in yourself
 ```
 
-Additionally, this can be controlled through article Front-matter, which takes precedence over global configuration
+Additionally, this can be controlled through article front matter, which takes precedence over global configuration
 
 ```yaml
 ---
@@ -1046,7 +1059,7 @@ Disabled by default. When enabled, displays category cards on homepage as an alt
 home_categories:
   enable: false # Display home categories card?
   content:
-    - categories: # Category name, format matches categories in Front-matter, can be string (single-level) or array (multi-level)
+    - categories: # Category name, format matches categories in front matter, can be string (single-level) or array (multi-level)
       cover: # Card cover, uses random cover if not specified
     - categories:
       cover:
@@ -1056,11 +1069,11 @@ home_categories:
 
 > It's recommended to enable PJAX first, otherwise the player may auto-pause
 
-Uses Aplayer + Meting (optional), disabled by default
+Uses APlayer + Meting (optional), disabled by default
 
 ##### Music Player Position (v1.9.1+)
 
-Default is after sidebar
+Default is before sidebar
 
 ```yml
 player:
@@ -1068,9 +1081,9 @@ player:
   position: before_sidebar # before_sidebar / after_sidebar / after_widget
 ```
 
-##### Pure Aplayer
+##### Pure APlayer
 
-Set `player.aplayer.enable` to `true` and configure `player.aplayer.options` according to [Aplayer Docs](https://aplayer.js.org/#/home?id=options)
+Set `player.aplayer.enable` to `true` and configure `player.aplayer.options` according to [APlayer Docs](https://aplayer.js.org/#/home?id=options)
 
 ```yaml
 player:
@@ -1089,9 +1102,9 @@ player:
       lrcType:
 ```
 
-##### Aplayer + Meting
+##### APlayer + Meting
 
-Set both `player.aplayer.enable` and `player.meting.enable` to `true`, configure `player.meting.options` according to [Meting Docs](https://github.com/metowolf/MetingJS?tab=readme-ov-file#option), `player.aplayer.options` is for Aplayer configuration
+Set both `player.aplayer.enable` and `player.meting.enable` to `true`, configure `player.meting.options` according to [Meting Docs](https://github.com/metowolf/MetingJS?tab=readme-ov-file#option), `player.aplayer.options` is for APlayer configuration
 
 ```yaml
 player:
@@ -1211,9 +1224,22 @@ anchor:
 
 ```markdown
 {% friendsLink path %}
+{% friendsLink path compact %}
+{% friendsLink path detailed %}
 ```
 
-The first parameter `path` indicates the path to the friend links yaml file
+The first parameter `path` indicates the path to the friend links YAML file. The second parameter `style` (optional) controls the display style: `standard` (default), `compact`, or `detailed`. Reads directly from the YAML file. Use `friends.shuffle` in `_config.yml` to randomize the order.
+
+Friend link data format (YAML file):
+
+```yaml
+- name: D-Sketon
+  url: https://d-sketon.github.io/
+  desc: 东方人的日常
+  image: https://d-sketon.github.io/avatar/avatar.webp
+  badge: Friend # optional, colored badge on the card
+  remark: Met via GitHub # optional, extra note line below desc
+```
 
 #### postLinkCard - Internal Link Card (Not recommended, use `link` instead)
 
@@ -1274,9 +1300,9 @@ The fourth parameter (optional) indicates whether the article title is escaped.
 
 ```markdown
 {% tabs [activeTab] ["center"] %}
-<!-- tabName -->
+<!-- tab Tab 1 -->
 Tab content
-<!-- tabName -->
+<!-- tab Tab 2 -->
 Tab content
 {% endtabs %}
 ```
@@ -1285,10 +1311,10 @@ Adapted from the next, volantis, and stellar themes, this feature supports creat
 
 - activeTab: Optional parameter, specifies the default active tab index (counting starts from 1). Default is 1.
 - "center": Optional parameter, specifies that tab titles should be center-aligned. Default is left-aligned.
-- tabName: The title of each tab, must be wrapped in `<!-- tabName -->`. Supports displaying icons using `@` + icon hexadecimal code. Examples:
-  - Title only: `<!-- Title -->`
-  - Icon only: `<!-- @e60c -->`
-  - Icon + Title: `<!-- Title@e60c -->`
+- tabName: The title of each tab, must be wrapped in `<!-- tab tabName -->`. Supports displaying icons using `@` + icon hexadecimal code. Examples:
+  - Title only: `<!-- tab Title -->`
+  - Icon only: `<!-- tab @e60c -->`
+  - Icon + Title: `<!-- tab Title@e60c -->`
 
 #### Gallery Photo Wall (v1.11.0+)
 
@@ -1675,9 +1701,9 @@ Both formats are supported. It's recommended to use SRI verification for externa
 </details>
 
 <details>
-<summary>Front-matter Fields</summary>
+<summary>front matter Fields</summary>
 
-### Front-matter Fields
+### front matter Fields
 
 | meta        | Description                                                              | Type                                               | Value Logic                               | Version       |
 | ----------- | ------------------------------------------------------------------------ | -------------------------------------------------- | ----------------------------------------- | ------------- |
@@ -1724,10 +1750,6 @@ Both formats are supported. It's recommended to use SRI verification for externa
 | [@reimujs/hexo-renderer-markdown-it-plus](https://github.com/D-Sketon/hexo-renderer-markdown-it-plus) | ![NPM Version](https://img.shields.io/npm/v/@reimujs/hexo-renderer-markdown-it-plus) | ![NPM Downloads](https://img.shields.io/npm/dm/@reimujs/hexo-renderer-markdown-it-plus) | ![jsDelivr Hits](https://img.shields.io/jsdelivr/npm/hm/@reimujs/hexo-renderer-markdown-it-plus) |
 | [@reimujs/instantsearch.js](https://github.com/D-Sketon/instantsearch)                                | ![NPM Version](https://img.shields.io/npm/v/@reimujs/instantsearch.js)               | ![NPM Downloads](https://img.shields.io/npm/dm/@reimujs/instantsearch.js)               | ![jsDelivr Hits](https://img.shields.io/jsdelivr/npm/hm/@reimujs/instantsearch.js)               |
 | [plugin-live2d](https://github.com/D-Sketon/plugin-live2d)                                            | -                                                                                    | -                                                                                       | ![jsDelivr hits (GitHub)](https://img.shields.io/jsdelivr/gh/hm/D-Sketon/plugin-live2d)          |
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=D-Sketon/hexo-theme-reimu&type=date&legend=top-left)](https://www.star-history.com/#D-Sketon/hexo-theme-reimu&type=date&legend=top-left)
 
 ## License
 
