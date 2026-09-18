@@ -2,6 +2,7 @@
 title: CSAPP Cache Lab
 sticky: false
 mermaid: false
+date: 2026-04-10 02:48:00
 tags:
 categories:
 cover: images/csapp/memory_mountain.png

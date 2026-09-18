@@ -2,6 +2,7 @@
 title: CSAPP Arch Lab
 sticky: false
 mermaid: false
+date: 2026-04-10 02:29:00
 tags:
   - CSAPP
   - study-notes
