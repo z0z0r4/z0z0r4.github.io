@@ -297,3 +297,49 @@ private:
 > TODO: 更多关于 `std::move` 的用法，注意到移动语义有可观的提升
 
 此外每传递数据包时，要记得将数据包的 TTL 减 1，如果 TTL 为 0，则丢弃该数据包。
+
+以下是测试结果：
+
+```
+❯ cmake --build build --target check6
+[0/1] cd /home/z0z0r4/projects/minnow-winter-2025/build && /usr/bin/ctest --output-on-failure --stop-on-failure --timeout 15 -R '^net_interface|^trie|^router|^no_skip'      Router throughput (FIB 100, 64B):  1.36 Gbit/s (2.65 Mpps) [Elapsed: 113ms | Per packet: 377ns]
+        Router throughput (FIB 100, 128B):  2.10 Gbit/s (2.05 Mpps) [Elapsed: 146ms | Per packet: 488ns]
+        Router throughput (FIB 100, 256B):  3.94 Gbit/s (1.93 Mpps) [Elapsed: 156ms | Per packet: 519ns]
+        Router throughput (FIB 100, 512B):  6.73 Gbit/s (1.64 Mpps) [Elapsed: 183ms | Per packet: 609ns]
+        Router throughput (FIB 100, 1500B): 22.57 Gbit/s (1.88 Mpps) [Elapsed: 160ms | Per packet: 532ns]
+        Router throughput (FIB 1000, 64B):  1.31 Gbit/s (2.55 Mpps) [Elapsed: 118ms | Per packet: 392ns]
+        Router throughput (FIB 1000, 128B):  2.41 Gbit/s (2.35 Mpps) [Elapsed: 128ms | Per packet: 425ns]
+        Router throughput (FIB 1000, 256B):  4.23 Gbit/s (2.06 Mpps) [Elapsed: 145ms | Per packet: 484ns]
+        Router throughput (FIB 1000, 512B):  7.84 Gbit/s (1.91 Mpps) [Elapsed: 157ms | Per packet: 522ns]
+        Router throughput (FIB 1000, 1500B): 21.61 Gbit/s (1.80 Mpps) [Elapsed: 167ms | Per packet: 555ns]
+        Router throughput (FIB 5000, 64B):  1.13 Gbit/s (2.20 Mpps) [Elapsed: 136ms | Per packet: 455ns]
+        Router throughput (FIB 5000, 128B):  2.11 Gbit/s (2.06 Mpps) [Elapsed: 146ms | Per packet: 486ns]
+        Router throughput (FIB 5000, 256B):  3.63 Gbit/s (1.77 Mpps) [Elapsed: 169ms | Per packet: 564ns]
+        Router throughput (FIB 5000, 512B):  6.93 Gbit/s (1.69 Mpps) [Elapsed: 177ms | Per packet: 591ns]
+        Router throughput (FIB 5000, 1500B): 19.32 Gbit/s (1.61 Mpps) [Elapsed: 186ms | Per packet: 621ns]
+        Router throughput (FIB 20000, 64B):  0.96 Gbit/s (1.88 Mpps) [Elapsed: 160ms | Per packet: 533ns]
+        Router throughput (FIB 20000, 128B):  1.22 Gbit/s (1.19 Mpps) [Elapsed: 252ms | Per packet: 839ns]
+        Router throughput (FIB 20000, 256B):  2.35 Gbit/s (1.15 Mpps) [Elapsed: 262ms | Per packet: 873ns]
+        Router throughput (FIB 20000, 512B):  5.50 Gbit/s (1.34 Mpps) [Elapsed: 224ms | Per packet: 745ns]
+        Router throughput (FIB 20000, 1500B): 16.26 Gbit/s (1.35 Mpps) [Elapsed: 221ms | Per packet: 738ns]
+[1/1] cd /home/z0z0r4/projects/minnow-winter-2025/build && /usr/bin/ctest --output-on-failure --stop-on-failure --timeout 15 -R '^net_interface|^trie|^router|^no_skip'
+Test project /home/z0z0r4/projects/minnow-winter-2025/build
+    Start  1: compile with bug-checkers
+1/7 Test  #1: compile with bug-checkers ........   Passed    0.07 sec
+    Start 35: net_interface
+2/7 Test #35: net_interface ....................   Passed    0.14 sec
+    Start 36: trie
+3/7 Test #36: trie .............................   Passed    0.04 sec
+    Start 37: router
+4/7 Test #37: router ...........................   Passed    0.07 sec
+    Start 38: no_skip
+5/7 Test #38: no_skip ..........................   Passed    0.01 sec
+    Start 39: compile with optimization
+6/7 Test #39: compile with optimization ........   Passed    0.03 sec
+    Start 42: router_speed_test
+7/7 Test #42: router_speed_test ................   Passed    6.36 sec
+
+100% tests passed out of 7
+
+Total Test time (real) =   6.75 sec
+```
