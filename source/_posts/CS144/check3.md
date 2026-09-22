@@ -225,6 +225,8 @@ Receiver 回应：ackno = 129
 
 ![USTC_AIMD_3](/images/CS144/USTC_AIMD_3.png)
 
+> 以上课件截自[中科大 郑烇 教学课程](http://staff.ustc.edu.cn/~qzheng/teaching.html) 内的 [计算机网络 教学资源](http://staff.ustc.edu.cn/~qzheng/cn.zip)，这个课件实际上非常直观，夯！（视频没有看不清楚）
+
 这样会导致锯齿状的 `cwnd`，先逐步翻倍，到达阈值后线性增加，遇到丢包则回到 1，遇到 3 个连续的 ACK 则回到 Threshold + 3。不断探测网络容量使得其能及时充分利用网络资源。
 
 Tahoe (慢启动和拥塞避免) -> Reno(AIMD) -> CUBIC，现在 BBR (Google, 以及 BBRv2, BBRv3，Model-Based), CUBIC (Linux Kernel 采用它，Loss-Based) 很常用，To Be Continued...
