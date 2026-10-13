@@ -2,7 +2,7 @@
 title: CS144 Check5
 sticky: false
 mermaid: true
-date: 2026-09-23d 09:46:05
+date: 2026-09-23 09:46:05
 tags:
 - study-notes
 - CS144
