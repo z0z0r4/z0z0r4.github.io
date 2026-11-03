@@ -245,7 +245,7 @@ sponsor:
 
 此外还保存有两段视频，从中这里我才知道原来当时是打算在 8.1 关闭服务器吗？但我记得当时是转交别人的，时过境迁，不记得了呢...
 
-![braodcast](/images/pcls-gallery/broadcast.png)
+![broadcast](/images/pcls-gallery/broadcast.png)
 
 已将视频上传到 [BV1jFkABuEBj](https://www.bilibili.com/video/BV1jFkABuEBj)
 
