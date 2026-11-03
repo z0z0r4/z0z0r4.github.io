@@ -79,7 +79,7 @@ _$$(
 
 // lightbox
 _$$(".article-entry img").forEach((element) => {
-  // If the image sits in a <picture> (adaptive formats, see scripts/webp-picture.js),
+  // If the image sits in a <picture> (adaptive formats, see plugins/hexo-adaptive-images),
   // wrap the whole <picture>; moving only the <img> would detach it from its <source>s.
   const target =
     element.parentElement.tagName === "PICTURE"

@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@jsquash/jxl':
-        specifier: ^1.3.0
-        version: 1.3.0
       '@reimujs/hexo-algoliasearch':
         specifier: ^0.1.0
         version: 0.1.1(hexo-util@4.0.0)
@@ -20,6 +17,9 @@ importers:
       hexo:
         specifier: ^8.1.2
         version: 8.1.2(chokidar@3.6.0)
+      hexo-adaptive-images:
+        specifier: github:z0z0r4/hexo-adaptive-images
+        version: https://codeload.github.com/z0z0r4/hexo-adaptive-images/tar.gz/4d71ba4f5fcdaffc37bec2932bdecbb99e7b023a
       hexo-deployer-git:
         specifier: ^4.0.0
         version: 4.0.0(chokidar@3.6.0)
@@ -56,9 +56,6 @@ importers:
       hexo-tag-embed:
         specifier: ^1.0.0
         version: 1.0.0
-      sharp:
-        specifier: ^0.35.5
-        version: 0.35.5
 
 packages:
 
@@ -567,6 +564,11 @@ packages:
   hasown@2.0.4:
     resolution: {integrity: sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==}
     engines: {node: '>= 0.4'}
+
+  hexo-adaptive-images@https://codeload.github.com/z0z0r4/hexo-adaptive-images/tar.gz/4d71ba4f5fcdaffc37bec2932bdecbb99e7b023a:
+    resolution: {gitHosted: true, integrity: sha512-HCQQmp8sdFTNKgUL05/8I6Pr747sr64Gccl9qMg3XjOMvxUG+0hT4K/RGxP2eBDxe2OhvIrI3szETBzQjF/8zQ==, tarball: https://codeload.github.com/z0z0r4/hexo-adaptive-images/tar.gz/4d71ba4f5fcdaffc37bec2932bdecbb99e7b023a}
+    version: 1.0.0
+    engines: {node: '>=20.9.0'}
 
   hexo-cli@4.3.2:
     resolution: {integrity: sha512-druJeBgLpG9ncDS5AhBHdAXk0G4CFj8Qes09pApyZ6bR+nJW1JYiDMuilhudaKDdq+1l49jWXVTidkcb7p0Jbw==}
@@ -1604,6 +1606,13 @@ snapshots:
   hasown@2.0.4:
     dependencies:
       function-bind: 1.1.2
+
+  hexo-adaptive-images@https://codeload.github.com/z0z0r4/hexo-adaptive-images/tar.gz/4d71ba4f5fcdaffc37bec2932bdecbb99e7b023a:
+    dependencies:
+      '@jsquash/jxl': 1.3.0
+      sharp: 0.35.5
+    transitivePeerDependencies:
+      - '@types/node'
 
   hexo-cli@4.3.2:
     dependencies:
