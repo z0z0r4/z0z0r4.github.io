@@ -1,0 +1,14 @@
+// Browsers with JPEG XL support (html.jxl-support, set in js/pjax_script.js) get progressive
+// JXL images from <picture>. Show them while they are still downloading, and skip the
+// blur animation that normally plays once lazysizes marks the image as loaded.
+.jxl-support {
+  .article-entry picture > img.lazyloading,
+  .post-cover picture > img.lazyloading {
+    opacity: 1;
+  }
+
+  .article-entry picture > img.lazyloaded,
+  .post-cover picture > img.lazyloaded {
+    animation: none;
+  }
+}
