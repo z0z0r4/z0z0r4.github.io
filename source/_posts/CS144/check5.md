@@ -10,7 +10,7 @@ categories:
 - study-notes
 - CS
 - CS144
-cover: /covers/CS144_network_loop.png
+cover: /images/cs144/check5/cover.png
 comments:
 copyright:
 sponsor:
@@ -20,7 +20,7 @@ CS144 Check5 Network Interface
 
 <!--more-->
 
-![Network Interface](/images/CS144/Network_interface.png)
+![Network Interface](/images/cs144/check5/network-interface.png)
 
 ```
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
@@ -193,4 +193,4 @@ public:
 
 > 由于封面被压扁了，在这里再放一下 meme
 
-![Loop meme](/covers/CS144_network_loop.png)
+![Loop meme](/images/cs144/check5/cover.png)

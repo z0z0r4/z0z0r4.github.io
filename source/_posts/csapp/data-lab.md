@@ -10,7 +10,7 @@ categories:
   - study-notes
   - CS
   - CSAPP
-cover: covers/IMG_20260303_205751_061.png
+cover: /images/csapp/data-lab/cover.png
 comments:
 copyright:
 sponsor:

@@ -10,7 +10,7 @@ categories:
 - study-notes
 - CS
 - CS144
-cover: /covers/The_World_Wide_Web_project.png
+cover: /images/cs144/check0/cover.png
 comments:
 copyright:
 sponsor:

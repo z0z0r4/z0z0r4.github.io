@@ -10,7 +10,7 @@ categories:
   - study-notes
   - CS
   - CSAPP
-cover: /images/csapp/data-alignment.png
+cover: /images/csapp/data-alignment/cover.png
 comments:
 copyright:
 sponsor:
@@ -111,7 +111,7 @@ x86 架构的 CPU 则比较宽松，允许读取不对齐的内存，但是会�
 
 此外，CPU Cache 也是这样的，它按字读取，如果数据跨行，那就得读取两次。
 
-![data alignment](/images/csapp/data-alignment.png)
+![data alignment](/images/csapp/data-alignment/cover.png)
 
 # 如何对齐
 

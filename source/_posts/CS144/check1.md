@@ -10,7 +10,7 @@ categories:
 - study-notes
 - CS
 - CS144
-cover: /covers/wg_show.png
+cover: /images/cs144/check1/cover.png
 comments:
 copyright:
 sponsor:
@@ -50,9 +50,9 @@ rtt min/avg/max/mdev = 1.303/3.297/89.863/3.278 ms
 
 在 `ping -i 0.2 <IP>` 期间，用 `sudo tcpdump -n -w /tmp/capture.raw -i wg0 --print --packet-buffered` 抓包，然后去 WireShark 打开 `/tmp/capture.raw`，观察数据包。
 
-![On WSL2](/images/CS144/ICMP_capture_on_WSL2.png)
+![On WSL2](/images/cs144/check1/icmp-capture-on-wsl2.png)
 
-![On ArchLinux](/images/CS144/ICMP_capture_on_ArchLinux.png)
+![On ArchLinux](/images/cs144/check1/icmp-capture-on-archlinux.png)
 
 这里没有跳 Hop，所以 IP 包是一样的。
 

@@ -10,7 +10,7 @@ categories:
   - study-notes
   - CS
   - CLRS
-cover: covers/CLRS_cover.jpg
+cover: /images/clrs/cover.jpg
 comments:
 copyright:
 sponsor:
@@ -626,7 +626,7 @@ DFS 的时间复杂度也是 $O(V + E)$，因为每个节点和边都访问一�
 
 > 也就是不可能存在两个节点的开始时间和结束时间交错的情况。
 
-![parenthesis_theorem](/images/CLRS/parenthesis_theorem.png)
+![parenthesis_theorem](/images/clrs/basic-graph-algorithms/parenthesis-theorem.png)
 
 根据如上的三个情况，显然可以推出 Nesting of descendants’ intervals（后代区间的嵌套）：当且仅当 $u$ 是 $v$ 的祖先时，满足 $u.s < v.s < v.f < u.f$。
 
@@ -757,7 +757,7 @@ void dfs(UndirectedMatrixGraph &graph)
 
 按照图中观察也可以猜出是先 DFS 然后按照 `finish time` 的逆序来排序的。
 
-![Topological Sort](/images/CLRS/topological_sort_example.png)
+![Topological Sort](/images/clrs/basic-graph-algorithms/topological-sort-example.png)
 
 通过以下两个证明来得出 DFS 的 `finish time` 的逆序就是拓扑排序：
 
@@ -805,7 +805,7 @@ void dfs(UndirectedMatrixGraph &graph)
 
 ~~观察下面的图片就可以发现正确性，先 DFS 记录 `finish time`，之后转置图，任选一个节点进去 `dfs_visit` 就会发现只能访问到节点所在的 SCC，无法访问的其他的 SCC~~
 
-![SCC_example](/images/CLRS/SCC_example.png)
+![SCC_example](/images/clrs/basic-graph-algorithms/scc-example.png)
 
 以下三个步骤证明正确性：
 

@@ -10,7 +10,7 @@ categories:
   - study-notes
   - CS
   - CSAPP
-cover: covers/chibi_goomba_agad-t8aatsbaek.png
+cover: /images/csapp/arch-lab/cover.png
 comments:
 copyright:
 sponsor:

@@ -9,7 +9,7 @@ tags:
 - Distributed System
 categories:
 - MIT6.824
-cover: /covers/one-worker-nine-watchers.png
+cover: /images/mit6.824/map-reduce/cover.png
 comments:
 copyright:
 sponsor:
@@ -19,7 +19,7 @@ MapReduce 和 Go 相关
 
 <!-- more -->
 
-<image src="/covers/one-worker-nine-watchers.png" alt="One Worker Nine Watchers" style="width: 25%" />
+<image src="/images/mit6.824/map-reduce/cover.png" alt="One Worker Nine Watchers" style="width: 25%" />
 
 > 找封面的时候突然看到一核有难多核围观，这下不得不改一张了
 

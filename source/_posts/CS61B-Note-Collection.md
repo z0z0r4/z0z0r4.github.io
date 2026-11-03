@@ -11,7 +11,7 @@ categories:
   - study-notes
   - CS
   - CS61B
-cover: covers/gobang.png
+cover: /images/gobang/cover.png
 comments:
 copyright:
 sponsor:
@@ -27,7 +27,7 @@ sponsor:
 
 [官方的逻辑](https://sp25.datastructur.es/projects/proj0/) 好像是分步骤的，先把所有非零元素挤到一边，然后再合并相邻的相同元素，最后再把非零元素挤到一边，逻辑更清晰吧，但我看的是 [Hard Mode Project](https://sp25.datastructur.es/projects/proj0/hardmode)，就没跟着它思路走了。
 
-![2048](/images/cs61b/proj0_2048.png)
+![2048](/images/cs61b/notes/proj0-2048.png)
 
 ## Linked List
 
@@ -66,7 +66,7 @@ class Node {
 
 ![图片取自 https://joshhug.gitbooks.io/hug61b/content/chap2/fig23/dllist_double_sentinel_size_0.png](https://joshhug.gitbooks.io/hug61b/content/chap2/fig23/dllist_double_sentinel_size_0.png)
 
-![图片取自 https://joshhug.gitbooks.io/hug61b/content/chap2/fig23/dllist_circular_sentinel_size_2.png](/images/cs61b/dllist_circular_sentinel_size_2.png)
+![图片取自 https://joshhug.gitbooks.io/hug61b/content/chap2/fig23/dllist_circular_sentinel_size_2.png](/images/cs61b/notes/dllist-circular-sentinel-size-2.png)
 
 ## Array
 

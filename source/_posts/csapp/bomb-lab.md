@@ -10,7 +10,7 @@ categories:
   - study-notes
   - CS
   - CSAPP
-cover: covers/IMG_20260303_205748_156.png
+cover: /images/csapp/bomb-lab/cover.png
 comments:
 copyright:
 sponsor:

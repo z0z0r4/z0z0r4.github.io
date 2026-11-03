@@ -5,7 +5,7 @@ mermaid: false
 date: 2026-04-10 02:48:00
 tags:
 categories:
-cover: images/csapp/memory_mountain.png
+cover: /images/csapp/cache-lab/cover.png
 comments:
 copyright:
 sponsor:
@@ -17,7 +17,7 @@ sponsor:
 
 在此放一张在笔记本上跑出来的 Memory Mountain。
 
-![Memory Mountain](/images/csapp/memory_mountain.png)
+![Memory Mountain](/images/csapp/cache-lab/cover.png)
 
 配置如下：
 

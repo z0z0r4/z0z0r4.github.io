@@ -10,7 +10,7 @@ tags:
 categories:
   - study-notes
   - CMU 15-445
-cover: /covers/cmu_15445_project_0_primer.png
+cover: /images/cmu-15-445/project-0-primer/cover.png
 comments:
 copyright:
 sponsor:
@@ -24,7 +24,7 @@ sponsor:
 
 [Andy Pavlo](https://github.com/apavlo) 和他的助教们，每年都会更新 BusTub 的内容（因为 BusTub 是公开的，大概是为了避免抄袭、以及提前完成？），按 [Git History](https://github.com/cmu-db/bustub/graphs/contributors?from=2019%2F9%2F1&to=2026%2F5%2F31) 是秋季（暑假）更新 BusTub，春季基本不会动。
 
-![BusTub Contributors](/images/cmu_15445/bustub_contributors.png)
+![BusTub Contributors](/images/cmu-15-445/project-0-primer/bustub-contributors.png)
 
 ---
 
@@ -106,7 +106,7 @@ $$ \ln P_{fp} = -\frac{m}{n} \ln x \cdot \ln (1 - x) $$
 
 Bloom Filter 无法自动拓展，随着元素数量的增加，假阳率会逐渐升高。为了解决这个问题，可以使用 Scalable Bloom Filter，它通过维护多个 Bloom Filter 来实现动态扩展。
 
-![Bloom filter false positive probability](/images/cmu_15445/Bloom_filter_fp_probability.png)
+![Bloom filter false positive probability](/images/cmu-15-445/project-0-primer/bloom-filter-fp-probability.png)
 
 当一个 Bloom Filter 的容量达到预设的阈值时，Scalable Bloom Filter 会创建一个新的 Bloom Filter，并将新元素插入到新的 Bloom Filter 中。
 

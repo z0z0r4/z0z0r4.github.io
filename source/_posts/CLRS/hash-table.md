@@ -10,7 +10,7 @@ categories:
   - study-notes
   - CS
   - CLRS
-cover: covers/CLRS_cover.jpg
+cover: /images/clrs/cover.jpg
 comments:
 copyright:
 sponsor:

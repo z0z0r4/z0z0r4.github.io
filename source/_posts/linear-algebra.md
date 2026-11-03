@@ -11,7 +11,7 @@ categories:
 - study-notes
 - math
 - linear-algebra
-cover: covers/linear_algebra_the_big_picture.png
+cover: /images/linear-algebra/cover.png
 comments:
 copyright:
 sponsor:
@@ -660,7 +660,7 @@ $$ = \begin{pmatrix} x_1 & x_2 & \ldots & x_n \end{pmatrix} \begin{bmatrix} a_{1
 
 - 当特征值有正有负时，表示一个双曲线（或双曲面）。
 
-![fxy_cut](/images/linear-algebra/fxy_cut.png)
+![fxy_cut](/images/linear-algebra/fxy-cut.png)
 
 ~~和圆锥曲线的圆锥和截面有啥关系吗？~~
 
@@ -700,7 +700,7 @@ Hessian 矩阵指的是多元函数在各个方向上的二阶偏导数组成的
 
 当 Hessian 矩阵正定时，说明在任意方向上都“向上弯”，函数在该点处有极小值。
 
-![fxy_min](/images/linear-algebra/fxy_min.png)
+![fxy_min](/images/linear-algebra/fxy-min.png)
 
 如何判断弯曲程度，可以用泰勒近似：
 

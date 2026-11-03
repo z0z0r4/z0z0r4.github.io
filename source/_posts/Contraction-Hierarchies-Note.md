@@ -8,7 +8,7 @@ tags:
 categories:
 - study-notes
 - CS
-cover: /covers/CH_cover.png
+cover: /images/contraction-hierarchies/cover.png
 comments:
 copyright:
 sponsor:
@@ -28,7 +28,7 @@ sponsor:
 
 随便找一个图，可以辅助理解下，搜索空间会比单向搜索要小不少。~~丑完了~~
 
-![Dijkstra 简图](/images/bidirectional-dijkstra.png)
+![Dijkstra 简图](/images/contraction-hierarchies/bidirectional-dijkstra.png)
 
 但是依旧效率不够高，介于 Dijkstra 每次选择最短边，可以构建以下情况：
 

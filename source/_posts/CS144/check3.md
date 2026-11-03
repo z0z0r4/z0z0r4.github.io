@@ -10,7 +10,7 @@ categories:
 - study-notes
 - CS
 - CS144
-cover: /covers/TCP_connection_establishment.png
+cover: /images/cs144/check3/cover.png
 comments:
 copyright:
 sponsor:
@@ -153,7 +153,7 @@ Receiver 回应：ackno = 128
 
 注意到，我们一开始双方默认了共识 seqno = 0，所以在开始发送数据之前，没有额外的协商环节。但是考虑到一个端口可能有多个 TCP 连接（四元组 `<source_ip, source_port, destination_ip, destination_port>` 区分一个连接，source 相同，dest 不同是可以的），如果大家的 ISN（Initial Sequence Number）都一样，那么无法区分不同的连接，所以我们需要在 `uint32_t` 内随机选择一个 ISN，然后通告给另一侧。这样就在 TCP 连接开始时，要新增一个协商环节，如封面：
 
-![TCP 3-Way Handshake](/covers/TCP_connection_establishment.png)
+![TCP 3-Way Handshake](/images/cs144/check3/cover.png)
 
 ## SYN
 
@@ -219,11 +219,11 @@ Receiver 回应：ackno = 129
 
 总体上来说是尽可能在不影响 RTT 和 Loss 的情况下，尽可能多的发送数据包。TCP 连接的拥塞控制算法有很多种，其中一种简单的是 AIMD（Additive Increase/Multiplicative Decrease，线性加/乘性减）的思路，参考以下图片：
 
-![USTC_AIMD_1](/images/CS144/USTC_AIMD_1.png)
+![USTC_AIMD_1](/images/cs144/check3/ustc-aimd-1.png)
 
-![USTC_AIMD_2](/images/CS144/USTC_AIMD_2.png)
+![USTC_AIMD_2](/images/cs144/check3/ustc-aimd-2.png)
 
-![USTC_AIMD_3](/images/CS144/USTC_AIMD_3.png)
+![USTC_AIMD_3](/images/cs144/check3/ustc-aimd-3.png)
 
 > 以上课件截自[中科大 郑烇 教学课程](http://staff.ustc.edu.cn/~qzheng/teaching.html) 内的 [计算机网络 教学资源](http://staff.ustc.edu.cn/~qzheng/cn.zip)，这个课件实际上非常直观，夯！（视频没有看不清楚）
 

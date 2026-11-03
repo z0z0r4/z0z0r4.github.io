@@ -8,7 +8,7 @@ tags:
 categories:
 - study-notes
 - CS
-cover: covers/gobang.png
+cover: /images/gobang/cover.png
 comments:
 copyright:
 sponsor:

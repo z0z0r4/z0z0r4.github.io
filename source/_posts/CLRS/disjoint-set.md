@@ -10,7 +10,7 @@ categories:
   - study-notes
   - CS
   - CLRS
-cover: covers/CLRS_cover.jpg
+cover: /images/clrs/cover.jpg
 comments:
 copyright:
 sponsor:
@@ -233,7 +233,7 @@ public:
 
 > N/A 说明耗时太长，不想跑了...
 
-![disjoint-set-perf](/images/CLRS/disjoint-set-perf.png)
+![disjoint-set-perf](/images/clrs/disjoint-set/disjoint-set-perf.png)
 
 下面分析三个 OP 的时间复杂度：
 

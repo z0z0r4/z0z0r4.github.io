@@ -10,7 +10,7 @@ categories:
   - study-notes
   - CS
   - CSAPP
-cover: images/csapp/chisato_doubt.png
+cover: /images/csapp/malloc-lab/cover.png
 comments:
 copyright:
 sponsor:

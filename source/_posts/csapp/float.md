@@ -10,7 +10,7 @@ categories:
   - study-notes
   - CS
   - CSAPP
-cover: /images/csapp/csapp3e-cover.jpg
+cover: /images/csapp/float/cover.jpg
 comments:
 copyright:
 sponsor:

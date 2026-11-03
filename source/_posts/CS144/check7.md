@@ -10,7 +10,7 @@ categories:
 - study-notes
 - CS
 - CS144
-cover: /covers/pysio_router_icon.png
+cover: /images/cs144/check7/cover.png
 comments:
 copyright:
 sponsor:
@@ -22,7 +22,7 @@ CS144 Check7 --- Put it all together
 
 Check7 是 *put it all together*，将之前完成的 `NetworkInterface` 和 `Router` 连接起来。又是不用写代码的一个 Check，只需要运行 `endtoend` 完成文件传输即可。
 
-![网络拓扑](/images/CS144/check7_topology.png)
+![网络拓扑](/images/cs144/check7/topology.png)
 
 但是又由于 `cs144.keithw.org` 依旧用不了，所以我们需要自己搭建中续服务器（或者也可以修改 `endtoend` 的代码，找两台能直链的设备直接直连就好了，不要中续）。
 

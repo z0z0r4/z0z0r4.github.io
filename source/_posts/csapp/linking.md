@@ -10,7 +10,7 @@ categories:
   - study-notes
   - CS
   - CSAPP
-cover: covers/suzumi_bili_2_agaddw4aaqthcvq.png
+cover: /images/csapp/linking/cover.png
 comments:
 copyright:
 sponsor:

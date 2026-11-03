@@ -10,7 +10,7 @@ categories:
 - study-notes
 - CS
 - CS144
-cover: /covers/pysio_router.svg
+cover: /images/cs144/check6/cover.svg
 comments:
 copyright:
 sponsor:

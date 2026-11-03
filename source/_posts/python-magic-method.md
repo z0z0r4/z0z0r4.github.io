@@ -10,7 +10,7 @@ categories:
 - study-notes
 - coding
 - python
-cover: covers/python-magic-method.jpeg
+cover: /images/python-magic-method/cover.jpeg
 comments:
 copyright:
 sponsor:

@@ -9,7 +9,7 @@ tags:
 - Distributed System
 categories:
 - MIT6.824
-cover: /covers/boooom.png
+cover: /images/mit6.824/paxos/cover.png
 comments:
 copyright:
 sponsor:
@@ -19,7 +19,7 @@ sponsor:
 
 <!-- more -->
 
-![ALL IN BOOM](/images/MIT6.824/all_in_boom.png)
+![ALL IN BOOM](/images/mit6.824/paxos/all-in-boom.png)
 
 Paxos 是一个共识算法，在 CAP 理论中显然属于 CP。
 
@@ -138,7 +138,7 @@ Wikipedia 上有 [Paxos_(computer_science)](https://en.wikipedia.org/wiki/Paxos_
 
 更进一步，可以应用 Mutil-Paxos 进一步优化，将 Proposer 固定住，增加 Leader 身份，省去了每次都要 Prepare 的开销，Leader 只需要在第一次提议时 Prepare，之后的提议直接 Accept 即可。
 
-![Mutil-Paxos](/images/MIT6.824/mutil_paxos_process_flow.png)
+![Mutil-Paxos](/images/mit6.824/paxos/multi-paxos-process-flow.png)
 
 > 也许会觉得单一 Leader 将导致所有请求都必须经过它，而成为性能瓶颈。虽然 RTT 从 2 次减少到 1 次，但 Leader 仍然需要处理所有请求，显然还是有瓶颈的。[6.5840 Lab 5: Sharded Key/Value Service](https://pdos.csail.mit.edu/6.5840/labs/lab-shard1.html) 是关于分片的，显然将请求映射到不同的 Leader 上可以缓解瓶颈问题。
 

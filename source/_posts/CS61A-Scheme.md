@@ -10,7 +10,7 @@ categories:
 - study-notes
 - CS
 - CS61A
-cover: images/CS61A_cover.png
+cover: /images/cs61a/scheme/cover.png
 comments:
 copyright:
 sponsor:

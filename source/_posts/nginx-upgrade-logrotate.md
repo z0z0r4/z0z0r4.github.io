@@ -8,7 +8,7 @@ tags:
 - Nginx
 categories:
 - DevOps
-cover: /covers/nginx-502-bad-gateway.png
+cover: /images/nginx-upgrade-logrotate/cover.png
 comments:
 copyright:
 sponsor:

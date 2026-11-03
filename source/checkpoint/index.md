@@ -2,7 +2,7 @@
 title: 存档点
 date: 2026-08-11 17:06:31
 comments: false
-cover: /covers/lilith_sad.png
+cover: /images/checkpoint/cover.png
 ---
 
 TL;DR：这里是从 2026-02-27 开始的存档点，定期更新。
@@ -10,7 +10,7 @@ TL;DR：这里是从 2026-02-27 开始的存档点，定期更新。
 <details>
 <summary>你知道的太多了</summary>
 
-![Lilith Sad](/covers/lilith_sad.png)
+![Lilith Sad](/images/checkpoint/cover.png)
 
 # Look Back
 
