@@ -223,16 +223,6 @@ _$$(".article-entry img").forEach((element) => {
   element.removeAttribute("src");
 });
 
-// Flag browsers that can decode JPEG XL. CSS (css/_partial/jxl.styl) uses it to show
-// progressive JXL images while they download instead of hiding them until loaded.
-if (!window.__jxlProbed) {
-  window.__jxlProbed = true;
-  const probe = new Image();
-  probe.onload = () => document.documentElement.classList.add("jxl-support");
-  probe.src =
-    "data:image/jxl;base64,/woIELASCAgQAFwASxLFgkWAHL0xqnCBCV0qDp901Te/5QM=";
-}
-
 // to top
 var sidebarTop = _$(".sidebar-top");
 if (sidebarTop) {
