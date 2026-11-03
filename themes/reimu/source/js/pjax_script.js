@@ -79,9 +79,15 @@ _$$(
 
 // lightbox
 _$$(".article-entry img").forEach((element) => {
+  // If the image sits in a <picture> (adaptive formats, see scripts/webp-picture.js),
+  // wrap the whole <picture>; moving only the <img> would detach it from its <source>s.
+  const target =
+    element.parentElement.tagName === "PICTURE"
+      ? element.parentElement
+      : element;
   if (
-    element.parentElement.classList.contains("friend-icon") ||
-    element.parentElement.tagName === "A" ||
+    target.parentElement.classList.contains("friend-icon") ||
+    target.parentElement.tagName === "A" ||
     element.classList.contains("no-lightbox")
   )
     return;
@@ -101,9 +107,8 @@ _$$(".article-entry img").forEach((element) => {
   }
   a.target = "_blank";
   a.classList.add("article-gallery-item");
-  element.parentNode.insertBefore(a, element);
-  element.parentNode.removeChild(element);
-  a.appendChild(element);
+  target.parentNode.insertBefore(a, target);
+  a.appendChild(target);
 });
 
 // table wrap
@@ -206,6 +211,13 @@ _$$(".sidebar-common-btn").forEach((element) => {
 _$$(".article-entry img").forEach((element) => {
   if (element.classList.contains("lazyload")) return;
   element.classList.add("lazyload");
+  // lazysizes swaps data-srcset -> srcset on <source> elements inside a <picture>
+  if (element.parentElement.tagName === "PICTURE") {
+    element.parentElement.querySelectorAll("source[srcset]").forEach((source) => {
+      source.setAttribute("data-srcset", source.getAttribute("srcset"));
+      source.removeAttribute("srcset");
+    });
+  }
   element.setAttribute("data-src", element.src);
   element.setAttribute("data-sizes", "auto");
   element.removeAttribute("src");
