@@ -1,5 +1,6 @@
-// 用法: node tools/jxl-encode.mjs <输入图片> <输出.jxl> [quality] [effort]
-// 供 scripts/webp-picture.js 调用（Hexo 的脚本沙箱里不能用动态 import，所以单独起进程）
+// Usage: node tools/jxl-encode.mjs <input image> <output.jxl> [quality] [effort]
+// Called by scripts/webp-picture.js. It lives in its own process because Hexo's script
+// sandbox does not support dynamic import().
 import fs from "node:fs";
 import { createRequire } from "node:module";
 import sharp from "sharp";

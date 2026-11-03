@@ -1,8 +1,10 @@
 /* eslint-disable */
-// 构建时自动处理图片（只依赖 npm，不需要系统命令）：
-// 1. 为 source/images 下的 png/jpg/jpeg 生成同名 .jxl 和 .webp
-//    结果按「文件内容哈希 + 参数」缓存在 node_modules/.cache/image-formats，未改动的图不会重编
-// 2. 把页面里指向这些图片的 <img> 自动包成 <picture>，浏览器按 jxl → webp → 原图 的顺序选第一个支持的
+// Adaptive image formats at build time (npm dependencies only, no system binaries):
+// 1. For every png/jpg/jpeg under source/images, generate sibling .jxl and .webp files.
+//    Results are cached in node_modules/.cache/image-formats, keyed by content hash + encoder
+//    params, so unchanged images are never re-encoded.
+// 2. Wrap every <img> that points to such an image in a <picture>, so the browser picks the
+//    first supported format in the order jxl -> webp -> original.
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
@@ -10,7 +12,7 @@ const sharp = require("sharp");
 
 const IMG_DIR = "images";
 const RAW_EXT = /\.(png|jpe?g)$/i;
-// 顺序即 <picture> 里 <source> 的优先级
+// Order = priority of the <source> elements inside <picture>
 const FORMATS = [
   { ext: "jxl", mime: "image/jxl", params: "q80e4" },
   { ext: "webp", mime: "image/webp", params: "q82" },
@@ -32,7 +34,7 @@ const execFileAsync = promisify(execFile);
 const JXL_TOOL = path.join(__dirname, "..", "tools", "jxl-encode.mjs");
 
 const encoders = {
-  // Hexo 脚本沙箱不支持动态 import，WASM 编码放到独立 Node 进程里做
+  // Hexo's script sandbox has no dynamic import(), so the WASM encoder runs in a separate Node process
   async jxl(file, cacheFile) {
     await execFileAsync(process.execPath, [JXL_TOOL, file, cacheFile, "80", "4"], { maxBuffer: 1 << 20 });
     return fs.readFileSync(cacheFile);
@@ -47,8 +49,11 @@ hexo.extend.generator.register("image-formats", async function () {
   available.clear();
   fs.mkdirSync(CACHE_DIR, { recursive: true });
   const routes = [];
+  const files = walk(root).filter((f) => RAW_EXT.test(f));
+  const startedAt = Date.now();
   let encoded = 0;
-  for (const file of walk(root).filter((f) => RAW_EXT.test(f))) {
+  hexo.log.info(`image-formats: found ${files.length} images, encoding to ${FORMATS.map((f) => f.ext).join(", ")} (cached results are reused)`);
+  for (const [index, file] of files.entries()) {
     const rel = "/" + IMG_DIR + "/" + path.relative(root, file).split(path.sep).join("/");
     const hash = crypto.createHash("sha1").update(fs.readFileSync(file)).digest("hex");
     const got = [];
@@ -56,10 +61,12 @@ hexo.extend.generator.register("image-formats", async function () {
       const cacheFile = path.join(CACHE_DIR, `${hash}.${fmt.params}.${fmt.ext}`);
       let buf = fs.existsSync(cacheFile) ? fs.readFileSync(cacheFile) : null;
       if (!buf) {
+        const elapsed = ((Date.now() - startedAt) / 1000).toFixed(0);
+        hexo.log.info(`image-formats: [${index + 1}/${files.length}] ${fmt.ext} ${rel} (${elapsed}s elapsed)`);
         try {
           buf = await encoders[fmt.ext](file, cacheFile);
         } catch (e) {
-          hexo.log.warn(`${fmt.ext} 编码失败 ${rel}: ${e.message}`);
+          hexo.log.warn(`image-formats: failed to encode ${fmt.ext} for ${rel}: ${e.message}`);
         }
         if (!buf) continue;
         fs.writeFileSync(cacheFile, buf);
@@ -70,7 +77,8 @@ hexo.extend.generator.register("image-formats", async function () {
     }
     if (got.length) available.set(rel, got);
   }
-  hexo.log.info(`image-formats: ${available.size} 张图，新编码 ${encoded} 个文件`);
+  const total = ((Date.now() - startedAt) / 1000).toFixed(1);
+  hexo.log.info(`image-formats: done, ${available.size}/${files.length} images available, ${encoded} newly encoded, ${total}s`);
   return routes;
 });
 
@@ -79,7 +87,7 @@ const ATTR_RE = /\b(src|data-src)=("([^"]*)"|'([^']*)')/i;
 
 hexo.extend.filter.register("after_render:html", (html) => {
   if (!available.size) return html;
-  // 已经在 <picture> 里的不再处理
+  // Leave <img> elements that are already inside a <picture> alone
   return html
     .split(/(<picture[\s\S]*?<\/picture>)/i)
     .map((part, i) => {
