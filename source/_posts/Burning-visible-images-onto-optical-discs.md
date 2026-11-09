@@ -21,7 +21,7 @@ sponsor:
 
 自从在频道里发现有 [JiaFeiMiao-K-Cat/DiscImageStudio](https://github.com/JiaFeiMiao-K-Cat/DiscImageStudio) 这种奇妙项目之后，立刻冲动下单在拼多多买了 5 张 DVD-RW 光盘（标识的是 JVC 这个牌子，具体型号是 RITEK-004-48，似乎还是台湾代工的 =-=），于是尝试刻录。
 
-本质上是将光盘刻录的晶体变化，宏观地显现出来，通过构造特定光盘映像，使其刻录后显现指定图像
+简单来说是通过构造特定光盘映像，让不同反射率的微观凹坑与空白区，在盘面上组合出肉眼可见的宏观图案。那么问题就在于如何将预期图案转换为光盘映像，DiscImageStudio 就是实现了这个。
 
 我想把 Charlotee 的人物刻上去，友利奈绪一看就很适合 :p
 
@@ -35,9 +35,9 @@ sponsor:
 
 应该参考 <https://github.com/JiaFeiMiao-K-Cat/DiscImageStudio/blob/main/docs/CALIBRATION.md> 以及 <https://github.com/JiaFeiMiao-K-Cat/DiscImageStudio/blob/main/docs/CALIBRATION_TUTORIAL.md> 这两个官方教程来标定
 
-虽然光盘有标准尺寸，但是其内半径和外半径（两个关键参数）还是存在细微偏差，而参考作者的 Blog <https://jiafeimiao.com/2026/05/18/把喜欢的图烧进CD里——光驱绘图研究/> 以及光盘的原理中可以得知，光盘的连续地址是类似螺旋线的，这意味着如果有误差则会在刻录中持续累加，导致图像扭曲甚至完全不可辨别
+参考作者的 Blog <https://jiafeimiao.com/2026/05/18/把喜欢的图烧进CD里——光驱绘图研究> (orz) 以及光盘的原理中可以得知，光盘数据在物理上是以一条从内圈向外圈展开的阿基米德螺旋线存储。虽然有标准尺寸，但是不同型号还是存在细微偏差，螺距只要存在极其微小的漂移，在旋转数万圈后误差就会迅速发散，导致本该笔直的图案被严重甩弯甚至不可辨识。因此，不同批次和型号的光盘都必须重新标定。
 
-> 显然不同型号的光盘都参数不同，都得重新标定。对刻录机倒是没什么要求
+> 对刻录机似乎倒是没什么要求
 
 而我们没有太好的测量办法，最多只有一台手机当摄像头，那么只能依赖拍照来测量了
 
