@@ -93,19 +93,17 @@ sponsor:
 
 这里放两个刻好的成品展示一下
 
-> 我不知道如何拍照才能完美的拍出来...总是反光或者不够清除，现实里拿着看才能体验出来，或者拍视频吧
+> 我不知道如何拍照才能完美的拍出来...总是反光或者不够清晰，现实里拿着看才能体验出来，或者拍视频吧
 
 ![Charlotee](/images/burning-visible-images-onto-optical-discs/Charlotee.jpg)
 
 ![Haru](/images/burning-visible-images-onto-optical-discs/haru.jpg)
 
-此外，软件要求必须是空白介质才能允许刻录，但是这应该是针对 Read only 的，似乎没有考虑到 RW
-
-个人实测覆写一两次内不会导致问题，没有更多尝试
-
 ## RW 覆写
 
-我的是 DVD-RW，但是就算手动擦除，也不会被认定为 `blanked`，具体的 Flags 检查和相关讨论可以参考 
+此外，软件要求必须是空白介质才能允许刻录，但是这应该是针对 Read only 的，似乎没有考虑到 RW
+
+我的是 DVD-RW，但是就算手动擦除，也不会被认定为空白盘。个人实测覆写一两次内不会导致问题，没有更多尝试，具体的 Flags 检查和相关讨论可以参考
 
 - <https://github.com/JiaFeiMiao-K-Cat/DiscImageStudio/issues/203>
 - <https://github.com/JiaFeiMiao-K-Cat/DiscImageStudio/pull/221>
